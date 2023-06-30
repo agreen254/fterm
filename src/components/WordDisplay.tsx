@@ -12,7 +12,7 @@ const WordDisplay = ({ words }: Props) => {
           <li key={idx}>
             {chunk.map((word) => (
               <button
-                className="px-5 py-3 bg-black-800 border rounded"
+                className="px-5 py-3 bg-black-800 border rounded text-2xl w-32 m-2"
                 key={word}
               >
                 {word}

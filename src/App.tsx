@@ -5,13 +5,20 @@ import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
 import "./styles/scanner.css";
 import processWordList from "./utils/processWordList";
+import makeUnique from "./utils/makeUnique";
 
 function App() {
   const [wordList, setWordList] = useState<string[]>();
 
   const handleWordEntries = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (wordList) setWordList([...wordList, ...processWordList(e.currentTarget.words.value)]);
+    if (wordList)
+      setWordList(
+        makeUnique([
+          ...wordList,
+          ...processWordList(e.currentTarget.words.value),
+        ])
+      );
     else setWordList(processWordList(e.currentTarget.words.value));
   };
 
