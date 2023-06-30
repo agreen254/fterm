@@ -1,0 +1,49 @@
+/*
+   scanning animation adapted from the following code:
+   https://stackoverflow.com/questions/66562406/how-can-i-implement-a-scanning-bar-animation 
+*/
+
+.scanner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  background: rgba(50, 205, 50, 1);
+  box-shadow: 0 0 70px 20px rgba(50, 205, 50, 0.3);
+  clip-path: inset(0);
+  animation: x 8s linear infinite, y 8s infinite;
+  /* y 16s infinite  */
+}
+
+@keyframes x {
+  from {
+    top: 0px;
+  }
+  to {
+    top: 100vh;
+  }
+}
+
+@keyframes y {
+  10%,
+  100% {
+    clip-path: inset(-100px 0 0 0);
+  }
+  from {
+    top: 0px;
+  }
+  to {
+    top: 110vh;
+  }
+  /* 33% {
+    clip-path: inset(-100px 0 0 0);
+  }
+  50% {
+    clip-path: inset(0 0 0 0);
+  }
+  83% {
+    clip-path: inset(-100px 0 0 0);
+  } */
+}
