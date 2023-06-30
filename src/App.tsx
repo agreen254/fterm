@@ -20,7 +20,10 @@ function App() {
           ...processWordList(e.currentTarget.words.value),
         ])
       );
-    else setWordList(processWordList(e.currentTarget.words.value));
+    else
+      setWordList(
+        makeUnique(...[processWordList(e.currentTarget.words.value)])
+      );
     setResetHelper("");
   };
 
@@ -37,23 +40,26 @@ function App() {
             onClick={() => {
               setResetHelper("");
             }}
-            className="px-5 py-3 box-content bg-gray-800 border-2 border-gray-800 rounded-tl rounded-bl hover:bg-gray-500"
+            className="px-5 py-3 box-content bg-gray-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500"
           >
-            Clear
+            CLEAR
           </button>
+          <div className="inline py-[14px] pl-2 bg-gray-800 border-y-black border-y-2">
+            &gt;&gt;
+          </div>
           <input
             type="text"
             id="words"
             autoComplete="off"
             onChange={(e) => setResetHelper(e.target.value)}
             value={resetHelper}
-            className="px-5 py-3 w-[66vw] shadow appearance-none focus:outline-none bg-gray-800 border-gray-800 border-2"
+            className="pl-2 pr-5 py-3 w-[66vw] shadow appearance-none focus:outline-none bg-gray-800 border-y-black border-y-2"
           />
           <button
             type="submit"
-            className="px-5 py-3 box-content bg-gray-800 border-2 border-gray-800 rounded-tr rounded-br hover:bg-gray-500"
+            className="px-5 py-3 box-content bg-gray-800 border-2 border-black rounded-tr rounded-br hover:bg-gray-500"
           >
-            Enter
+            SUBMIT
           </button>
         </form>
         <WordDisplay words={wordList} />
