@@ -13,8 +13,7 @@
   background: rgba(50, 205, 50, 1);
   box-shadow: 0 0 70px 20px rgba(50, 205, 50, 0.3);
   clip-path: inset(0);
-  animation: x 8s linear infinite, y 8s infinite;
-  /* y 16s infinite  */
+  animation: x 5s linear infinite, y 5s infinite;
 }
 
 @keyframes x {
