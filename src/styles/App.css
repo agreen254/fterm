@@ -23,3 +23,9 @@ h1 {
   flex-direction: column;
   align-items: center;
 }
+
+.g-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}

@@ -6,10 +6,28 @@ import "./styles/App.css";
 import "./styles/scanner.css";
 import processWordList from "./utils/processWordList";
 import makeUnique from "./utils/makeUnique";
+import WordActions from "./components/WordActions";
 
 function App() {
   const [wordList, setWordList] = useState<string[]>();
   const [resetHelper, setResetHelper] = useState<string>();
+  const [selectedWord, setSelectedWord] = useState<string>();
+
+  const makeDemo = () => {
+    setWordList([
+      "BELONGING",
+      "EXPLORING",
+      "SELECTING",
+      "REMINDING",
+      "SUMMONING",
+      "AMERICANS",
+      "AGREEMENT",
+      "RELEASING",
+      "TERRIFIED",
+      "ASCENSION",
+    ]);
+    setSelectedWord("");
+  };
 
   const handleWordEntries = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,7 +58,7 @@ function App() {
             onClick={() => {
               setResetHelper("");
             }}
-            className="px-5 py-3 box-content bg-gray-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500"
+            className={"px-5 py-3 box-content bg-gray-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500" + ""}
           >
             CLEAR
           </button>
@@ -62,7 +80,32 @@ function App() {
             SUBMIT
           </button>
         </form>
-        <WordDisplay words={wordList} />
+        <WordDisplay
+          words={wordList}
+          selectedWord={selectedWord}
+          setSelectedWord={setSelectedWord}
+        />
+        <WordActions
+          words={wordList}
+          setWords={setWordList}
+          selectedWord={selectedWord}
+        />
+        <button
+          className="px-5 py-3 my-4 w-48 border rounded"
+          onClick={makeDemo}
+        >
+          DEMO
+        </button>
+        <button
+          className="px-5 py-3 mb-4 w-48 border rounded"
+          onClick={() => {
+            setWordList([]);
+            setSelectedWord("");
+          }}
+        >
+          DELETE ALL
+        </button>
+        <p>Selected Word: {selectedWord}</p>
       </div>
     </>
   );
