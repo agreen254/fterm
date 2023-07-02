@@ -40,71 +40,77 @@ function App() {
 
     const rawInput: string = e.currentTarget.words.value;
     const splitInput: string[] = processWordList(rawInput);
-    
-    const cloned = structuredClone(errors);
 
     console.log(rawInput);
     console.log(rawInput.length);
 
     if (rawInput.length > 450) {
-      const newErrors = {
-        ...errors,
-        tooLongError: "INPUT TOO LONG. CONDENSE TO 450 CHARACTERS OR LESS.",
-      };
-      setErrors(newErrors);
+      setErrors((prev) => {
+        return {
+          ...prev,
+          tooLongError: "INPUT TOO LONG. CONDENSE TO 450 CHARACTERS OR LESS.",
+        };
+      });
     } else {
-      const newErrors = {
-        ...errors,
-        tooLongError: "",
-      };
-      setErrors(newErrors);
+      setErrors((prev) => {
+        return {
+          ...prev,
+          tooLongError: "",
+        };
+      });
     }
 
     if (rawInput.length < 4) {
-      const newErrors = {
-        ...errors,
-        tooShortError:
-          "INPUT TOO SHORT. WORDS MUST START AT A LENGTH OF FOUR CHARACTERS.",
-      };
-      setErrors(newErrors);
+      setErrors((prev) => {
+        return {
+          ...prev,
+          tooShortError:
+            "INPUT TOO SHORT. WORDS MUST START AT A LENGTH OF FOUR CHARACTERS.",
+        };
+      });
     } else {
-      const newErrors = {
-        ...errors,
-        tooShortError: "",
-      };
-      setErrors(newErrors);
+      setErrors((prev) => {
+        return {
+          ...prev,
+          tooShortError: "",
+        };
+      });
     }
 
     if (!arrayElesOnlyLetters(splitInput)) {
-      const newErrors = {
-        ...errors,
-        illegalCharError:
-          "ILLEGAL CHARACTERS DETECTED. ONLY UPPERCASE OR LOWERCASE LETTERS ARE ALLOWED.",
-      };
-      setErrors(newErrors);
+      setErrors((prev) => {
+        return {
+          ...prev,
+          illegalCharError:
+            "ILLEGAL CHARACTERS DETECTED. ONLY UPPERCASE OR LOWERCASE LETTERS ARE ALLOWED.",
+        };
+      });
     } else {
-      const newErrors = {
-        ...errors,
-        illegalCharError: "",
-      };
-      setErrors(newErrors);
+      setErrors((prev) => {
+        return {
+          ...prev,
+          illegalCharError: "",
+        };
+      });
     }
 
     if (!sameLengthWords(splitInput)) {
-      const newErrors = {
-        ...errors,
-        unequalLengthsError: "ALL WORDS MUST BE THE SAME LENGTH.",
-      };
-      setErrors(newErrors);
+      setErrors((prev) => {
+        return {
+          ...prev,
+          unequalLengthsError: "ALL WORDS MUST BE THE SAME LENGTH.",
+        };
+      });
     } else {
-      const newErrors = {
-        ...errors,
-        unequalLengthsError: "",
-      };
-      setErrors(newErrors);
+      setErrors((prev) => {
+        return {
+          ...prev,
+          unequalLengthsError: "",
+        };
+      });
     }
 
-    const hasError = Object.keys(errors).find((err) => err !== "");
+    const hasError = Object.keys(errors).find((err) => err === "");
     if (hasError) return;
 
     setErrors(emptyErrors);
