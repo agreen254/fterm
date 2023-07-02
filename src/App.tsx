@@ -44,73 +44,62 @@ function App() {
     console.log(rawInput);
     console.log(rawInput.length);
 
+    let clonedErrors = structuredClone(errors);
+
     if (rawInput.length > 450) {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          tooLongError: "INPUT TOO LONG. CONDENSE TO 450 CHARACTERS OR LESS.",
-        };
-      });
+      clonedErrors = {
+        ...clonedErrors,
+        tooLongError: "INPUT TOO LONG. CONDENSE TO 450 CHARACTERS OR LESS.",
+      };
     } else {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          tooLongError: "",
-        };
-      });
+      clonedErrors = {
+        ...clonedErrors,
+        tooLongError: "",
+      };
     }
 
-    if (rawInput.length < 4) {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          tooShortError:
-            "INPUT TOO SHORT. WORDS MUST START AT A LENGTH OF FOUR CHARACTERS.",
-        };
-      });
+    if (rawInput.length < 4 && rawInput.length !== 0) {
+      clonedErrors = {
+        ...clonedErrors,
+        tooShortError:
+          "INPUT TOO SHORT. WORDS MUST START AT A LENGTH OF FOUR CHARACTERS.",
+      };
     } else {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          tooShortError: "",
-        };
-      });
+      clonedErrors = {
+        ...clonedErrors,
+        tooShortError: "",
+      };
     }
 
     if (!arrayElesOnlyLetters(splitInput)) {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          illegalCharError:
-            "ILLEGAL CHARACTERS DETECTED. ONLY UPPERCASE OR LOWERCASE LETTERS ARE ALLOWED.",
-        };
-      });
+      clonedErrors = {
+        ...clonedErrors,
+        illegalCharError:
+          "ILLEGAL CHARACTERS DETECTED. ONLY UPPERCASE OR LOWERCASE LETTERS ARE ALLOWED.",
+      };
     } else {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          illegalCharError: "",
-        };
-      });
+      clonedErrors = {
+        ...clonedErrors,
+        illegalCharError: "",
+      };
     }
 
-    if (!sameLengthWords(splitInput)) {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          unequalLengthsError: "ALL WORDS MUST BE THE SAME LENGTH.",
-        };
-      });
+    if (!sameLengthWords([...splitInput, ...(wordList || [])])) {
+      clonedErrors = {
+        ...clonedErrors,
+        unequalLengthsError: "ALL WORDS MUST BE THE SAME LENGTH.",
+      };
     } else {
-      setErrors((prev) => {
-        return {
-          ...prev,
-          unequalLengthsError: "",
-        };
-      });
+      clonedErrors = {
+        ...clonedErrors,
+        unequalLengthsError: "",
+      };
     }
 
-    const hasError = Object.keys(errors).find((err) => err !== "");
+    console.log(clonedErrors);
+    const hasError = !!Object.values(clonedErrors).find((err) => err !== "");
+    console.log(hasError);
+    setErrors(clonedErrors);
     if (hasError) return;
 
     setErrors(emptyErrors);
