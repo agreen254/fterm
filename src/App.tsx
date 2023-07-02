@@ -110,7 +110,7 @@ function App() {
       });
     }
 
-    const hasError = Object.keys(errors).find((err) => err === "");
+    const hasError = Object.keys(errors).find((err) => err !== "");
     if (hasError) return;
 
     setErrors(emptyErrors);
