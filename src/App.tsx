@@ -1,17 +1,23 @@
 import { useState } from "react";
+
 import WordDisplay from "./components/WordDisplay";
+import WordActions from "./components/WordActions";
+
+import { Errors } from "./utils/interfaces";
+import arrayElesOnlyLetters from "./utils/arrayElesOnlyLetters";
+import emptyErrors from "./utils/emptyErrors";
+import makeUnique from "./utils/makeUnique";
+import processWordList from "./utils/processWordList";
+import sameLengthWords from "./utils/sameLengthWords";
 
 import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
 import "./styles/scanner.css";
-import processWordList from "./utils/processWordList";
-import makeUnique from "./utils/makeUnique";
-import WordActions from "./components/WordActions";
 
 function App() {
   const [wordList, setWordList] = useState<string[]>();
-  const [resetHelper, setResetHelper] = useState<string>();
   const [selectedWord, setSelectedWord] = useState<string>();
+  const [errors, setErrors] = useState<Errors>(emptyErrors);
 
   const makeDemo = () => {
     setWordList([
@@ -29,36 +35,97 @@ function App() {
     setSelectedWord("");
   };
 
-  const handleWordEntries = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitWordEntries = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const rawInput: string = e.currentTarget.words.value;
+    const splitInput: string[] = processWordList(rawInput);
+    
+    const cloned = structuredClone(errors);
+
+    console.log(rawInput);
+    console.log(rawInput.length);
+
+    if (rawInput.length > 450) {
+      const newErrors = {
+        ...errors,
+        tooLongError: "INPUT TOO LONG. CONDENSE TO 450 CHARACTERS OR LESS.",
+      };
+      setErrors(newErrors);
+    } else {
+      const newErrors = {
+        ...errors,
+        tooLongError: "",
+      };
+      setErrors(newErrors);
+    }
+
+    if (rawInput.length < 4) {
+      const newErrors = {
+        ...errors,
+        tooShortError:
+          "INPUT TOO SHORT. WORDS MUST START AT A LENGTH OF FOUR CHARACTERS.",
+      };
+      setErrors(newErrors);
+    } else {
+      const newErrors = {
+        ...errors,
+        tooShortError: "",
+      };
+      setErrors(newErrors);
+    }
+
+    if (!arrayElesOnlyLetters(splitInput)) {
+      const newErrors = {
+        ...errors,
+        illegalCharError:
+          "ILLEGAL CHARACTERS DETECTED. ONLY UPPERCASE OR LOWERCASE LETTERS ARE ALLOWED.",
+      };
+      setErrors(newErrors);
+    } else {
+      const newErrors = {
+        ...errors,
+        illegalCharError: "",
+      };
+      setErrors(newErrors);
+    }
+
+    if (!sameLengthWords(splitInput)) {
+      const newErrors = {
+        ...errors,
+        unequalLengthsError: "ALL WORDS MUST BE THE SAME LENGTH.",
+      };
+      setErrors(newErrors);
+    } else {
+      const newErrors = {
+        ...errors,
+        unequalLengthsError: "",
+      };
+      setErrors(newErrors);
+    }
+
+    const hasError = Object.keys(errors).find((err) => err !== "");
+    if (hasError) return;
+
+    setErrors(emptyErrors);
     if (wordList)
-      setWordList(
-        makeUnique([
-          ...wordList,
-          ...processWordList(e.currentTarget.words.value),
-        ])
-      );
-    else
-      setWordList(
-        makeUnique(...[processWordList(e.currentTarget.words.value)])
-      );
-    setResetHelper("");
+      setWordList(makeUnique([...wordList, ...processWordList(rawInput)]));
+    else setWordList(makeUnique(...[processWordList(rawInput)]));
   };
 
   return (
     <>
       <div className="main flexrow scanner">
         <h1 className="text-5xl my-6 font-bold">FTERM</h1>
-        <form onSubmit={(e) => handleWordEntries(e)}>
+        <form id="wordEntryForm" onSubmit={(e) => handleSubmitWordEntries(e)}>
           <label htmlFor="words" className="text-xl block">
             input terminal words, separated by spaces:
           </label>
           <button
-            type="button"
-            onClick={() => {
-              setResetHelper("");
-            }}
-            className={"px-5 py-3 box-content bg-gray-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500" + ""}
+            type="reset"
+            className={
+              "px-5 py-3 font-bold box-content bg-gray-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500"
+            }
           >
             CLEAR
           </button>
@@ -69,17 +136,19 @@ function App() {
             type="text"
             id="words"
             autoComplete="off"
-            onChange={(e) => setResetHelper(e.target.value)}
-            value={resetHelper}
             className="pl-2 pr-5 py-3 w-[66vw] shadow appearance-none focus:outline-none bg-gray-800 border-y-black border-y-2"
           />
           <button
             type="submit"
-            className="px-5 py-3 box-content bg-gray-800 border-2 border-black rounded-tr rounded-br hover:bg-gray-500"
+            className="px-5 py-3 font-bold box-content bg-gray-800 border-2 border-black rounded-tr rounded-br hover:bg-gray-500"
           >
-            SUBMIT
+            ADD
           </button>
         </form>
+        <p className="font-bold">{errors.illegalCharError}</p>
+        <p className="font-bold">{errors.unequalLengthsError}</p>
+        <p className="font-bold">{errors.tooLongError}</p>
+        <p className="font-bold">{errors.tooShortError}</p>
         <WordDisplay
           words={wordList}
           selectedWord={selectedWord}
@@ -89,6 +158,7 @@ function App() {
           words={wordList}
           setWords={setWordList}
           selectedWord={selectedWord}
+          setSelectedWord={setSelectedWord}
         />
         <button
           className="px-5 py-3 my-4 w-48 border rounded"
@@ -99,7 +169,7 @@ function App() {
         <button
           className="px-5 py-3 mb-4 w-48 border rounded"
           onClick={() => {
-            setWordList([]);
+            setWordList(undefined);
             setSelectedWord("");
           }}
         >

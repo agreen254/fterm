@@ -1,4 +1,4 @@
-function makeUnique(arr: string[]) {
+function makeUnique<T>(arr: T[]) {
   return [...new Set(arr)];
 }
 

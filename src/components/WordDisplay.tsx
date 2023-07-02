@@ -7,8 +7,10 @@ interface Props {
 }
 
 const WordDisplay = ({ words, selectedWord, setSelectedWord }: Props) => {
-  return words ? (
-    <div>
+  if (words === undefined || words.length === 0) return null;
+
+  return (
+    <div className="px-5 py-5 mt-5 bg-gray-800 rounded-md">
       <ul>
         {chunk(words, 2).map((chunk, idx) => (
           <li key={idx}>
@@ -16,10 +18,10 @@ const WordDisplay = ({ words, selectedWord, setSelectedWord }: Props) => {
               <button
                 className={
                   "px-5 py-3 text-2xl min-w-[32] m-2 hover:bg-gray-500" +
-                  (selectedWord === word ? " bg-gray-600" : "")
+                  (selectedWord === word ? " bg-gray-500" : "")
                 }
                 key={word}
-                onClick={(e) => {
+                onClick={() => {
                   if (selectedWord !== word) setSelectedWord(word);
                   else {
                     setSelectedWord("");
@@ -33,7 +35,7 @@ const WordDisplay = ({ words, selectedWord, setSelectedWord }: Props) => {
         ))}
       </ul>
     </div>
-  ) : null;
+  );
 };
 
 export default WordDisplay;
