@@ -62,7 +62,7 @@ function App() {
       clonedErrors = {
         ...clonedErrors,
         tooShortError:
-          "INPUT TOO SHORT. WORDS MUST START AT A LENGTH OF FOUR CHARACTERS.",
+          "INPUT TOO SHORT. WORDS HAVE A MINIMUM LENGTH OF FOUR CHARACTERS.",
       };
     } else {
       clonedErrors = {
@@ -121,6 +121,7 @@ function App() {
             className={
               "px-5 py-3 font-bold box-content bg-gray-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500"
             }
+            onClick={() => setErrors(emptyErrors)}
           >
             CLEAR
           </button>
@@ -139,11 +140,11 @@ function App() {
           >
             ADD
           </button>
+          <p className="font-bold">{errors.illegalCharError}</p>
+          <p className="font-bold">{errors.unequalLengthsError}</p>
+          <p className="font-bold">{errors.tooLongError}</p>
+          <p className="font-bold">{errors.tooShortError}</p>
         </form>
-        <p className="font-bold">{errors.illegalCharError}</p>
-        <p className="font-bold">{errors.unequalLengthsError}</p>
-        <p className="font-bold">{errors.tooLongError}</p>
-        <p className="font-bold">{errors.tooShortError}</p>
         <WordDisplay
           words={wordList}
           selectedWord={selectedWord}
@@ -165,6 +166,7 @@ function App() {
           className="px-5 py-3 mb-4 w-48 border rounded"
           onClick={() => {
             setWordList(undefined);
+            setErrors(emptyErrors);
             setSelectedWord("");
           }}
         >
