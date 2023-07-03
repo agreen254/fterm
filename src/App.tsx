@@ -1,14 +1,14 @@
 import { useState } from "react";
 
+import ErrorList from "./components/ErrorList";
 import WordDisplay from "./components/WordDisplay";
 import WordActions from "./components/WordActions";
 
-import { Errors } from "./utils/interfaces";
-import arrayElesOnlyLetters from "./utils/arrayElesOnlyLetters";
+import { ValidationErrors } from "./utils/interfaces";
 import emptyErrors from "./utils/emptyErrors";
+import makeErrorObj from "./utils/validation/makeErrors/makeErrorObj";
 import makeUnique from "./utils/makeUnique";
 import processWordList from "./utils/processWordList";
-import sameLengthWords from "./utils/sameLengthWords";
 
 import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
@@ -17,7 +17,8 @@ import "./styles/scanner.css";
 function App() {
   const [wordList, setWordList] = useState<string[]>();
   const [selectedWord, setSelectedWord] = useState<string>();
-  const [errors, setErrors] = useState<Errors>(emptyErrors);
+  const [errors, setErrors] = useState<ValidationErrors>(emptyErrors);
+  const [events, setEvents] = useState<string[]>([]);
 
   const makeDemo = () => {
     setWordList([
@@ -39,87 +40,39 @@ function App() {
     e.preventDefault();
 
     const rawInput: string = e.currentTarget.words.value;
-    const splitInput: string[] = processWordList(rawInput);
-
-    console.log(rawInput);
-    console.log(rawInput.length);
-
-    let clonedErrors = structuredClone(errors);
-
-    if (rawInput.length > 450) {
-      clonedErrors = {
-        ...clonedErrors,
-        tooLongError: "INPUT TOO LONG. CONDENSE TO 450 CHARACTERS OR LESS.",
-      };
-    } else {
-      clonedErrors = {
-        ...clonedErrors,
-        tooLongError: "",
-      };
-    }
-
-    if (rawInput.length < 4 && rawInput.length !== 0) {
-      clonedErrors = {
-        ...clonedErrors,
-        tooShortError:
-          "INPUT TOO SHORT. WORDS HAVE A MINIMUM LENGTH OF FOUR CHARACTERS.",
-      };
-    } else {
-      clonedErrors = {
-        ...clonedErrors,
-        tooShortError: "",
-      };
-    }
-
-    if (!arrayElesOnlyLetters(splitInput)) {
-      clonedErrors = {
-        ...clonedErrors,
-        illegalCharError:
-          "ILLEGAL CHARACTERS DETECTED. ONLY UPPERCASE OR LOWERCASE LETTERS ARE ALLOWED.",
-      };
-    } else {
-      clonedErrors = {
-        ...clonedErrors,
-        illegalCharError: "",
-      };
-    }
-
-    if (!sameLengthWords([...splitInput, ...(wordList || [])])) {
-      clonedErrors = {
-        ...clonedErrors,
-        unequalLengthsError: "ALL WORDS MUST BE THE SAME LENGTH.",
-      };
-    } else {
-      clonedErrors = {
-        ...clonedErrors,
-        unequalLengthsError: "",
-      };
-    }
-
-    console.log(clonedErrors);
-    const hasError = !!Object.values(clonedErrors).find((err) => err !== "");
-    console.log(hasError);
-    setErrors(clonedErrors);
+    const clonedErrors = makeErrorObj(errors, rawInput, wordList);
+    const hasError = !!Object.values(clonedErrors).find(
+      (errMessage) => errMessage !== ""
+    );
+    setErrors(clonedErrors); // do this AFTER to stop errors slipping through on first click
     if (hasError) return;
 
     setErrors(emptyErrors);
-    if (wordList)
+    setEvents([...events, "Added " + rawInput.split(" ").length + " words"]);
+    if (wordList) {
       setWordList(makeUnique([...wordList, ...processWordList(rawInput)]));
-    else setWordList(makeUnique(...[processWordList(rawInput)]));
+    } else setWordList(makeUnique(...[processWordList(rawInput)]));
   };
 
   return (
     <>
-      <div className="main flexrow scanner">
-        <h1 className="text-5xl my-6 font-bold">FTERM</h1>
-        <form id="wordEntryForm" onSubmit={(e) => handleSubmitWordEntries(e)}>
+      <div className="main flexrow scanner z-10">
+        <h1 className="text-5xl my-4 font-bold">VAULTERM</h1>
+        <h2 className="md:text-base lg:text-xl xl:text-3xl mb-8 font-bold absolute bottom-0 left-12">
+          Vault-Tec Terminal Solver
+        </h2>
+        <form
+          id="wordEntryForm"
+          onSubmit={(e) => handleSubmitWordEntries(e)}
+          className="mb-4"
+        >
           <label htmlFor="words" className="text-xl block">
             input terminal words, separated by spaces:
           </label>
           <button
             type="reset"
             className={
-              "px-5 py-3 font-bold box-content bg-gray-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500"
+              "px-5 py-3 w-16 font-bold box-content bg-gray-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500"
             }
             onClick={() => setErrors(emptyErrors)}
           >
@@ -136,26 +89,38 @@ function App() {
           />
           <button
             type="submit"
-            className="px-5 py-3 font-bold box-content bg-gray-800 border-2 border-black rounded-tr rounded-br hover:bg-gray-500"
+            className="px-5 py-3 w-16 font-bold box-content bg-gray-800 border-2 border-black rounded-tr rounded-br hover:bg-gray-500"
           >
             ADD
           </button>
-          <p className="font-bold">{errors.illegalCharError}</p>
-          <p className="font-bold">{errors.unequalLengthsError}</p>
-          <p className="font-bold">{errors.tooLongError}</p>
-          <p className="font-bold">{errors.tooShortError}</p>
+          <ErrorList errors={errors} />
         </form>
-        <WordDisplay
-          words={wordList}
-          selectedWord={selectedWord}
-          setSelectedWord={setSelectedWord}
-        />
-        <WordActions
-          words={wordList}
-          setWords={setWordList}
-          selectedWord={selectedWord}
-          setSelectedWord={setSelectedWord}
-        />
+        <div className="w-[calc(66vw+15rem)] grid grid-cols-3 gap-4">
+          {wordList === undefined || wordList.length === 0 || (
+            <div
+              className="bg-gray-800 border-2 border-black rounded min-h-[35rem] relative"
+              hidden={wordList ? false : true}
+            >
+              <ul>
+                {events.map((event) => (
+                  <li>{event}</li>
+                ))}
+              </ul>
+              <p className="absolute bottom-1 left-2">-- HISTORY --</p>
+            </div>
+          )}
+          <WordDisplay
+            words={wordList}
+            selectedWord={selectedWord}
+            setSelectedWord={setSelectedWord}
+          />
+          <WordActions
+            words={wordList}
+            setWords={setWordList}
+            selectedWord={selectedWord}
+            setSelectedWord={setSelectedWord}
+          />
+        </div>
         <button
           className="px-5 py-3 my-4 w-48 border rounded"
           onClick={makeDemo}
@@ -172,7 +137,6 @@ function App() {
         >
           DELETE ALL
         </button>
-        <p>Selected Word: {selectedWord}</p>
       </div>
     </>
   );

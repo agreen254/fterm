@@ -3,7 +3,7 @@ export interface Location {
   indices: number[];
 }
 
-export interface Errors {
+export interface ValidationErrors {
   tooLongError: string;
   tooShortError: string;
   illegalCharError: string;

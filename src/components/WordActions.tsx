@@ -16,28 +16,35 @@ const WordActions = ({
     setSelectedWord("");
   };
 
+  if (words === undefined || words.length === 0) return null;
+
   return (
-    selectedWord && (
-      <div>
-        <button
-          className="px-5 py-3 my-4 w-48 border rounded"
-          onClick={deleteWord}
-        >
-          DELETE WORD
-        </button>
-        <div className="flex flex-row items-center justify-center border bg-gray-800 rounded">
-          <input
-            type="checkbox"
-            id="guessed"
-            name="guessed"
-            className="w-4 h-4 pl-4 accent-red-500 rounded-full shadow"
-          />
-          <label htmlFor="guessed" className="py-4 ml-2">
+    <div className="px-5 py-5 bg-gray-800 border-2 border-black rounded-md relative min-h-[35rem]">
+      <p className="text-center text-lg">
+        {selectedWord ? "SELECTED WORD: " + selectedWord : "NO SELECTED WORD"}
+      </p>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex justify-center">
+          <button
+            className="px-5 py-3 my-4 w-full max-w-[12rem] border-2 rounded-md border-black hover:bg-gray-500"
+            onClick={deleteWord}
+          >
+            DELETE WORD
+          </button>
+        </div>
+        <div className="flex justify-center">
+          <button className="px-5 py-3 my-4 w-full max-w-[12rem] border-2 rounded-md border-black hover:bg-gray-500">
+            DELETE ALL
+          </button>
+        </div>
+        <div className="flex justify-center">
+          <button className="px-5 py-3 my-4 w-full max-w-[12rem] border-2 rounded-md border-black hover:bg-gray-500">
             GUESSED
-          </label>
+          </button>
         </div>
       </div>
-    )
+      <p className="text-md absolute bottom-1 left-2">-- WORD ACTIONS --</p>
+    </div>
   );
 };
 

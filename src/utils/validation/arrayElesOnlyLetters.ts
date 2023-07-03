@@ -7,11 +7,7 @@ function containsOnlyLetters(text: string) {
 }
 
 function arrayElesOnlyLetters(text: string[]) {
-  return (
-    text
-      .map((entry) => containsOnlyLetters(entry))
-      .filter((entry) => entry === false).length === 0
-  );
+  return text.filter((entry) => !containsOnlyLetters(entry));
 }
 
 export default arrayElesOnlyLetters;

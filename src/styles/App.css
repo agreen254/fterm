@@ -1,3 +1,12 @@
+body {
+  background: repeating-linear-gradient(
+    #8d6e63,
+    #8d6e63 1px,
+    #616161 3px,
+    #616161 5px
+  );
+}
+
 h1 {
   text-shadow: black 3px 5px;
 }
@@ -5,12 +14,7 @@ h1 {
 .main {
   height: 100vh;
   width: 100vw;
-  background: repeating-linear-gradient(
-    #8d6e63,
-    #8d6e63 1px,
-    #616161 3px,
-    #616161 5px
-  );
+  font-weight: bold;
   /* color: rgb(255, 212, 160); */
   color: rgb(255, 185, 50);
   font-family: "IBM Plex Mono", system-ui, -apple-system, BlinkMacSystemFont,
