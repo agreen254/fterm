@@ -6,6 +6,7 @@ import WordActions from "./components/WordActions";
 
 import { ValidationErrors } from "./utils/interfaces";
 import emptyErrors from "./utils/emptyErrors";
+import { Guess } from "./utils/interfaces";
 import makeErrorObj from "./utils/validation/makeErrors/makeErrorObj";
 import makeUnique from "./utils/makeUnique";
 import processWordList from "./utils/processWordList";
@@ -19,6 +20,12 @@ function App() {
   const [selectedWord, setSelectedWord] = useState<string>();
   const [errors, setErrors] = useState<ValidationErrors>(emptyErrors);
   const [events, setEvents] = useState<string[]>([]);
+  const [guesses, setGuesses] = useState<Guess[]>([
+    {
+      word: "BELONGING",
+      numCorrect: 3,
+    },
+  ]);
 
   const makeDemo = () => {
     setWordList([
@@ -101,15 +108,21 @@ function App() {
               className="bg-gray-800 border-2 border-black rounded min-h-[35rem] relative"
               hidden={wordList ? false : true}
             >
-              <ul>
+              <ul className="pl-4 pt-2">
                 {events.map((event) => (
-                  <li>{event}</li>
+                  <li key={event}>
+                    <div className="flex flex-row justify-evenly">
+                      <p>{event}</p>
+                      <button>RESTORE</button>
+                    </div>
+                  </li>
                 ))}
               </ul>
               <p className="absolute bottom-1 left-2">-- HISTORY --</p>
             </div>
           )}
           <WordDisplay
+            guesses={guesses}
             words={wordList}
             selectedWord={selectedWord}
             setSelectedWord={setSelectedWord}

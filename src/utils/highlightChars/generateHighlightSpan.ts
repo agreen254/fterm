@@ -1,6 +1,6 @@
-import { Location } from "../interfaces";
+import { Placement } from "../interfaces";
 
-function generateHighlightSpan(word: string, locations: Location[]) {
+function generateHighlightSpan(word: string, locations: Placement[]) {
   const chars = [...word];
   return chars.reduce((highlightedText, char, idx) => {
     const loc = locations.filter((location) => location.character === char);

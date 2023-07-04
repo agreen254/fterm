@@ -1,12 +1,22 @@
+import HighlightedWords from "./HighlightedWords";
+
 import chunk from "../utils/chunk";
+import findSameLetters from "../utils/highlightChars/findSameLetters";
+import { Guess } from "../utils/interfaces";
 
 interface Props {
   words: string[] | undefined;
   selectedWord: string | undefined;
   setSelectedWord: (word: string) => void;
+  guesses: Guess[];
 }
 
-const WordDisplay = ({ words, selectedWord, setSelectedWord }: Props) => {
+const WordDisplay = ({
+  guesses,
+  words,
+  selectedWord,
+  setSelectedWord,
+}: Props) => {
   if (words === undefined || words.length === 0) return null;
 
   return (
@@ -29,7 +39,14 @@ const WordDisplay = ({ words, selectedWord, setSelectedWord }: Props) => {
                     }
                   }}
                 >
-                  {word}
+                  <HighlightedWords
+                    word={word}
+                    sameLetters={findSameLetters(
+                      guesses[0].word,
+                      word,
+                      guesses[0].numCorrect
+                    )}
+                  />
                 </button>
               ))}
             </div>
