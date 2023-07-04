@@ -1,12 +1,12 @@
-import { Location } from "./interfaces";
+import { Location } from "../interfaces";
 
 function findSameLetters(guess: string, other: string, numCorrect: number) {
-  if (guess.length !== other.length) return null;
+  if (guess.length !== other.length) return false;
 
   const guessChars = [...guess];
   const otherChars = [...other];
 
-  return guessChars.reduce((locations: Location[], char, idx) => {
+  const locationData = guessChars.reduce((locations: Location[], char, idx) => {
     if (guessChars[idx] === otherChars[idx]) {
       const current = locations.find(({ character }) => character === char);
       if (current == undefined) {
@@ -21,6 +21,13 @@ function findSameLetters(guess: string, other: string, numCorrect: number) {
     }
     return locations;
   }, []);
+
+  if (
+    locationData.map((location) => [...location.indices]).join().length ===
+    numCorrect
+  )
+    return locationData;
+  else return false;
 }
 
 export default findSameLetters;

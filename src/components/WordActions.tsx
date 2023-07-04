@@ -19,7 +19,7 @@ const WordActions = ({
   if (words === undefined || words.length === 0) return null;
 
   return (
-    <div className="px-5 py-5 bg-gray-800 border-2 border-black rounded-md relative min-h-[35rem]">
+    <div className="px-5 py-5 bg-gray-800 border-2 border-black rounded-md relative min-h-[35rem] hidden xl:block">
       <p className="text-center text-lg">
         {selectedWord ? "SELECTED WORD: " + selectedWord : "NO SELECTED WORD"}
       </p>
@@ -33,7 +33,10 @@ const WordActions = ({
           </button>
         </div>
         <div className="flex justify-center">
-          <button className="px-5 py-3 my-4 w-full max-w-[12rem] border-2 rounded-md border-black hover:bg-gray-500">
+          <button
+            className="px-5 py-3 my-4 w-full max-w-[12rem] border-2 rounded-md border-black hover:bg-gray-500"
+            onClick={() => setWords([])}
+          >
             DELETE ALL
           </button>
         </div>
