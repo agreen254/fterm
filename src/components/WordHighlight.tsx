@@ -6,14 +6,15 @@ interface Props {
 }
 
 const HighlightedWords = ({ word, sameLetters }: Props) => {
-  if (!sameLetters) return <li>{word}</li>;
+  if (!sameLetters) return <li className="text-gray-600">{word}</li>;
 
   const shouldHighlight = (char: string, idx: number) => {
     const containsLetter = sameLetters.filter(
       (letter) => char === letter.character
     )[0];
     return (
-      containsLetter && containsLetter.indices.filter((index) => index === idx)
+      containsLetter &&
+      containsLetter.indices.filter((index) => index === idx).length === 1
     );
   };
 
@@ -22,7 +23,9 @@ const HighlightedWords = ({ word, sameLetters }: Props) => {
     <li>
       {chars.map((char, idx) => (
         <span
-          className={shouldHighlight(char, idx) ? "text-3xl bg-[#121212]" : ""}
+          className={
+            shouldHighlight(char, idx) ? "text-3xl shadow-sm bg-[#121212]" : ""
+          }
         >
           {char}
         </span>
