@@ -1,8 +1,12 @@
+import { Guess } from "../utils/interfaces";
+
 interface Props {
   words: string[] | undefined;
   setWords: (words: string[]) => void;
   selectedWord: string | undefined;
   setSelectedWord: (word: string) => void;
+  guesses: Guess[] | undefined;
+  setGuesses: (guesses: Guess[]) => void;
 }
 
 const WordActions = ({
@@ -10,16 +14,20 @@ const WordActions = ({
   setWords,
   selectedWord,
   setSelectedWord,
+  guesses,
+  setGuesses,
 }: Props) => {
   const deleteWord = () => {
-    if (words) setWords(words?.filter((word) => word !== selectedWord));
+    if (words) setWords(words.filter((word) => word !== selectedWord));
+    if (guesses)
+      setGuesses(guesses.filter((guess) => guess?.word !== selectedWord));
     setSelectedWord("");
   };
 
   if (words === undefined || words.length === 0) return null;
 
   return (
-    <div className="px-5 py-5 bg-gray-800 border-2 border-black rounded-md relative min-h-[35rem] hidden xl:block">
+    <div className="px-5 py-5 bg-gray-800 border-2 border-black rounded-md relative h-[66vh] hidden xl:block">
       <p className="text-center text-lg">
         {selectedWord ? "SELECTED WORD: " + selectedWord : "NO SELECTED WORD"}
       </p>

@@ -1,6 +1,7 @@
 import { Placement } from "../interfaces";
+import { Guess } from "../interfaces";
 
-function findSameLetters(guess: string, other: string, numCorrect: number) {
+function findSameLetters({ word: guess, numCorrect }: Guess, other: string) {
   if (guess.length !== other.length) return false;
 
   const guessChars = [...guess];

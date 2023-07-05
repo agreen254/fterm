@@ -5,7 +5,7 @@ interface Props {
   sameLetters: Placement[] | false;
 }
 
-const HighlightedWords = ({ word, sameLetters }: Props) => {
+const WordHighlight = ({ word, sameLetters }: Props) => {
   if (!sameLetters) return <li className="text-gray-600">{word}</li>;
 
   const shouldHighlight = (char: string, idx: number) => {
@@ -23,8 +23,9 @@ const HighlightedWords = ({ word, sameLetters }: Props) => {
     <li>
       {chars.map((char, idx) => (
         <span
+          key={"highlight" + idx}
           className={
-            shouldHighlight(char, idx) ? "text-3xl shadow-sm bg-[#121212]" : ""
+            shouldHighlight(char, idx) ? "text-2xl shadow-sm bg-[#121212]" : ""
           }
         >
           {char}
@@ -34,4 +35,4 @@ const HighlightedWords = ({ word, sameLetters }: Props) => {
   );
 };
 
-export default HighlightedWords;
+export default WordHighlight;

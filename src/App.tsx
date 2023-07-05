@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import ErrorList from "./components/ErrorList";
-import WordDisplay from "./components/WordDisplay";
+import WordsDisplay from "./components/WordsDisplay";
 import WordActions from "./components/WordActions";
 
 import { ValidationErrors } from "./utils/interfaces";
@@ -14,6 +14,8 @@ import processWordList from "./utils/processWordList";
 import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
 import "./styles/scanner.css";
+import "./styles/scrollbar.css";
+import ActionsHistory from "./components/ActionsHistory";
 
 function App() {
   const [wordList, setWordList] = useState<string[]>();
@@ -63,7 +65,7 @@ function App() {
 
   return (
     <>
-      <div className="main flexrow scanner z-10">
+      <div className="main flexrow scanner z-10 overflow-x-hidden">
         <h1 className="text-5xl my-4 font-bold">VAULTERM</h1>
         <h2 className="md:text-base lg:text-xl xl:text-3xl mb-8 font-bold absolute bottom-0 left-12">
           Vault-Tec Terminal Solver
@@ -103,25 +105,8 @@ function App() {
           <ErrorList errors={errors} />
         </form>
         <div className="w-[calc(66vw+15rem)] grid grid-cols-3 gap-4">
-          {wordList === undefined || wordList.length === 0 || (
-            <div
-              className="bg-gray-800 border-2 border-black rounded min-h-[35rem] relative"
-              hidden={wordList ? false : true}
-            >
-              <ul className="pl-4 pt-2">
-                {events.map((event) => (
-                  <li key={event}>
-                    <div className="flex flex-row justify-evenly">
-                      <p>{event}</p>
-                      <button>RESTORE</button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <p className="absolute bottom-1 left-2">-- HISTORY --</p>
-            </div>
-          )}
-          <WordDisplay
+          <ActionsHistory words={wordList} events={events} />
+          <WordsDisplay
             guesses={guesses}
             words={wordList}
             selectedWord={selectedWord}
@@ -132,6 +117,8 @@ function App() {
             setWords={setWordList}
             selectedWord={selectedWord}
             setSelectedWord={setSelectedWord}
+            guesses={guesses}
+            setGuesses={setGuesses}
           />
         </div>
         <button
