@@ -27,6 +27,10 @@ function App() {
       word: "BELONGING",
       numCorrect: 3,
     },
+    {
+      word: "EXPLORING",
+      numCorrect: 4,
+    },
   ]);
 
   const makeDemo = () => {

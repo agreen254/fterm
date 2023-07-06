@@ -6,7 +6,8 @@ interface Props {
 }
 
 const WordHighlight = ({ word, sameLetters }: Props) => {
-  if (!sameLetters) return <li className="text-gray-600">{word}</li>;
+  if (!sameLetters || sameLetters.length === 0)
+    return <span className="text-red-700">{word}</span>;
 
   const shouldHighlight = (char: string, idx: number) => {
     const containsLetter = sameLetters.filter(
@@ -19,20 +20,16 @@ const WordHighlight = ({ word, sameLetters }: Props) => {
   };
 
   const chars = [...word];
-  return (
-    <li>
-      {chars.map((char, idx) => (
-        <span
-          key={"highlight" + idx}
-          className={
-            shouldHighlight(char, idx) ? "text-2xl shadow-sm bg-[#121212]" : ""
-          }
-        >
-          {char}
-        </span>
-      ))}
-    </li>
-  );
+  return chars.map((char, idx) => (
+    <span
+      key={"highlight" + idx}
+      className={
+        shouldHighlight(char, idx) ? "text-2xl shadow-sm bg-[#121212]" : ""
+      }
+    >
+      {char}
+    </span>
+  ));
 };
 
 export default WordHighlight;

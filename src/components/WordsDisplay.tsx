@@ -1,7 +1,10 @@
 import WordHighlight from "./WordHighlight";
 
-import findSameLetters from "../utils/highlightChars/findSameLetters";
+import columnBreakpoints from "../utils/columnBreakpoints";
+import findMult from "../utils/highlightChars/findMult";
 import { Guess } from "../utils/interfaces";
+
+import "../styles/words-grid.css";
 
 interface Props {
   words: string[] | undefined;
@@ -29,66 +32,71 @@ const WordsDisplay = ({
   return (
     <div className="px-5 py-5 bg-gray-800 border-2 border-black rounded-md relative h-[66vh] overflow-auto">
       <p className="inline">&gt;&gt; GUESSES</p>
-      <div className="inline-block w-full h-1 rounded bg-[rgb(255,185,50)]" />
-      <ul className="columns-1">
+      <div className="w-full mt-1 mb-2 h-1 rounded bg-[rgb(255,185,50)]" />
+      <div className="grid grid-cols-1">
         {guesses &&
           guesses.map((guess, idx) => {
             return (
-              <li key={"guess" + idx} className="">
-                <div className="flex justify-center">
-                  <button
-                    className={
-                      "px-5 py-3 text-2xl min-w-[4rem] m-2 hover:bg-gray-500" +
-                      (selectedWord === guess.word ? " bg-gray-500" : "")
+              <div key={"guess" + idx} className="flex flex-row justify-center">
+                <button
+                  className={
+                    "px-5 py-3 text-2xl min-w-[4rem] max-w-[15rem] m-2 hover:bg-gray-600" +
+                    (selectedWord === guess.word ? " bg-gray-600" : "")
+                  }
+                  onClick={() => {
+                    if (selectedWord !== guess.word)
+                      setSelectedWord(guess.word);
+                    else {
+                      setSelectedWord("");
                     }
-                    onClick={() => {
-                      if (selectedWord !== guess.word)
-                        setSelectedWord(guess.word);
-                      else {
-                        setSelectedWord("");
-                      }
-                    }}
-                  >
-                    {guess.word}
-                  </button>
-                </div>
-              </li>
+                  }}
+                >
+                  {guess.word + ":" + guess.numCorrect}
+                </button>
+              </div>
             );
           })}
-      </ul>
-      <p className="inline">&gt;&gt; OTHER</p>
-      <div className="inline-block h-1 w-full rounded bg-[rgb(255,185,50)]" />
-      <ul className="mb-4">
+      </div>
+      <p className="block mt-4">&gt;&gt; OTHER</p>
+      <div className="h-1 mt-1 w-full rounded bg-[rgb(255,185,50)]" />
+      <div
+        className={
+          "grid grid-cols-[repeat(auto-fit,minmax(" +
+          columnBreakpoints.get(words[0].length) +
+          ",1fr))]"
+        }
+      >
         {nonGuessWords.map((word, idx) => (
-          <li key={"highlightable" + idx} className="columns-1">
-            <div className="flex flex-row justify-center">
-              <button
-                className={
-                  "px-5 py-3 text-2xl min-w-[4rem] m-2 hover:bg-gray-500" +
-                  (selectedWord === word ? " bg-gray-500" : "")
+          <div
+            key={"highlightable" + idx}
+            className="flex flex-row justify-center"
+          >
+            <button
+              className={
+                "px-5 py-3 text-2xl m-2 min-w-[4rem] max-w-[15rem] hover:bg-gray-600" +
+                (selectedWord === word ? " bg-gray-600" : "")
+              }
+              onClick={() => {
+                if (selectedWord !== word) setSelectedWord(word);
+                else {
+                  setSelectedWord("");
                 }
-                onClick={() => {
-                  if (selectedWord !== word) setSelectedWord(word);
-                  else {
-                    setSelectedWord("");
-                  }
-                }}
-              >
-                {isGuess(word) ? (
-                  word
-                ) : (
-                  <WordHighlight
-                    word={word}
-                    sameLetters={findSameLetters(guesses[0], word)}
-                  />
-                )}
-              </button>
-            </div>
-          </li>
+              }}
+            >
+              {isGuess(word) ? (
+                word
+              ) : (
+                <WordHighlight
+                  word={word}
+                  sameLetters={findMult(guesses, word)}
+                />
+              )}
+            </button>
+          </div>
         ))}
-      </ul>
+      </div>
+      <p className="absolute top-1 right-2">-- WORDS --</p>
     </div>
-    // <p className="text-md">-- WORDS --</p>
   );
 };
 

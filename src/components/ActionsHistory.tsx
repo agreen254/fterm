@@ -21,7 +21,7 @@ const ActionsHistory = ({ events, words }: Props) => {
           </li>
         ))}
       </ul>
-      <p className="absolute bottom-1 left-2">-- HISTORY --</p>
+      <p className="absolute top-1 right-2">-- HISTORY --</p>
     </div>
   );
 };
