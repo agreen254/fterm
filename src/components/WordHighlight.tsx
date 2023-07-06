@@ -7,7 +7,7 @@ interface Props {
 
 const WordHighlight = ({ word, sameLetters }: Props) => {
   if (!sameLetters || sameLetters.length === 0)
-    return <span className="text-red-700">{word}</span>;
+    return <span className="text-stone-600">{word}</span>;
 
   const shouldHighlight = (char: string, idx: number) => {
     const containsLetter = sameLetters.filter(
@@ -24,7 +24,8 @@ const WordHighlight = ({ word, sameLetters }: Props) => {
     <span
       key={"highlight" + idx}
       className={
-        shouldHighlight(char, idx) ? "text-2xl shadow-sm bg-[#121212]" : ""
+        // shouldHighlight(char, idx) ? "text-2xl shadow-sm bg-[#121212]" : ""
+        shouldHighlight(char, idx) ? "text-2xl underline" : ""
       }
     >
       {char}

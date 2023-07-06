@@ -69,7 +69,7 @@ function App() {
 
   return (
     <>
-      <div className="main flexrow scanner z-10 overflow-x-hidden">
+      <div className="main flexrow scanner z-10 overflow-x-hidden overflow-y-hidden">
         <h1 className="text-5xl my-4 font-bold">VAULTERM</h1>
         <h2 className="md:text-base lg:text-xl xl:text-3xl mb-8 font-bold absolute bottom-0 left-12">
           Vault-Tec Terminal Solver
@@ -85,24 +85,24 @@ function App() {
           <button
             type="reset"
             className={
-              "px-5 py-3 w-16 font-bold box-content bg-gray-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500"
+              "px-5 py-3 w-16 font-bold box-content bg-stone-800 border-2 border-black rounded-tl rounded-bl hover:bg-gray-500"
             }
             onClick={() => setErrors(emptyErrors)}
           >
             CLEAR
           </button>
-          <div className="inline py-[14px] pl-2 bg-gray-800 border-y-black border-y-2">
+          <div className="inline py-[14px] pl-2 bg-stone-800 border-y-black border-y-2">
             &gt;&gt;
           </div>
           <input
             type="text"
             id="words"
             autoComplete="off"
-            className="pl-2 pr-5 py-3 w-[66vw] shadow appearance-none focus:outline-none bg-gray-800 border-y-black border-y-2"
+            className="pl-2 pr-5 py-3 w-[66vw] shadow appearance-none focus:outline-none bg-stone-800 border-y-black border-y-2"
           />
           <button
             type="submit"
-            className="px-5 py-3 w-16 font-bold box-content bg-gray-800 border-2 border-black rounded-tr rounded-br hover:bg-gray-500"
+            className="px-5 py-3 w-16 font-bold box-content bg-stone-800 border-2 border-black rounded-tr rounded-br hover:bg-gray-500"
           >
             ADD
           </button>

@@ -8,7 +8,7 @@ const ActionsHistory = ({ events, words }: Props) => {
 
   return (
     <div
-      className="bg-gray-800 border-2 border-black rounded h-[66vh] relative overflow-auto"
+      className="bg-stone-800 border-2 border-black rounded h-[66vh] relative overflow-auto"
       hidden={words ? false : true}
     >
       <ul className="pl-4 pt-2">
