@@ -5,6 +5,7 @@ import findMult from "../utils/highlightChars/findMult";
 import { Guess } from "../utils/interfaces";
 
 import "../styles/words-grid.css";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 interface Props {
   words: string[] | undefined;
@@ -19,6 +20,13 @@ const WordsDisplay = ({
   selectedWord,
   setSelectedWord,
 }: Props) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+
+  useLayoutEffect(() => {
+    if (ref.current) setWidth(ref.current.offsetWidth);
+  }, []);
+
   if (words === undefined || words.length === 0) return null;
 
   const isGuess = (word: string) => {
@@ -34,7 +42,10 @@ const WordsDisplay = ({
   };
 
   return (
-    <div className="px-5 py-5 bg-stone-800 border-2 border-black rounded-md relative h-[66vh] overflow-auto">
+    <div
+      ref={ref}
+      className="px-5 py-5 bg-stone-800 border-2 border-black rounded-md relative h-[66vh] overflow-auto"
+    >
       <p className="inline">&gt;&gt; GUESSES</p>
       <div className="w-full mt-1 mb-2 h-1 rounded bg-[rgb(255,185,50)]" />
       <div className="grid grid-cols-1">
@@ -63,13 +74,7 @@ const WordsDisplay = ({
       </div>
       <p className="block mt-4">&gt;&gt; OTHER</p>
       <div className="h-1 mt-1 w-full rounded bg-[rgb(255,185,50)]" />
-      <div
-        className={
-          "grid grid-cols-[repeat(auto-fit,minmax(" +
-          columnBreakpoints.get(words[0].length) +
-          ",1fr))]"
-        }
-      >
+      <div className={"grid grid-cols-[calc("}>
         {nonGuessWords.map((word, idx) => (
           <div
             key={"highlightable" + idx}
@@ -77,7 +82,7 @@ const WordsDisplay = ({
           >
             <button
               className={
-                "px-5 py-3 text-2xl m-2 min-w-[4rem] max-w-[15rem] " +
+                "px-5 py-3 text-2xl m-2 max-w-[15rem] " +
                 (selectedWord === word && possibleAnswer(word)
                   ? "bg-gray-600 "
                   : "") +
