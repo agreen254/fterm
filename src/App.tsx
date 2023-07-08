@@ -16,22 +16,42 @@ import "./styles/App.css";
 import "./styles/scanner.css";
 import "./styles/scrollbar.css";
 import ActionsHistory from "./components/ActionsHistory";
+import columnBreakpoints from "./utils/columnBreakpoints";
 
 function App() {
   const [wordList, setWordList] = useState<string[]>();
   const [selectedWord, setSelectedWord] = useState<string>();
   const [errors, setErrors] = useState<ValidationErrors>(emptyErrors);
   const [events, setEvents] = useState<string[]>([]);
+  const [numCols, setNumCols] = useState(0);
   const [guesses, setGuesses] = useState<Guess[]>([
     {
       word: "BELONGING",
       numCorrect: 1,
     },
-    // {
-    //   word: "EXPLORING",
-    //   numCorrect: 4,
-    // },
+    {
+      word: "EXPLORING",
+      numCorrect: 4,
+    },
   ]);
+
+  // lord forgive me
+  useEffect(() => {
+    const handleResize = () => {
+      const w = document.getElementById("wordDisplayContainer")?.offsetWidth;
+      const bp = wordList ? columnBreakpoints.get(wordList[0].length) : 4;
+      const bpAssert = bp || 100;
+      w ? console.log(w / bpAssert) : console.log("undefined w");
+      return w ? setNumCols(Math.floor(w / bpAssert)) : setNumCols(1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [wordList]);
 
   const makeDemo = () => {
     setWordList([
@@ -103,6 +123,7 @@ function App() {
           <button
             type="submit"
             className="px-5 py-3 w-16 font-bold box-content bg-stone-800 border-2 border-black rounded-tr rounded-br hover:bg-gray-500"
+            onClick={() => setWordList(wordList)}
           >
             ADD
           </button>
@@ -116,6 +137,7 @@ function App() {
               words={wordList}
               selectedWord={selectedWord}
               setSelectedWord={setSelectedWord}
+              numCols={numCols}
             />
           </div>
           <WordActions
