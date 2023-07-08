@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ErrorList from "./components/ErrorList";
 import WordsDisplay from "./components/WordsDisplay";
@@ -25,12 +25,12 @@ function App() {
   const [guesses, setGuesses] = useState<Guess[]>([
     {
       word: "BELONGING",
-      numCorrect: 3,
+      numCorrect: 1,
     },
-    {
-      word: "EXPLORING",
-      numCorrect: 4,
-    },
+    // {
+    //   word: "EXPLORING",
+    //   numCorrect: 4,
+    // },
   ]);
 
   const makeDemo = () => {
@@ -110,12 +110,14 @@ function App() {
         </form>
         <div className="w-[calc(66vw+15rem)] grid grid-cols-3 gap-4">
           <ActionsHistory words={wordList} events={events} />
-          <WordsDisplay
-            guesses={guesses}
-            words={wordList}
-            selectedWord={selectedWord}
-            setSelectedWord={setSelectedWord}
-          />
+          <div id="wordDisplayContainer">
+            <WordsDisplay
+              guesses={guesses}
+              words={wordList}
+              selectedWord={selectedWord}
+              setSelectedWord={setSelectedWord}
+            />
+          </div>
           <WordActions
             words={wordList}
             setWords={setWordList}
