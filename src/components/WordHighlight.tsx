@@ -5,6 +5,8 @@ interface Props {
   sameLetters: Placement[] | false;
 }
 
+//TODO: Underline characters are shown specifically to the hovered guess
+
 const WordHighlight = ({ word, sameLetters }: Props) => {
   if (!sameLetters || sameLetters.length === 0)
     return <span className="text-stone-600">{word}</span>;
@@ -19,15 +21,15 @@ const WordHighlight = ({ word, sameLetters }: Props) => {
     );
   };
 
+  const highlightClass = (char: string, idx: number) => {
+    return shouldHighlight(char, idx)
+      ? "text-2xl underline decoration-green-600"
+      : "";
+  };
+
   const chars = [...word];
   return chars.map((char, idx) => (
-    <span
-      key={"highlight" + idx}
-      className={
-        // shouldHighlight(char, idx) ? "text-2xl shadow-sm bg-[#121212]" : ""
-        shouldHighlight(char, idx) ? "text-2xl underline" : ""
-      }
-    >
+    <span key={"highlight" + idx} className={highlightClass(char, idx)}>
       {char}
     </span>
   ));

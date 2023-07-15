@@ -11,7 +11,7 @@ const ErrorList = ({ errors }: Props) => {
         <li
           key={entry[0]}
           hidden={entry[1] === ""}
-          className="font-bold bg-red-600"
+          className="bg-red-600 font-bold"
         >
           {entry[1]}
         </li>

@@ -68,11 +68,8 @@ const WordsDisplay = ({
       <div className="h-1 mt-1 w-full rounded bg-[rgb(255,185,50)]" />
       <div className={classString}>
         {nonGuessWords.map((word, idx) => (
-          // <div
-          //   key={"highlightable" + idx}
-          //   className="flex flex-row justify-center"
-          // >
           <button
+            key={"notGuess" + idx}
             className={
               "px-5 py-3 text-2xl m-2 " +
               (selectedWord === word && possibleAnswer(word)
@@ -96,7 +93,6 @@ const WordsDisplay = ({
               />
             )}
           </button>
-          // </div>
         ))}
       </div>
       <p className="absolute top-1 right-2">-- WORDS --</p>
