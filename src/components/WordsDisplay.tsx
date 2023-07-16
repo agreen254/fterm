@@ -2,7 +2,6 @@ import { useContext } from "react";
 import WordHighlight from "./WordHighlight";
 
 import findMult from "../utils/highlightChars/findMult";
-import { Guess } from "../utils/interfaces";
 
 import "../styles/words-grid.css";
 import GlobalContext from "./contexts/globalContext";
@@ -14,7 +13,7 @@ interface Props {
 }
 
 const WordsDisplay = ({ selectedWord, setSelectedWord, numCols }: Props) => {
-  const { state, dispatch } = useContext(GlobalContext);
+  const { state } = useContext(GlobalContext);
   const words = state.words;
   const guesses = state.guesses;
   if (words === undefined || words.length === 0) return null;
