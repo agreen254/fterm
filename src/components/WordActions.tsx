@@ -1,24 +1,28 @@
+import { useContext } from "react";
 import { Guess } from "../utils/interfaces";
+import WordsContext from "./contexts/wordsContext";
 
 interface Props {
-  words: string[] | undefined;
-  setWords: (words: string[]) => void;
-  selectedWord: string | undefined;
+  selectedWord: string;
   setSelectedWord: (word: string) => void;
   guesses: Guess[] | undefined;
   setGuesses: (guesses: Guess[]) => void;
 }
 
 const WordActions = ({
-  words,
-  setWords,
   selectedWord,
   setSelectedWord,
   guesses,
   setGuesses,
 }: Props) => {
+  const { words, dispatch } = useContext(WordsContext);
+
   const deleteWord = () => {
-    if (words) setWords(words.filter((word) => word !== selectedWord));
+    if (words)
+      dispatch({
+        type: "DELETEWORD",
+        wordToDelete: selectedWord,
+      });
     if (guesses)
       setGuesses(guesses.filter((guess) => guess.word !== selectedWord));
     setSelectedWord("");
@@ -43,7 +47,11 @@ const WordActions = ({
         <div className="flex justify-center">
           <button
             className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-600 hover:bg-stone-700"
-            onClick={() => setWords([])}
+            onClick={() =>
+              dispatch({
+                type: "DELETEALL",
+              })
+            }
           >
             DELETE ALL
           </button>

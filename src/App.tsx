@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 
 import ErrorList from "./components/ErrorList";
 import WordsDisplay from "./components/WordsDisplay";
@@ -8,8 +8,6 @@ import { ValidationErrors } from "./utils/interfaces";
 import emptyErrors from "./utils/emptyErrors";
 import { Guess } from "./utils/interfaces";
 import makeErrorObj from "./utils/validation/makeErrors/makeErrorObj";
-import makeUnique from "./utils/makeUnique";
-import processWordList from "./utils/processWordList";
 
 import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
@@ -17,10 +15,13 @@ import "./styles/scanner.css";
 import "./styles/scrollbar.css";
 import ActionsHistory from "./components/ActionsHistory";
 import columnBreakpoints from "./utils/columnBreakpoints";
+import wordsReducer from "./components/reducers/wordsReducer";
+import WordsContext from "./components/contexts/wordsContext";
 
 function App() {
-  const [wordList, setWordList] = useState<string[]>();
-  const [selectedWord, setSelectedWord] = useState<string>();
+  // const [words, setWordList] = useState<string[]>([]);
+  const [words, dispatch] = useReducer(wordsReducer, []);
+  const [selectedWord, setSelectedWord] = useState<string>("");
   const [errors, setErrors] = useState<ValidationErrors>(emptyErrors);
   const [events, setEvents] = useState<string[]>([]);
   const [numCols, setNumCols] = useState(0);
@@ -39,33 +40,26 @@ function App() {
   useEffect(() => {
     const handleResize = () => {
       const w = document.getElementById("wordDisplayContainer")?.offsetWidth;
-      const bp = wordList ? columnBreakpoints.get(wordList[0].length) : 4;
+      const bp = words.length > 0 ? columnBreakpoints.get(words[0].length) : 4;
       const bpAssert = bp || 100;
       w ? console.log(w / bpAssert) : console.log("undefined w");
       return w ? setNumCols(Math.floor(w / bpAssert)) : setNumCols(1);
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize();
+    if (words) handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [wordList]);
+  }, [words]);
 
   const makeDemo = () => {
-    setWordList([
-      "BELONGING",
-      "EXPLORING",
-      "SELECTING",
-      "REMINDING",
-      "SUMMONING",
-      "AMERICANS",
-      "AGREEMENT",
-      "RELEASING",
-      "TERRIFIED",
-      "ASCENSION",
-    ]);
+    dispatch({
+      type: "ADDWORD",
+      rawInput:
+        "BELONGING EXPLORING SELECTING REMINDING SUMMONING AMERICANS AGREEMENT RELEASING TERRIFIED ASCENSION",
+    });
     setSelectedWord("");
   };
 
@@ -73,7 +67,7 @@ function App() {
     e.preventDefault();
 
     const rawInput: string = e.currentTarget.words.value;
-    const clonedErrors = makeErrorObj(errors, rawInput, wordList);
+    const clonedErrors = makeErrorObj(errors, rawInput, words);
     const hasError = !!Object.values(clonedErrors).find(
       (errMessage) => errMessage !== ""
     );
@@ -82,13 +76,14 @@ function App() {
 
     setErrors(emptyErrors);
     setEvents([...events, "Added " + rawInput.split(" ").length + " words"]);
-    if (wordList) {
-      setWordList(makeUnique([...wordList, ...processWordList(rawInput)]));
-    } else setWordList(makeUnique(...[processWordList(rawInput)]));
+    dispatch({
+      type: "ADDWORD",
+      rawInput: rawInput,
+    });
   };
 
   return (
-    <>
+    <WordsContext.Provider value={{ words, dispatch }}>
       <div className="main flexrow scanner z-10 overflow-x-hidden overflow-y-hidden">
         <h1 className="my-4 text-5xl font-bold">VAULTERM</h1>
         <h2 className="absolute bottom-0 left-12 mb-8 font-bold md:text-base lg:text-xl xl:text-3xl">
@@ -123,26 +118,24 @@ function App() {
           <button
             type="submit"
             className="box-content w-16 rounded-br rounded-tr border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
-            onClick={() => setWordList(wordList)}
+            // onClick={() => setWordList(words)}
           >
             ADD
           </button>
           <ErrorList errors={errors} />
         </form>
         <div className="grid w-[calc(66vw+15rem)] grid-cols-3 gap-4">
-          <ActionsHistory words={wordList} events={events} />
+          <ActionsHistory words={words} events={events} />
           <div id="wordDisplayContainer">
             <WordsDisplay
               guesses={guesses}
-              words={wordList}
+              words={words}
               selectedWord={selectedWord}
               setSelectedWord={setSelectedWord}
               numCols={numCols}
             />
           </div>
           <WordActions
-            words={wordList}
-            setWords={setWordList}
             selectedWord={selectedWord}
             setSelectedWord={setSelectedWord}
             guesses={guesses}
@@ -156,7 +149,7 @@ function App() {
           DEMO
         </button>
       </div>
-    </>
+    </WordsContext.Provider>
   );
 }
 
