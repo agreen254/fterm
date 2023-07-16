@@ -1,35 +1,28 @@
 import { useContext } from "react";
-import { Guess } from "../utils/interfaces";
 import GlobalContext from "./contexts/globalContext";
 
 interface Props {
   selectedWord: string;
   setSelectedWord: (word: string) => void;
-  guesses: Guess[] | undefined;
-  setGuesses: (guesses: Guess[]) => void;
 }
 
-const WordActions = ({
-  selectedWord,
-  setSelectedWord,
-  guesses,
-  setGuesses,
-}: Props) => {
+const WordActions = ({ selectedWord, setSelectedWord }: Props) => {
   const { state, dispatch } = useContext(GlobalContext);
   const words = state.words;
 
-  const deleteWord = () => {
-    if (words)
-      dispatch({
-        type: "DELETEWORD",
-        wordToDelete: selectedWord,
-      });
-    if (guesses)
-      setGuesses(guesses.filter((guess) => guess.word !== selectedWord));
+  const handleDelete = () => {
+    dispatch({
+      type: "DELETEWORD",
+      wordToDelete: selectedWord,
+    });
+    dispatch({
+      type: "DELETEGUESS",
+      guessWordToDelete: selectedWord,
+    });
     setSelectedWord("");
   };
 
-  if (words === undefined || words.length === 0) return null;
+  if (words.length === 0) return null;
 
   return (
     <div className="relative hidden h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 xl:block">
@@ -40,7 +33,7 @@ const WordActions = ({
         <div className="flex justify-center">
           <button
             className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-600 hover:bg-stone-700"
-            onClick={deleteWord}
+            onClick={handleDelete}
           >
             DELETE WORD
           </button>

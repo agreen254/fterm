@@ -1,25 +1,22 @@
+import { useContext } from "react";
 import WordHighlight from "./WordHighlight";
 
 import findMult from "../utils/highlightChars/findMult";
 import { Guess } from "../utils/interfaces";
 
 import "../styles/words-grid.css";
+import GlobalContext from "./contexts/globalContext";
 
 interface Props {
-  words: string[] | undefined;
   selectedWord: string | undefined;
   setSelectedWord: (word: string) => void;
-  guesses: Guess[];
   numCols: number;
 }
 
-const WordsDisplay = ({
-  guesses,
-  words,
-  selectedWord,
-  setSelectedWord,
-  numCols,
-}: Props) => {
+const WordsDisplay = ({ selectedWord, setSelectedWord, numCols }: Props) => {
+  const { state, dispatch } = useContext(GlobalContext);
+  const words = state.words;
+  const guesses = state.guesses;
   if (words === undefined || words.length === 0) return null;
 
   const isGuess = (word: string) => {
@@ -37,9 +34,9 @@ const WordsDisplay = ({
   const classString = "grid grid-cols-" + numCols;
 
   return (
-    <div className="px-5 py-5 bg-stone-800 border-2 border-black rounded-md relative h-[66vh] overflow-auto">
+    <div className="relative h-[66vh] overflow-auto rounded-md border-2 border-black bg-stone-800 px-5 py-5">
       <p className="inline">&gt;&gt; GUESSES</p>
-      <div className="w-full mt-1 mb-2 h-1 rounded bg-[rgb(255,185,50)]" />
+      <div className="mb-2 mt-1 h-1 w-full rounded bg-[rgb(255,185,50)]" />
       <div className="grid grid-cols-1">
         {guesses &&
           guesses.map((guess, idx) => {
@@ -47,7 +44,7 @@ const WordsDisplay = ({
               <div key={"guess" + idx} className="flex flex-row justify-center">
                 <button
                   className={
-                    "px-5 py-3 text-2xl min-w-[4rem] max-w-[15rem] m-2 hover:bg-stone-600" +
+                    "m-2 min-w-[4rem] max-w-[15rem] px-5 py-3 text-2xl hover:bg-stone-600" +
                     (selectedWord === guess.word ? " bg-stone-600" : "")
                   }
                   onClick={() => {
@@ -64,14 +61,14 @@ const WordsDisplay = ({
             );
           })}
       </div>
-      <p className="block mt-4">&gt;&gt; OTHER</p>
-      <div className="h-1 mt-1 w-full rounded bg-[rgb(255,185,50)]" />
+      <p className="mt-4 block">&gt;&gt; OTHER</p>
+      <div className="mt-1 h-1 w-full rounded bg-[rgb(255,185,50)]" />
       <div className={classString}>
         {nonGuessWords.map((word, idx) => (
           <button
             key={"notGuess" + idx}
             className={
-              "px-5 py-3 text-2xl m-2 " +
+              "m-2 px-5 py-3 text-2xl " +
               (selectedWord === word && possibleAnswer(word)
                 ? "bg-stone-600 "
                 : "") +
@@ -95,7 +92,7 @@ const WordsDisplay = ({
           </button>
         ))}
       </div>
-      <p className="absolute top-1 right-2">-- WORDS --</p>
+      <p className="absolute right-2 top-1">-- WORDS --</p>
     </div>
   );
 };

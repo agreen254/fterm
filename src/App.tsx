@@ -6,7 +6,6 @@ import WordActions from "./components/WordActions";
 
 import { ValidationErrors } from "./utils/interfaces";
 import emptyErrors from "./utils/emptyErrors";
-import { Guess } from "./utils/interfaces";
 import makeErrorObj from "./utils/validation/makeErrors/makeErrorObj";
 
 import "@fontsource/ibm-plex-mono";
@@ -19,25 +18,24 @@ import globalReducer from "./components/reducers/globalReducer";
 import GlobalContext from "./components/contexts/globalContext";
 
 function App() {
-  // const [words, setWordList] = useState<string[]>([]);
   const [state, dispatch] = useReducer(globalReducer, {
     words: [],
-    guesses: [],
+    guesses: [
+      {
+        word: "BELONGING",
+        numCorrect: 1,
+      },
+      {
+        word: "EXPLORING",
+        numCorrect: 4,
+      },
+    ],
+    events: [],
   });
   const [selectedWord, setSelectedWord] = useState<string>("");
   const [errors, setErrors] = useState<ValidationErrors>(emptyErrors);
   const [events, setEvents] = useState<string[]>([]);
   const [numCols, setNumCols] = useState(0);
-  const [guesses, setGuesses] = useState<Guess[]>([
-    {
-      word: "BELONGING",
-      numCorrect: 1,
-    },
-    {
-      word: "EXPLORING",
-      numCorrect: 4,
-    },
-  ]);
 
   // enable dynamic column width
   useEffect(() => {
@@ -134,8 +132,6 @@ function App() {
           <ActionsHistory words={state.words} events={events} />
           <div id="wordDisplayContainer">
             <WordsDisplay
-              guesses={guesses}
-              words={state.words}
               selectedWord={selectedWord}
               setSelectedWord={setSelectedWord}
               numCols={numCols}
@@ -144,8 +140,6 @@ function App() {
           <WordActions
             selectedWord={selectedWord}
             setSelectedWord={setSelectedWord}
-            guesses={guesses}
-            setGuesses={setGuesses}
           />
         </div>
         <button

@@ -19,14 +19,25 @@ interface AddGuess {
 
 interface DeleteGuess {
   type: "DELETEGUESS";
-  guessToDelete: Guess;
+  guessWordToDelete: string;
 }
 
 interface DeleteAll {
   type: "DELETEALL";
 }
 
-export type Actions = AddWord | DeleteWord | AddGuess | DeleteGuess | DeleteAll;
+interface AddEvent {
+  type: "ADDEVENT";
+  eventToAdd: string;
+}
+
+export type Actions =
+  | AddWord
+  | DeleteWord
+  | AddGuess
+  | DeleteGuess
+  | DeleteAll
+  | AddEvent;
 
 function globalReducer(state: GlobalState, action: Actions): GlobalState {
   switch (action.type) {
@@ -53,7 +64,7 @@ function globalReducer(state: GlobalState, action: Actions): GlobalState {
     }
     case "DELETEGUESS": {
       const filteredGuesses = state.guesses.filter(
-        (g) => g.word !== action.guessToDelete.word
+        (g) => g.word !== action.guessWordToDelete
       );
       return {
         ...state,
@@ -62,8 +73,14 @@ function globalReducer(state: GlobalState, action: Actions): GlobalState {
     }
     case "DELETEALL":
       return {
+        ...state,
         words: [],
         guesses: [],
+      };
+    case "ADDEVENT":
+      return {
+        ...state,
+        events: [...state.events, action.eventToAdd],
       };
     default:
       return state;
