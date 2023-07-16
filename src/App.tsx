@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import ErrorList from "./components/ErrorList";
 import WordsDisplay from "./components/WordsDisplay";
@@ -15,12 +15,15 @@ import "./styles/scanner.css";
 import "./styles/scrollbar.css";
 import ActionsHistory from "./components/ActionsHistory";
 import columnBreakpoints from "./utils/columnBreakpoints";
-import wordsReducer from "./components/reducers/wordsReducer";
-import WordsContext from "./components/contexts/wordsContext";
+import globalReducer from "./components/reducers/globalReducer";
+import GlobalContext from "./components/contexts/globalContext";
 
 function App() {
   // const [words, setWordList] = useState<string[]>([]);
-  const [words, dispatch] = useReducer(wordsReducer, []);
+  const [state, dispatch] = useReducer(globalReducer, {
+    words: [],
+    guesses: [],
+  });
   const [selectedWord, setSelectedWord] = useState<string>("");
   const [errors, setErrors] = useState<ValidationErrors>(emptyErrors);
   const [events, setEvents] = useState<string[]>([]);
@@ -40,19 +43,22 @@ function App() {
   useEffect(() => {
     const handleResize = () => {
       const w = document.getElementById("wordDisplayContainer")?.offsetWidth;
-      const bp = words.length > 0 ? columnBreakpoints.get(words[0].length) : 4;
+      const bp =
+        state.words.length > 0
+          ? columnBreakpoints.get(state.words[0].length)
+          : 4;
       const bpAssert = bp || 100;
       w ? console.log(w / bpAssert) : console.log("undefined w");
       return w ? setNumCols(Math.floor(w / bpAssert)) : setNumCols(1);
     };
 
     window.addEventListener("resize", handleResize);
-    if (words) handleResize();
+    if (state) handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [words]);
+  }, [state]);
 
   const makeDemo = () => {
     dispatch({
@@ -67,7 +73,7 @@ function App() {
     e.preventDefault();
 
     const rawInput: string = e.currentTarget.words.value;
-    const clonedErrors = makeErrorObj(errors, rawInput, words);
+    const clonedErrors = makeErrorObj(errors, rawInput, state.words);
     const hasError = !!Object.values(clonedErrors).find(
       (errMessage) => errMessage !== ""
     );
@@ -83,7 +89,7 @@ function App() {
   };
 
   return (
-    <WordsContext.Provider value={{ words, dispatch }}>
+    <GlobalContext.Provider value={{ state, dispatch }}>
       <div className="main flexrow scanner z-10 overflow-x-hidden overflow-y-hidden">
         <h1 className="my-4 text-5xl font-bold">VAULTERM</h1>
         <h2 className="absolute bottom-0 left-12 mb-8 font-bold md:text-base lg:text-xl xl:text-3xl">
@@ -125,11 +131,11 @@ function App() {
           <ErrorList errors={errors} />
         </form>
         <div className="grid w-[calc(66vw+15rem)] grid-cols-3 gap-4">
-          <ActionsHistory words={words} events={events} />
+          <ActionsHistory words={state.words} events={events} />
           <div id="wordDisplayContainer">
             <WordsDisplay
               guesses={guesses}
-              words={words}
+              words={state.words}
               selectedWord={selectedWord}
               setSelectedWord={setSelectedWord}
               numCols={numCols}
@@ -149,7 +155,7 @@ function App() {
           DEMO
         </button>
       </div>
-    </WordsContext.Provider>
+    </GlobalContext.Provider>
   );
 }
 

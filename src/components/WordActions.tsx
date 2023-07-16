@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Guess } from "../utils/interfaces";
-import WordsContext from "./contexts/wordsContext";
+import GlobalContext from "./contexts/globalContext";
 
 interface Props {
   selectedWord: string;
@@ -15,7 +15,8 @@ const WordActions = ({
   guesses,
   setGuesses,
 }: Props) => {
-  const { words, dispatch } = useContext(WordsContext);
+  const { state, dispatch } = useContext(GlobalContext);
+  const words = state.words;
 
   const deleteWord = () => {
     if (words)

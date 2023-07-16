@@ -19,3 +19,8 @@ export interface ValidationErrors {
   illegalCharError: string;
   unequalLengthsError: string;
 }
+
+export interface GlobalState {
+  words: string[];
+  guesses: Guess[];
+}
