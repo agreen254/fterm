@@ -35,7 +35,7 @@ function App() {
     },
   ]);
 
-  // lord forgive me
+  // enable dynamic column width
   useEffect(() => {
     const handleResize = () => {
       const w = document.getElementById("wordDisplayContainer")?.offsetWidth;
@@ -154,16 +154,6 @@ function App() {
           onClick={makeDemo}
         >
           DEMO
-        </button>
-        <button
-          className="mb-4 w-48 rounded border px-5 py-3"
-          onClick={() => {
-            setWordList(undefined);
-            setErrors(emptyErrors);
-            setSelectedWord("");
-          }}
-        >
-          DELETE ALL
         </button>
       </div>
     </>

@@ -6,6 +6,7 @@ interface Props {
 }
 
 //TODO: Underline characters are shown specifically to the hovered guess
+//TODO: Make hovered ones underline green, selected ones underline orange
 
 const WordHighlight = ({ word, sameLetters }: Props) => {
   if (!sameLetters || sameLetters.length === 0)
