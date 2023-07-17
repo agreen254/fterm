@@ -23,5 +23,6 @@ export interface ValidationErrors {
 export interface GlobalState {
   events: string[];
   guesses: Guess[];
+  selectedEntry: string;
   words: string[];
 }

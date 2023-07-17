@@ -27,10 +27,6 @@ const WordEntryForm = () => {
       type: "ADDWORD",
       rawInput: rawInput,
     });
-    dispatch({
-      type: "ADDEVENT",
-      eventToAdd: "Added some words.",
-    });
   };
 
   return (

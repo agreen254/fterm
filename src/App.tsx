@@ -1,34 +1,25 @@
 import { useEffect, useReducer, useState } from "react";
 
-import WordsDisplay from "./components/WordsDisplay";
+import ActionsHistory from "./components/ActionsHistory";
+import GlobalContext from "./components/contexts/globalContext";
 import WordActions from "./components/WordActions";
+import WordsDisplay from "./components/WordsDisplay";
 import WordEntryForm from "./components/WordEntryForm";
+import columnBreakpoints from "./utils/columnBreakpoints";
+import globalReducer from "./components/reducers/globalReducer";
 
 import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
 import "./styles/scanner.css";
 import "./styles/scrollbar.css";
-import ActionsHistory from "./components/ActionsHistory";
-import columnBreakpoints from "./utils/columnBreakpoints";
-import globalReducer from "./components/reducers/globalReducer";
-import GlobalContext from "./components/contexts/globalContext";
 
 function App() {
   const [state, dispatch] = useReducer(globalReducer, {
-    words: [],
-    guesses: [
-      {
-        word: "BELONGING",
-        numCorrect: 1,
-      },
-      {
-        word: "EXPLORING",
-        numCorrect: 4,
-      },
-    ],
+    guesses: [],
     events: [],
+    selectedEntry: "",
+    words: [],
   });
-  const [selectedWord, setSelectedWord] = useState<string>("");
   const [numCols, setNumCols] = useState(0);
 
   // enable dynamic column width
@@ -56,9 +47,23 @@ function App() {
     dispatch({
       type: "ADDWORD",
       rawInput:
-        "BELONGING EXPLORING SELECTING REMINDING SUMMONING AMERICANS AGREEMENT RELEASING TERRIFIED ASCENSION",
+        "SELECTING REMINDING SUMMONING AMERICANS AGREEMENT RELEASING TERRIFIED ASCENSION",
     });
-    setSelectedWord("");
+    dispatch({
+      type: "ADDGUESS",
+      guessToAdd: {
+        word: "BELONGING",
+        numCorrect: 1,
+      },
+    });
+    dispatch({
+      type: "ADDGUESS",
+      guessToAdd: {
+        word: "EXPLORING",
+        numCorrect: 4,
+      },
+    });
+    dispatch({ type: "CLEARSELECTEDENTRY" });
   };
 
   return (
@@ -72,16 +77,9 @@ function App() {
         <div className="grid w-[calc(66vw+15rem)] grid-cols-3 gap-4">
           <ActionsHistory words={state.words} events={state.events} />
           <div id="wordDisplayContainer">
-            <WordsDisplay
-              selectedWord={selectedWord}
-              setSelectedWord={setSelectedWord}
-              numCols={numCols}
-            />
+            <WordsDisplay numCols={numCols} />
           </div>
-          <WordActions
-            selectedWord={selectedWord}
-            setSelectedWord={setSelectedWord}
-          />
+          <WordActions />
         </div>
         <button
           className="my-4 w-48 rounded border px-5 py-3"

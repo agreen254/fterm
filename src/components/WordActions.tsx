@@ -1,25 +1,24 @@
 import { useContext } from "react";
 import GlobalContext from "./contexts/globalContext";
 
-interface Props {
-  selectedWord: string;
-  setSelectedWord: (word: string) => void;
-}
-
-const WordActions = ({ selectedWord, setSelectedWord }: Props) => {
+const WordActions = () => {
   const { state, dispatch } = useContext(GlobalContext);
   const words = state.words;
+  const selectedEntry = state.selectedEntry;
 
   const handleDelete = () => {
-    dispatch({
-      type: "DELETEWORD",
-      wordToDelete: selectedWord,
-    });
-    dispatch({
-      type: "DELETEGUESS",
-      guessWordToDelete: selectedWord,
-    });
-    setSelectedWord("");
+    if (words.filter((w) => w === selectedEntry).length > 0) {
+      dispatch({
+        type: "DELETEWORD",
+        wordToDelete: selectedEntry,
+      });
+    } else {
+      dispatch({
+        type: "DELETEGUESS",
+        guessWordToDelete: selectedEntry,
+      });
+    }
+    dispatch({ type: "CLEARSELECTEDENTRY" });
   };
 
   if (words.length === 0) return null;
@@ -27,7 +26,7 @@ const WordActions = ({ selectedWord, setSelectedWord }: Props) => {
   return (
     <div className="relative hidden h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 xl:block">
       <p className="text-center text-lg">
-        {selectedWord ? "SELECTED WORD: " + selectedWord : "NO SELECTED WORD"}
+        {selectedEntry ? "SELECTED WORD: " + selectedEntry : "NO SELECTED WORD"}
       </p>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex justify-center">

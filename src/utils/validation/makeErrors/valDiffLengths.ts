@@ -4,9 +4,9 @@ import sameLengthWords from "../sameLengthWords";
 function valDiffLengths(
   errors: ValidationErrors,
   input: string[],
-  preExistingWords: string[] | undefined
+  preExistingWords: string[]
 ) {
-  if (!sameLengthWords([...input, ...(preExistingWords || [])])) {
+  if (!sameLengthWords([...input, ...preExistingWords])) {
     errors = {
       ...errors,
       unequalLengthsError: "ALL WORDS MUST BE THE SAME LENGTH.",

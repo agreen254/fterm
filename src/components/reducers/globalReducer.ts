@@ -22,13 +22,22 @@ interface DeleteGuess {
   guessWordToDelete: string;
 }
 
-interface DeleteAll {
-  type: "DELETEALL";
+interface RestoreGuessToWord {
+  type: "RESTOREGUESSTOWORD";
+  guessToRestore: Guess;
 }
 
-interface AddEvent {
-  type: "ADDEVENT";
-  eventToAdd: string;
+interface SelectEntry {
+  type: "SELECTENTRY";
+  entry: string;
+}
+
+interface ClearSelectedEntry {
+  type: "CLEARSELECTEDENTRY";
+}
+
+interface DeleteAll {
+  type: "DELETEALL";
 }
 
 export type Actions =
@@ -36,8 +45,10 @@ export type Actions =
   | DeleteWord
   | AddGuess
   | DeleteGuess
-  | DeleteAll
-  | AddEvent;
+  | RestoreGuessToWord
+  | SelectEntry
+  | ClearSelectedEntry
+  | DeleteAll;
 
 function globalReducer(state: GlobalState, action: Actions): GlobalState {
   switch (action.type) {
@@ -53,34 +64,75 @@ function globalReducer(state: GlobalState, action: Actions): GlobalState {
       const filteredWords = state.words.filter(
         (w) => w !== action.wordToDelete
       );
-      return { ...state, words: filteredWords };
+      const appendedEvents = [
+        ...state.events,
+        `deleted word ${action.wordToDelete}`,
+      ];
+      return { ...state, words: filteredWords, events: appendedEvents };
     }
     case "ADDGUESS": {
       const appendedGuesses = [...state.guesses, action.guessToAdd];
+      // the word should now only display in the guesses column
+      const shortenedWords = state.words.filter(
+        (w) => w !== action.guessToAdd.word
+      );
+      const appendedEvents = [
+        ...state.events,
+        `added guess ${action.guessToAdd.word}:${action.guessToAdd.numCorrect}`,
+      ];
       return {
         ...state,
+        events: appendedEvents,
         guesses: appendedGuesses,
+        words: shortenedWords,
       };
     }
     case "DELETEGUESS": {
       const filteredGuesses = state.guesses.filter(
         (g) => g.word !== action.guessWordToDelete
       );
+      const appendedEvents = [
+        ...state.events,
+        `deleted guess ${action.guessWordToDelete}`,
+      ];
       return {
         ...state,
         guesses: filteredGuesses,
+        events: appendedEvents,
       };
     }
+    case "RESTOREGUESSTOWORD": {
+      const filteredGuesses = state.guesses.filter(
+        (g) => g.word !== action.guessToRestore.word
+      );
+      const appendedWords = [...state.words, action.guessToRestore.word];
+      const appendedEvents = [
+        ...state.events,
+        `reverted guess ${action.guessToRestore.word}`,
+      ];
+      return {
+        ...state,
+        words: appendedWords,
+        guesses: filteredGuesses,
+        events: appendedEvents,
+      };
+    }
+    case "SELECTENTRY":
+      return {
+        ...state,
+        selectedEntry: action.entry,
+      };
     case "DELETEALL":
       return {
         ...state,
         words: [],
         guesses: [],
+        events: [],
       };
-    case "ADDEVENT":
+    case "CLEARSELECTEDENTRY":
       return {
         ...state,
-        events: [...state.events, action.eventToAdd],
+        selectedEntry: "",
       };
     default:
       return state;
