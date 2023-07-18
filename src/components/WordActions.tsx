@@ -24,7 +24,7 @@ const WordActions = () => {
   if (words.length === 0) return null;
 
   return (
-    <div className="relative hidden h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 xl:block">
+    <div className="relative hidden h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
       <p className="text-center text-lg">
         {selectedEntry ? "SELECTED WORD: " + selectedEntry : "NO SELECTED WORD"}
       </p>
@@ -55,7 +55,6 @@ const WordActions = () => {
           </button>
         </div>
       </div>
-      <p className="text-md absolute right-2 top-1">-- WORD ACTIONS --</p>
     </div>
   );
 };

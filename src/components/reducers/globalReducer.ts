@@ -54,10 +54,15 @@ function globalReducer(state: GlobalState, action: Actions): GlobalState {
   switch (action.type) {
     case "ADDWORD": {
       const processedInput = processWordList(action.rawInput);
-      const newWords = [...state.words, ...processedInput];
+      const newWords = makeUnique([...state.words, ...processedInput]);
+      const appendedEvents = [
+        ...state.events,
+        `added word(s) ${processedInput}`,
+      ];
       return {
         ...state,
-        words: makeUnique(newWords),
+        events: appendedEvents,
+        words: newWords,
       };
     }
     case "DELETEWORD": {

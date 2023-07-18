@@ -1,14 +1,16 @@
-interface Props {
-  events: string[];
-  words: string[] | undefined;
-}
+import { useContext } from "react";
+import GlobalContext from "./contexts/globalContext";
 
-const ActionsHistory = ({ events, words }: Props) => {
+const ActionsHistory = () => {
+  const { state } = useContext(GlobalContext);
+  const events = state.events;
+  const words = state.words;
+
   if (words === undefined || words.length === 0) return null;
 
   return (
     <div
-      className="relative h-[66vh] overflow-auto rounded border-2 border-black bg-stone-800"
+      className="relative hidden h-[66vh] overflow-auto rounded border-2 border-black bg-stone-800 lg:block"
       hidden={words ? false : true}
     >
       <ul className="pl-4 pt-2">
@@ -21,7 +23,6 @@ const ActionsHistory = ({ events, words }: Props) => {
           </li>
         ))}
       </ul>
-      <p className="absolute right-2 top-1">-- HISTORY --</p>
     </div>
   );
 };

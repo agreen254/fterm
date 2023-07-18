@@ -43,7 +43,7 @@ const WordEntryForm = () => {
       >
         CLEAR
       </button>
-      <div className="inline border-y-2 border-y-black bg-stone-800 py-[14px] pl-2">
+      <div className="inline border-y-2 border-y-black bg-stone-800 py-[0.85rem] pl-2">
         &gt;&gt;
       </div>
       <input
@@ -55,7 +55,6 @@ const WordEntryForm = () => {
       <button
         type="submit"
         className="box-content w-16 rounded-br rounded-tr border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
-        // onClick={() => setWordList(words)}
       >
         ADD
       </button>

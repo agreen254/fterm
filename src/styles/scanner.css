@@ -25,6 +25,10 @@
   }
 }
 
+/* 
+  generate the illusion of an animation delay by having it
+  continue off the screen for a little bit
+*/
 @keyframes y {
   10%,
   100% {
@@ -35,16 +39,7 @@
     z-index: 10;
   }
   to {
-    top: 110vh;
+    top: 120vh;
     z-index: 10;
   }
-  /* 33% {
-    clip-path: inset(-100px 0 0 0);
-  }
-  50% {
-    clip-path: inset(0 0 0 0);
-  }
-  83% {
-    clip-path: inset(-100px 0 0 0);
-  } */
 }

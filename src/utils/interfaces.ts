@@ -14,10 +14,12 @@ export interface Placement {
 }
 
 export interface ValidationErrors {
-  tooLongError: string;
-  tooShortError: string;
-  illegalCharError: string;
-  unequalLengthsError: string;
+  duplicateWord: string;
+  inputTooLong: string;
+  illegalCharacter: string;
+  unequalLengths: string;
+  wordTooShort: string;
+  wordTooLong: string;
 }
 
 export interface GlobalState {

@@ -4,21 +4,25 @@ import processWordList from "../../processWordList";
 
 import valDiffLengths from "./valDiffLengths";
 import valTooLong from "./valTooLong";
-import valTooShort from "./valTooShort";
+import wordTooShort from "./wordTooShort";
+import wordTooLong from "./wordTooLong";
 import valWrongChar from "./valWrongChar";
+import duplicateWords from "./duplicateWord";
 
 function makeErrorObj(
   errors: ValidationErrors,
-  input: string,
-  preExistingWords: string[] | undefined
+  rawNewWords: string,
+  oldWords: string[]
 ) {
-  const splitInput = processWordList(input);
+  const newWords = processWordList(rawNewWords);
   let clonedErrors = structuredClone(errors);
 
-  clonedErrors = valTooLong(clonedErrors, input);
-  clonedErrors = valTooShort(clonedErrors, splitInput);
-  clonedErrors = valDiffLengths(clonedErrors, splitInput, preExistingWords);
-  clonedErrors = valWrongChar(clonedErrors, splitInput);
+  clonedErrors = valTooLong(clonedErrors, rawNewWords);
+  clonedErrors = wordTooShort(clonedErrors, newWords);
+  clonedErrors = wordTooLong(clonedErrors, newWords);
+  clonedErrors = valDiffLengths(clonedErrors, newWords, oldWords);
+  clonedErrors = valWrongChar(clonedErrors, newWords);
+  clonedErrors = duplicateWords(clonedErrors, newWords, oldWords);
 
   return clonedErrors;
 }

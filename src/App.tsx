@@ -31,12 +31,11 @@ function App() {
           ? columnBreakpoints.get(state.words[0].length)
           : 4;
       const bpAssert = bp || 100;
-      w ? console.log(w / bpAssert) : console.log("undefined w");
       return w ? setNumCols(Math.floor(w / bpAssert)) : setNumCols(1);
     };
 
     window.addEventListener("resize", handleResize);
-    if (state) handleResize();
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -74,11 +73,9 @@ function App() {
           Vault-Tec Terminal Solver
         </h2>
         <WordEntryForm />
-        <div className="grid w-[calc(66vw+15rem)] grid-cols-3 gap-4">
-          <ActionsHistory words={state.words} events={state.events} />
-          <div id="wordDisplayContainer">
-            <WordsDisplay numCols={numCols} />
-          </div>
+        <div className="grid w-[calc(66vw+15rem)] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+          <ActionsHistory />
+          <WordsDisplay numCols={numCols} />
           <WordActions />
         </div>
         <button

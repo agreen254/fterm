@@ -6,14 +6,14 @@ function valWrongChar(errors: ValidationErrors, input: string[]) {
   if (letterInfractors.length > 0) {
     errors = {
       ...errors,
-      illegalCharError:
+      illegalCharacter:
         "ILLEGAL CHARACTERS DETECTED. ONLY UPPERCASE OR LOWERCASE LETTERS ARE ALLOWED. INFRACTORS: " +
         letterInfractors.join(" "),
     };
   } else {
     errors = {
       ...errors,
-      illegalCharError: "",
+      illegalCharacter: "",
     };
   }
 

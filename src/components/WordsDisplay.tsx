@@ -34,7 +34,10 @@ const WordsDisplay = ({ numCols }: Props) => {
   const classString = "grid grid-cols-" + numCols;
 
   return (
-    <div className="relative h-[66vh] overflow-auto rounded-md border-2 border-black bg-stone-800 px-5 py-5">
+    <div
+      className="relative h-[66vh] overflow-auto rounded-md border-2 border-black bg-stone-800 px-5 py-5"
+      id="wordDisplayContainer"
+    >
       <p className="inline">&gt;&gt; GUESSES</p>
       <div className="mb-2 mt-1 h-1 w-full rounded bg-[rgb(255,185,50)]" />
       <div className="grid grid-cols-1">
@@ -61,7 +64,7 @@ const WordsDisplay = ({ numCols }: Props) => {
           <button
             key={"notGuess" + idx}
             className={
-              "m-2 px-5 py-3 text-2xl " +
+              "m-2 py-3 text-2xl " +
               (selectedEntry === word && possibleAnswer(word)
                 ? "bg-stone-600 "
                 : "") +
@@ -80,7 +83,6 @@ const WordsDisplay = ({ numCols }: Props) => {
           </button>
         ))}
       </div>
-      <p className="absolute right-2 top-1">-- WORDS --</p>
     </div>
   );
 };

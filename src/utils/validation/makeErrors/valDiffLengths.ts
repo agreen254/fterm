@@ -9,12 +9,12 @@ function valDiffLengths(
   if (!sameLengthWords([...input, ...preExistingWords])) {
     errors = {
       ...errors,
-      unequalLengthsError: "ALL WORDS MUST BE THE SAME LENGTH.",
+      unequalLengths: "ALL WORDS MUST BE THE SAME LENGTH.",
     };
   } else {
     errors = {
       ...errors,
-      unequalLengthsError: "",
+      unequalLengths: "",
     };
   }
 
