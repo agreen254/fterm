@@ -1,8 +1,5 @@
-import { WordValidity } from "./interfaces";
+import { Placement } from "./interfaces";
 
-function maxPlacements(vals: WordValidity, largestGuess: string) {
-  const maxGuessIdx = vals.guesses.findIndex((g) => g === largestGuess);
-  return vals.placements[maxGuessIdx];
-}
+function maxPlacements(vals: Placement[][]) {}
 
 export default maxPlacements;

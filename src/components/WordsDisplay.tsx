@@ -87,14 +87,11 @@ const WordsDisplay = ({ numCols }: Props) => {
             className={wordClassName(word)}
             onClick={() => handleSelection(selectedEntry, word)}
           >
-            {/* <WordHighlight
+            <WordHighlight
               word={word}
-              sameLetters={maxPlacements(
-                wordValidityData(guesses, word),
-                mostCharsGuess(guesses)
-              )}
-            /> */}
-            {word}
+              sameLetters={wordValidityData(guesses, word).placements[0]}
+            />
+            {/* {word} */}
           </button>
         ))}
       </div>
