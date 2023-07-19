@@ -15,8 +15,8 @@ import "./styles/scrollbar.css";
 
 function App() {
   const [state, dispatch] = useReducer(globalReducer, {
-    guesses: [],
     events: [],
+    guesses: [],
     selectedEntry: "",
     words: [],
   });
@@ -51,14 +51,14 @@ function App() {
     dispatch({
       type: "ADDGUESS",
       guessToAdd: {
-        word: "BELONGING",
+        guess: "BELONGING",
         numCorrect: 1,
       },
     });
     dispatch({
       type: "ADDGUESS",
       guessToAdd: {
-        word: "EXPLORING",
+        guess: "EXPLORING",
         numCorrect: 4,
       },
     });

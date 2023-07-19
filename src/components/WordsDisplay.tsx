@@ -1,10 +1,13 @@
 import { useContext } from "react";
-import WordHighlight from "./WordHighlight";
 
-import findMult from "../utils/highlightChars/findMult";
+import GlobalContext from "./contexts/globalContext";
+import WordHighlight from "./WordHighlight";
+import isMember from "../utils/isMember";
+import wordValidityData from "../utils/retry/wordValidityData";
 
 import "../styles/words-grid.css";
-import GlobalContext from "./contexts/globalContext";
+import maxPlacements from "../utils/maxPlacements";
+import mostCharsGuess from "../utils/mostCharsGuess";
 
 interface Props {
   numCols: number;
@@ -15,14 +18,34 @@ const WordsDisplay = ({ numCols }: Props) => {
   const words = state.words;
   const guesses = state.guesses;
   const selectedEntry = state.selectedEntry;
-  if (words === undefined || words.length === 0) return null;
-
-  const isGuess = (word: string) => {
-    return guesses.filter((guess) => guess.word === word).length > 0;
+  const validWords = words.reduce((validWords: string[], w) => {
+    return wordValidityData(guesses, w).areValid.filter((b) => b === false)
+      .length === 0
+      ? [...validWords, w]
+      : validWords;
+  }, []);
+  const wordClassName = (word: string) => {
+    if (isMember(validWords, word)) {
+      return word === selectedEntry
+        ? "m-2 py-3 text-2xl text-[rgb(255,185,50)] hover:bg-stone-600 bg-stone-600"
+        : "m-2 py-3 text-2xl hover:bg-stone-600";
+    } else {
+      return "m-2 py-3 text-2xl text-stone-600";
+    }
   };
+  if (words.length === 0) return null;
 
-  const possibleAnswer = (word: string) => {
-    return findMult(guesses, word).length > 0;
+  const getNumCols = () => {
+    switch (numCols) {
+      case 1:
+        return "grid grid-cols-1";
+      case 2:
+        return "grid grid-cols-2";
+      case 3:
+        return "grid grid-cols-3";
+      default:
+        return "grid grid-cols-4";
+    }
   };
 
   const handleSelection = (selected: string, comparedWord: string) => {
@@ -30,8 +53,6 @@ const WordsDisplay = ({ numCols }: Props) => {
       dispatch({ type: "SELECTENTRY", entry: comparedWord });
     else dispatch({ type: "CLEARSELECTEDENTRY" });
   };
-
-  const classString = "grid grid-cols-" + numCols;
 
   return (
     <div
@@ -41,17 +62,17 @@ const WordsDisplay = ({ numCols }: Props) => {
       <p className="inline">&gt;&gt; GUESSES</p>
       <div className="mb-2 mt-1 h-1 w-full rounded bg-[rgb(255,185,50)]" />
       <div className="grid grid-cols-1">
-        {guesses.map((guess, idx) => {
+        {guesses.map(({ guess, numCorrect }, idx) => {
           return (
             <div key={"guess" + idx} className="flex flex-row justify-center">
               <button
                 className={
                   "m-2 min-w-[4rem] max-w-[15rem] px-5 py-3 text-2xl hover:bg-stone-600" +
-                  (selectedEntry === guess.word ? " bg-stone-600" : "")
+                  (selectedEntry === guess ? " bg-stone-600" : "")
                 }
-                onClick={() => handleSelection(selectedEntry, guess.word)}
+                onClick={() => handleSelection(selectedEntry, guess)}
               >
-                {guess.word + ":" + guess.numCorrect}
+                {guess + ":" + numCorrect}
               </button>
             </div>
           );
@@ -59,27 +80,21 @@ const WordsDisplay = ({ numCols }: Props) => {
       </div>
       <p className="mt-4 block">&gt;&gt; OTHER</p>
       <div className="mt-1 h-1 w-full rounded bg-[rgb(255,185,50)]" />
-      <div className={classString}>
+      <div className={getNumCols()}>
         {words.map((word, idx) => (
           <button
-            key={"notGuess" + idx}
-            className={
-              "m-2 py-3 text-2xl " +
-              (selectedEntry === word && possibleAnswer(word)
-                ? "bg-stone-600 "
-                : "") +
-              (possibleAnswer(word) ? "hover:bg-stone-600" : "")
-            }
+            key={"word" + idx}
+            className={wordClassName(word)}
             onClick={() => handleSelection(selectedEntry, word)}
           >
-            {isGuess(word) ? (
-              word
-            ) : (
-              <WordHighlight
-                word={word}
-                sameLetters={findMult(guesses, word)}
-              />
-            )}
+            {/* <WordHighlight
+              word={word}
+              sameLetters={maxPlacements(
+                wordValidityData(guesses, word),
+                mostCharsGuess(guesses)
+              )}
+            /> */}
+            {word}
           </button>
         ))}
       </div>

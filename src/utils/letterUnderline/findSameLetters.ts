@@ -1,8 +1,8 @@
 import { Placement } from "../interfaces";
 import { Guess } from "../interfaces";
 
-function findSameLetters({ word: guess, numCorrect }: Guess, other: string) {
-  if (guess.length !== other.length) return false;
+function findSameLetters({ guess, numCorrect }: Guess, other: string) {
+  if (guess.length !== other.length) return [];
 
   const guessChars = [...guess];
   const otherChars = [...other];
@@ -31,7 +31,7 @@ function findSameLetters({ word: guess, numCorrect }: Guess, other: string) {
     numCorrect
   )
     return locationData;
-  else return false;
+  else return [];
 }
 
 export default findSameLetters;

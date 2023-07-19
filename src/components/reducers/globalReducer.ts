@@ -79,11 +79,11 @@ function globalReducer(state: GlobalState, action: Actions): GlobalState {
       const appendedGuesses = [...state.guesses, action.guessToAdd];
       // the word should now only display in the guesses column
       const shortenedWords = state.words.filter(
-        (w) => w !== action.guessToAdd.word
+        (w) => w !== action.guessToAdd.guess
       );
       const appendedEvents = [
         ...state.events,
-        `added guess ${action.guessToAdd.word}:${action.guessToAdd.numCorrect}`,
+        `added guess ${action.guessToAdd.guess}:${action.guessToAdd.numCorrect}`,
       ];
       return {
         ...state,
@@ -94,7 +94,7 @@ function globalReducer(state: GlobalState, action: Actions): GlobalState {
     }
     case "DELETEGUESS": {
       const filteredGuesses = state.guesses.filter(
-        (g) => g.word !== action.guessWordToDelete
+        (g) => g.guess !== action.guessWordToDelete
       );
       const appendedEvents = [
         ...state.events,
@@ -108,12 +108,12 @@ function globalReducer(state: GlobalState, action: Actions): GlobalState {
     }
     case "RESTOREGUESSTOWORD": {
       const filteredGuesses = state.guesses.filter(
-        (g) => g.word !== action.guessToRestore.word
+        (g) => g.guess !== action.guessToRestore.guess
       );
-      const appendedWords = [...state.words, action.guessToRestore.word];
+      const appendedWords = [...state.words, action.guessToRestore.guess];
       const appendedEvents = [
         ...state.events,
-        `reverted guess ${action.guessToRestore.word}`,
+        `reverted guess ${action.guessToRestore.guess}`,
       ];
       return {
         ...state,

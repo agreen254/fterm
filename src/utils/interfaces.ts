@@ -1,5 +1,5 @@
 export interface Guess {
-  word: string;
+  guess: string;
   numCorrect: number;
 }
 
@@ -27,4 +27,10 @@ export interface GlobalState {
   guesses: Guess[];
   selectedEntry: string;
   words: string[];
+}
+
+export interface WordValidity {
+  guesses: string[];
+  placements: Placement[][];
+  areValid: boolean[];
 }
