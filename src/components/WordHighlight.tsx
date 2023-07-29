@@ -1,15 +1,17 @@
 import { Placement } from "../utils/interfaces";
+import isMember from "../utils/isMember";
 
 interface Props {
+  sameLetters: Placement[];
+  validWords: string[];
   word: string;
-  sameLetters: Placement[] | false;
 }
 
 //TODO: Underline characters are shown specifically to the hovered guess
 //TODO: Make hovered ones underline green, selected ones underline orange
 
-const WordHighlight = ({ word, sameLetters }: Props) => {
-  if (!sameLetters || sameLetters.length === 0)
+const WordHighlight = ({ sameLetters, word, validWords }: Props) => {
+  if (!isMember(validWords, word))
     return <span className="text-stone-600">{word}</span>;
 
   const shouldHighlight = (char: string, idx: number) => {

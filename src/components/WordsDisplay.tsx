@@ -88,8 +88,9 @@ const WordsDisplay = ({ numCols }: Props) => {
             onClick={() => handleSelection(selectedEntry, word)}
           >
             <WordHighlight
-              word={word}
               sameLetters={wordValidityData(guesses, word).placements[0]}
+              validWords={validWords}
+              word={word}
             />
             {/* {word} */}
           </button>
