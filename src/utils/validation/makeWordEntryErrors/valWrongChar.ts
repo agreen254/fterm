@@ -1,4 +1,4 @@
-import arrayElesOnlyLetters from "../arrayElesOnlyLetters";
+import arrayElesOnlyLetters from "../checkWordEntryErrors/arrayElesOnlyLetters";
 import { ValidationErrors } from "../../interfaces";
 
 function valWrongChar(errors: ValidationErrors, input: string[]) {

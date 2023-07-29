@@ -1,5 +1,5 @@
 import { ValidationErrors } from "../../interfaces";
-import sameLengthWords from "../sameLengthWords";
+import sameLengthWords from "../checkWordEntryErrors/sameLengthWords";
 
 function valDiffLengths(
   errors: ValidationErrors,

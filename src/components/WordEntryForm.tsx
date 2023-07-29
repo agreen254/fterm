@@ -2,7 +2,7 @@ import React from "react";
 import { useContext, useState } from "react";
 
 import emptyErrors from "../utils/emptyErrors";
-import makeErrorObj from "../utils/validation/makeErrors/makeErrorObj";
+import makeErrorObj from "../utils/validation/makeWordEntryErrors/makeErrorObj";
 import ErrorList from "./ErrorList";
 import GlobalContext from "./contexts/globalContext";
 import { ValidationErrors } from "../utils/interfaces";

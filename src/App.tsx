@@ -30,7 +30,7 @@ function App() {
         state.words.length > 0
           ? columnBreakpoints.get(state.words[0].length)
           : 4;
-      const bpAssert = bp || 100;
+      const bpAssert = bp || 100000;
       return w ? setNumCols(Math.floor(w / bpAssert)) : setNumCols(1);
     };
 
@@ -52,7 +52,7 @@ function App() {
       type: "ADDGUESS",
       guessToAdd: {
         guess: "BELONGING",
-        numCorrect: 1,
+        numCorrect: 3,
       },
     });
     dispatch({

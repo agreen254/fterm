@@ -1,6 +1,6 @@
 import { ValidationErrors } from "../../interfaces";
 
-import findLong from "../findLong";
+import findLong from "../checkWordEntryErrors/findLong";
 
 function wordTooLong(errors: ValidationErrors, input: string[]) {
   const longWords = findLong(input, 15);

@@ -1,6 +1,6 @@
 import { ValidationErrors } from "../../interfaces";
 
-import findShort from "../findShort";
+import findShort from "../checkWordEntryErrors/findShort";
 
 function wordTooShort(errors: ValidationErrors, input: string[]) {
   const shorties = findShort(input, 4);

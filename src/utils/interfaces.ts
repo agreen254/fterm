@@ -8,7 +8,7 @@ export interface Guess {
 // and will throw an error if a custom interface
 // bears its name
 // https://stackoverflow.com/questions/54254763/missing-the-following-properties-from-type-location-location-ancestororigins
-export interface Placement {
+export interface CharLocations {
   character: string;
   indices: number[];
 }
@@ -31,6 +31,6 @@ export interface GlobalState {
 
 export interface WordValidity {
   guesses: string[];
-  placements: Placement[][];
+  allCharLocations: CharLocations[][];
   areValid: boolean[];
 }

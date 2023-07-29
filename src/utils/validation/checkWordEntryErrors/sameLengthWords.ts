@@ -1,4 +1,4 @@
-import makeUnique from "../makeUnique";
+import makeUnique from "../../makeUnique";
 
 function sameLengthWords(words: string[]) {
   if (words.length === 0) return true;

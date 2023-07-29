@@ -1,25 +1,28 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import GlobalContext from "./contexts/globalContext";
 import WordHighlight from "./WordHighlight";
+import fitsAllGuesses from "../utils/validation/wordSolutionFinder/fitsAllGuesses";
+import getColsClassName from "../utils/gridColsClassName";
 import isMember from "../utils/isMember";
-import wordValidityData from "../utils/retry/wordValidityData";
 
 import "../styles/words-grid.css";
-import maxPlacements from "../utils/maxPlacements";
-import mostCharsGuess from "../utils/mostCharsGuess";
 
 interface Props {
   numCols: number;
 }
 
 const WordsDisplay = ({ numCols }: Props) => {
-  const { state, dispatch } = useContext(GlobalContext);
-  const words = state.words;
-  const guesses = state.guesses;
-  const selectedEntry = state.selectedEntry;
+  const {
+    state: { words, guesses, selectedEntry },
+    dispatch,
+  } = useContext(GlobalContext);
+  const [mousedOverGuess, setMousedOverGuess] = useState("");
+
+  if (words.length === 0) return null;
+
   const validWords = words.reduce((validWords: string[], w) => {
-    return wordValidityData(guesses, w).areValid.filter((b) => b === false)
+    return fitsAllGuesses(guesses, w).areValid.filter((b) => b === false)
       .length === 0
       ? [...validWords, w]
       : validWords;
@@ -33,20 +36,8 @@ const WordsDisplay = ({ numCols }: Props) => {
       return "m-2 py-3 text-2xl text-stone-600";
     }
   };
-  if (words.length === 0) return null;
 
-  const getNumCols = () => {
-    switch (numCols) {
-      case 1:
-        return "grid grid-cols-1";
-      case 2:
-        return "grid grid-cols-2";
-      case 3:
-        return "grid grid-cols-3";
-      default:
-        return "grid grid-cols-4";
-    }
-  };
+  const colsClassName = getColsClassName(numCols);
 
   const handleSelection = (selected: string, comparedWord: string) => {
     if (selected !== comparedWord)
@@ -71,6 +62,11 @@ const WordsDisplay = ({ numCols }: Props) => {
                   (selectedEntry === guess ? " bg-stone-600" : "")
                 }
                 onClick={() => handleSelection(selectedEntry, guess)}
+                onMouseEnter={() => setMousedOverGuess(guess)}
+                onMouseLeave={() => {
+                  setMousedOverGuess("");
+                  console.log("moused over guess: ", mousedOverGuess);
+                }}
               >
                 {guess + ":" + numCorrect}
               </button>
@@ -80,7 +76,7 @@ const WordsDisplay = ({ numCols }: Props) => {
       </div>
       <p className="mt-4 block">&gt;&gt; OTHER</p>
       <div className="mt-1 h-1 w-full rounded bg-[rgb(255,185,50)]" />
-      <div className={getNumCols()}>
+      <div className={colsClassName}>
         {words.map((word, idx) => (
           <button
             key={"word" + idx}
@@ -88,11 +84,10 @@ const WordsDisplay = ({ numCols }: Props) => {
             onClick={() => handleSelection(selectedEntry, word)}
           >
             <WordHighlight
-              sameLetters={wordValidityData(guesses, word).placements[0]}
-              validWords={validWords}
-              word={word}
+              mousedOver={mousedOverGuess}
+              matchData={fitsAllGuesses(guesses, word)}
+              wordToRender={word}
             />
-            {/* {word} */}
           </button>
         ))}
       </div>
