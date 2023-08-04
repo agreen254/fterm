@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import GlobalContext from "./contexts/globalContext";
+import WordContext from "./contexts/wordContext";
 import WordHighlight from "./WordHighlight";
 import fitsAllGuesses from "../utils/validation/wordSolutionFinder/fitsAllGuesses";
 import getColsClassName from "../utils/gridColsClassName";
@@ -16,7 +16,7 @@ const WordsDisplay = ({ numCols }: Props) => {
   const {
     state: { words, guesses, selectedEntry },
     dispatch,
-  } = useContext(GlobalContext);
+  } = useContext(WordContext);
   const [mousedOverGuess, setMousedOverGuess] = useState("");
 
   if (words.length === 0) return null;

@@ -4,7 +4,7 @@ import { WordValidity } from "../utils/interfaces";
 import { CharLocations } from "../utils/interfaces";
 import isMember from "../utils/isMember";
 import maxCharMatches from "../utils/maxCharMatches";
-import GlobalContext from "./contexts/globalContext";
+import WordContext from "./contexts/wordContext";
 
 interface Props {
   mousedOver: string;
@@ -18,7 +18,7 @@ interface Props {
 const WordHighlight = ({ mousedOver, matchData, wordToRender }: Props) => {
   const {
     state: { guesses },
-  } = useContext(GlobalContext);
+  } = useContext(WordContext);
   const highestMatches = () => {
     const maxIdx = maxCharMatches(matchData.allCharLocations);
     return matchData.allCharLocations[maxIdx];
@@ -57,7 +57,12 @@ const WordHighlight = ({ mousedOver, matchData, wordToRender }: Props) => {
 
   const chars = [...wordToRender];
   return chars.map((char, idx) => (
-    <span key={"highlight" + idx} className={highlightClass(char, idx)}>
+    <span
+      key={"highlight" + idx}
+      className={
+        shouldHighlight(highestMatches(), char, idx) ? "text-2xl underline" : ""
+      }
+    >
       {char}
     </span>
   ));

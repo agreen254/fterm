@@ -1,12 +1,12 @@
 import { useEffect, useReducer, useState } from "react";
 
 import ActionsHistory from "./components/ActionsHistory";
-import GlobalContext from "./components/contexts/globalContext";
+import WordContext from "./components/contexts/wordContext";
 import WordActions from "./components/WordActions";
 import WordsDisplay from "./components/WordsDisplay";
 import WordEntryForm from "./components/WordEntryForm";
 import columnBreakpoints from "./utils/columnBreakpoints";
-import globalReducer from "./components/reducers/globalReducer";
+import wordReducer from "./components/reducers/wordReducer";
 
 import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
@@ -14,7 +14,7 @@ import "./styles/scanner.css";
 import "./styles/scrollbar.css";
 
 function App() {
-  const [state, dispatch] = useReducer(globalReducer, {
+  const [state, dispatch] = useReducer(wordReducer, {
     events: [],
     guesses: [],
     selectedEntry: "",
@@ -66,7 +66,7 @@ function App() {
   };
 
   return (
-    <GlobalContext.Provider value={{ state, dispatch }}>
+    <WordContext.Provider value={{ state, dispatch }}>
       <div className="main flexrow scanner z-10 overflow-x-hidden overflow-y-hidden">
         <h1 className="my-4 text-5xl font-bold">VAULTERM</h1>
         <h2 className="absolute bottom-0 left-12 mb-8 font-bold md:text-base lg:text-xl xl:text-3xl">
@@ -85,7 +85,7 @@ function App() {
           DEMO
         </button>
       </div>
-    </GlobalContext.Provider>
+    </WordContext.Provider>
   );
 }
 

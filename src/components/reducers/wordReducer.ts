@@ -50,7 +50,7 @@ export type Actions =
   | ClearSelectedEntry
   | DeleteAll;
 
-function globalReducer(state: GlobalState, action: Actions): GlobalState {
+function wordReducer(state: GlobalState, action: Actions): GlobalState {
   switch (action.type) {
     case "ADDWORD": {
       const processedInput = processWordList(action.rawInput);
@@ -144,4 +144,4 @@ function globalReducer(state: GlobalState, action: Actions): GlobalState {
   }
 }
 
-export default globalReducer;
+export default wordReducer;

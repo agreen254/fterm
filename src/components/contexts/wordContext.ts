@@ -1,5 +1,5 @@
 import React from "react";
-import { Actions } from "../reducers/globalReducer";
+import { Actions } from "../reducers/wordReducer";
 import { GlobalState } from "../../utils/interfaces";
 
 interface globalContextType {
@@ -7,8 +7,8 @@ interface globalContextType {
   dispatch: React.Dispatch<Actions>;
 }
 
-const GlobalContext = React.createContext<globalContextType>(
+const WordContext = React.createContext<globalContextType>(
   {} as globalContextType
 );
 
-export default GlobalContext;
+export default WordContext;

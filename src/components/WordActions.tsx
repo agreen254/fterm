@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import GlobalContext from "./contexts/globalContext";
+import WordContext from "./contexts/wordContext";
 
 const WordActions = () => {
-  const { state, dispatch } = useContext(GlobalContext);
+  const { state, dispatch } = useContext(WordContext);
   const words = state.words;
   const selectedEntry = state.selectedEntry;
 

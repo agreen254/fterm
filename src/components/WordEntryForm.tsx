@@ -4,11 +4,11 @@ import { useContext, useState } from "react";
 import emptyErrors from "../utils/emptyErrors";
 import makeErrorObj from "../utils/validation/makeWordEntryErrors/makeErrorObj";
 import ErrorList from "./ErrorList";
-import GlobalContext from "./contexts/globalContext";
+import WordContext from "./contexts/wordContext";
 import { ValidationErrors } from "../utils/interfaces";
 
 const WordEntryForm = () => {
-  const { state, dispatch } = useContext(GlobalContext);
+  const { state, dispatch } = useContext(WordContext);
   const [errors, setErrors] = useState<ValidationErrors>(emptyErrors);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

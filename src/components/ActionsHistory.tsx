@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import GlobalContext from "./contexts/globalContext";
+import WordContext from "./contexts/wordContext";
 
 const ActionsHistory = () => {
-  const { state } = useContext(GlobalContext);
+  const { state } = useContext(WordContext);
   const events = state.events;
   const words = state.words;
 
