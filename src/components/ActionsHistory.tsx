@@ -15,11 +15,18 @@ const ActionsHistory = () => {
     >
       <ul className="px-4">
         {events.map((event) => (
-          <li key={event}>
+          <li key={event.description}>
             <div className="grid grid-cols-[auto,8rem] gap-4 pt-2">
-              <p className="break-words">{event}</p>
+              <div>
+                <p>{`>> ` + event.name}</p>
+                <div className="grid grid-cols-[1.75rem,auto]">
+                  <p>{`>>`}</p>
+                  <p>{event.description}</p>
+                </div>
+              </div>
               <button>RESTORE</button>
             </div>
+            <div className="mt-1 h-1 w-full bg-[rgb(255,185,50)]" />
           </li>
         ))}
       </ul>

@@ -1,10 +1,7 @@
-import { useContext } from "react";
 import { WordValidity } from "../utils/interfaces";
 
 import { CharLocations } from "../utils/interfaces";
-import isMember from "../utils/isMember";
 import maxCharMatches from "../utils/maxCharMatches";
-import WordContext from "./contexts/wordContext";
 
 interface Props {
   mousedOver: string;
@@ -16,9 +13,6 @@ interface Props {
 //TODO: Make hovered ones underline green, selected ones underline orange
 
 const WordHighlight = ({ mousedOver, matchData, wordToRender }: Props) => {
-  const {
-    state: { guesses },
-  } = useContext(WordContext);
   const highestMatches = () => {
     const maxIdx = maxCharMatches(matchData.allCharLocations);
     return matchData.allCharLocations[maxIdx];
@@ -37,14 +31,6 @@ const WordHighlight = ({ mousedOver, matchData, wordToRender }: Props) => {
     return (
       containsLetter &&
       containsLetter.indices.filter((index) => index === idx).length === 1
-    );
-  };
-
-  const shouldActuallyHighlight = (char: string, idx: number) => {
-    return (
-      matchData.allCharLocations
-        .map((loc) => shouldHighlight(loc, char, idx))
-        .filter((b) => b === false).length !== 0
     );
   };
 

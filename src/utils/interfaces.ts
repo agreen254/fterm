@@ -27,11 +27,16 @@ export interface ValidationErrors {
   wordTooLong: string;
 }
 
-export interface GlobalState {
-  events: string[];
+export interface WordsState {
+  events: Event[];
   guesses: Guess[];
   selectedEntry: string;
   words: string[];
+}
+
+export interface WordsContextState {
+  prevStates: WordsState[];
+  currentState: WordsState;
 }
 
 export interface WordValidity {

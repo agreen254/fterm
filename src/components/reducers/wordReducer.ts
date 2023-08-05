@@ -1,4 +1,4 @@
-import { Event, GlobalState, Guess } from "../../utils/interfaces";
+import { WordsState, Guess } from "../../utils/interfaces";
 import makeUnique from "../../utils/makeUnique";
 import processWordList from "../../utils/processWordList";
 
@@ -50,16 +50,17 @@ export type Actions =
   | ClearSelectedEntry
   | DeleteAll;
 
-function wordReducer(state: GlobalState, action: Actions): GlobalState {
+function wordReducer(state: WordsState, action: Actions): WordsState {
   switch (action.type) {
     case "ADDWORD": {
       const processedInput = processWordList(action.rawInput);
       const newWords = makeUnique([...state.words, ...processedInput]);
       const appendedEvents = [
         ...state.events,
-        `>> added ${
-          newWords.length > 1 ? "words" : "word"
-        } ${processedInput.join(" ")}`,
+        {
+          name: `ADDED ${newWords.length > 1 ? "WORDS" : "WORD"}`,
+          description: `${processedInput.join(" ")}`,
+        },
       ];
       return {
         ...state,
@@ -73,7 +74,7 @@ function wordReducer(state: GlobalState, action: Actions): GlobalState {
       );
       const appendedEvents = [
         ...state.events,
-        `>> deleted word ${action.wordToDelete}`,
+        { name: `DELETED WORD`, description: `${action.wordToDelete}` },
       ];
       return { ...state, words: filteredWords, events: appendedEvents };
     }
@@ -85,7 +86,10 @@ function wordReducer(state: GlobalState, action: Actions): GlobalState {
       );
       const appendedEvents = [
         ...state.events,
-        `>> added guess ${action.guessToAdd.guess}:${action.guessToAdd.numCorrect}`,
+        {
+          name: `ADDED GUESS`,
+          description: `${action.guessToAdd.guess}:${action.guessToAdd.numCorrect}`,
+        },
       ];
       return {
         ...state,
@@ -100,7 +104,10 @@ function wordReducer(state: GlobalState, action: Actions): GlobalState {
       );
       const appendedEvents = [
         ...state.events,
-        `>> deleted guess ${action.guessWordToDelete}`,
+        {
+          name: `DELETED GUESS`,
+          description: `${action.guessWordToDelete}`,
+        },
       ];
       return {
         ...state,
@@ -115,7 +122,10 @@ function wordReducer(state: GlobalState, action: Actions): GlobalState {
       const appendedWords = [...state.words, action.guessToRestore.guess];
       const appendedEvents = [
         ...state.events,
-        `>> reverted guess ${action.guessToRestore.guess}`,
+        {
+          name: `REVERTED GUESS`,
+          description: `${action.guessToRestore.guess}`,
+        },
       ];
       return {
         ...state,

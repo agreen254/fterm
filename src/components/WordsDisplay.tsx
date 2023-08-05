@@ -51,7 +51,7 @@ const WordsDisplay = ({ numCols }: Props) => {
       id="wordDisplayContainer"
     >
       <p className="inline">&gt;&gt; GUESSES</p>
-      <div className="mb-2 mt-1 h-1 w-full rounded bg-[rgb(255,185,50)]" />
+      <div className="mb-2 mt-1 h-1 w-full bg-[rgb(255,185,50)]" />
       <div className="grid grid-cols-1">
         {guesses.map(({ guess, numCorrect }, idx) => {
           return (
@@ -75,7 +75,7 @@ const WordsDisplay = ({ numCols }: Props) => {
         })}
       </div>
       <p className="mt-4 block">&gt;&gt; OTHER</p>
-      <div className="mt-1 h-1 w-full rounded bg-[rgb(255,185,50)]" />
+      <div className="mt-1 h-1 w-full bg-[rgb(255,185,50)]" />
       <div className={colsClassName}>
         {words.map((word, idx) => (
           <button

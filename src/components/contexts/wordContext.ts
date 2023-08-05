@@ -1,9 +1,9 @@
 import React from "react";
 import { Actions } from "../reducers/wordReducer";
-import { GlobalState } from "../../utils/interfaces";
+import { WordsState } from "../../utils/interfaces";
 
 interface globalContextType {
-  state: GlobalState;
+  state: WordsState;
   dispatch: React.Dispatch<Actions>;
 }
 
