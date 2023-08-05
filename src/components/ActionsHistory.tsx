@@ -13,11 +13,11 @@ const ActionsHistory = () => {
       className="relative hidden h-[66vh] overflow-auto rounded border-2 border-black bg-stone-800 lg:block"
       hidden={words ? false : true}
     >
-      <ul className="pl-4 pt-2">
+      <ul className="px-4">
         {events.map((event) => (
           <li key={event}>
-            <div className="flex flex-row justify-evenly">
-              <p>{event}</p>
+            <div className="grid grid-cols-[auto,8rem] gap-4 pt-2">
+              <p className="break-words">{event}</p>
               <button>RESTORE</button>
             </div>
           </li>

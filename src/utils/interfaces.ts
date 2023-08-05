@@ -13,6 +13,11 @@ export interface CharLocations {
   indices: number[];
 }
 
+export interface Event {
+  name: string;
+  description: string;
+}
+
 export interface ValidationErrors {
   duplicateWord: string;
   inputTooLong: string;

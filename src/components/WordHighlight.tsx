@@ -49,20 +49,21 @@ const WordHighlight = ({ mousedOver, matchData, wordToRender }: Props) => {
   };
 
   const highlightClass = (char: string, idx: number) => {
-    return shouldActuallyHighlight(char, idx)
-      ? // ? "text-2xl underline decoration-green-600"
-        "text-2xl underline"
-      : "";
+    if (shouldHighlight(highestMatches(), char, idx)) {
+      const guessIdx = matchData.guesses.findIndex((g) => g === mousedOver);
+      if (mousedOver === "") {
+        return "text-2xl underline";
+      } else if (
+        shouldHighlight(matchData.allCharLocations[guessIdx], char, idx)
+      ) {
+        return "text-2xl underline decoration-green-600";
+      }
+    } else return "";
   };
 
   const chars = [...wordToRender];
   return chars.map((char, idx) => (
-    <span
-      key={"highlight" + idx}
-      className={
-        shouldHighlight(highestMatches(), char, idx) ? "text-2xl underline" : ""
-      }
-    >
+    <span key={"highlight" + idx} className={highlightClass(char, idx)}>
       {char}
     </span>
   ));

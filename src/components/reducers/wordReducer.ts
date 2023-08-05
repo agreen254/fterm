@@ -1,6 +1,6 @@
+import { Event, GlobalState, Guess } from "../../utils/interfaces";
 import makeUnique from "../../utils/makeUnique";
 import processWordList from "../../utils/processWordList";
-import { GlobalState, Guess } from "../../utils/interfaces";
 
 interface AddWord {
   type: "ADDWORD";
@@ -57,7 +57,9 @@ function wordReducer(state: GlobalState, action: Actions): GlobalState {
       const newWords = makeUnique([...state.words, ...processedInput]);
       const appendedEvents = [
         ...state.events,
-        `added word(s) ${processedInput}`,
+        `>> added ${
+          newWords.length > 1 ? "words" : "word"
+        } ${processedInput.join(" ")}`,
       ];
       return {
         ...state,
@@ -71,7 +73,7 @@ function wordReducer(state: GlobalState, action: Actions): GlobalState {
       );
       const appendedEvents = [
         ...state.events,
-        `deleted word ${action.wordToDelete}`,
+        `>> deleted word ${action.wordToDelete}`,
       ];
       return { ...state, words: filteredWords, events: appendedEvents };
     }
@@ -83,7 +85,7 @@ function wordReducer(state: GlobalState, action: Actions): GlobalState {
       );
       const appendedEvents = [
         ...state.events,
-        `added guess ${action.guessToAdd.guess}:${action.guessToAdd.numCorrect}`,
+        `>> added guess ${action.guessToAdd.guess}:${action.guessToAdd.numCorrect}`,
       ];
       return {
         ...state,
@@ -98,7 +100,7 @@ function wordReducer(state: GlobalState, action: Actions): GlobalState {
       );
       const appendedEvents = [
         ...state.events,
-        `deleted guess ${action.guessWordToDelete}`,
+        `>> deleted guess ${action.guessWordToDelete}`,
       ];
       return {
         ...state,
@@ -113,7 +115,7 @@ function wordReducer(state: GlobalState, action: Actions): GlobalState {
       const appendedWords = [...state.words, action.guessToRestore.guess];
       const appendedEvents = [
         ...state.events,
-        `reverted guess ${action.guessToRestore.guess}`,
+        `>> reverted guess ${action.guessToRestore.guess}`,
       ];
       return {
         ...state,
