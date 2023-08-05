@@ -1,10 +1,13 @@
 import { useContext } from "react";
-import WordContext from "./contexts/wordContext";
+import WordHistoryContext from "./contexts/wordHistoryContext";
 
 const WordActions = () => {
-  const { state, dispatch } = useContext(WordContext);
-  const words = state.words;
-  const selectedEntry = state.selectedEntry;
+  const {
+    state: {
+      current: { words, selectedEntry },
+    },
+    dispatch,
+  } = useContext(WordHistoryContext);
 
   const handleDelete = () => {
     if (words.filter((w) => w === selectedEntry).length > 0) {

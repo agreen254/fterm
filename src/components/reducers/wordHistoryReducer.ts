@@ -1,4 +1,4 @@
-import { WordsState, Guess } from "../../utils/interfaces";
+import { WordsHistoryState, Guess } from "../../utils/interfaces";
 import makeUnique from "../../utils/makeUnique";
 import processWordList from "../../utils/processWordList";
 
@@ -40,6 +40,10 @@ interface DeleteAll {
   type: "DELETEALL";
 }
 
+interface Undo {
+  type: "UNDO";
+}
+
 export type Actions =
   | AddWord
   | DeleteWord
@@ -48,15 +52,19 @@ export type Actions =
   | RestoreGuessToWord
   | SelectEntry
   | ClearSelectedEntry
-  | DeleteAll;
+  | DeleteAll
+  | Undo;
 
-function wordReducer(state: WordsState, action: Actions): WordsState {
+function wordHistoryReducer(
+  state: WordsHistoryState,
+  action: Actions
+): WordsHistoryState {
   switch (action.type) {
     case "ADDWORD": {
       const processedInput = processWordList(action.rawInput);
-      const newWords = makeUnique([...state.words, ...processedInput]);
+      const newWords = makeUnique([...state.current.words, ...processedInput]);
       const appendedEvents = [
-        ...state.events,
+        ...state.current.events,
         {
           name: `ADDED ${newWords.length > 1 ? "WORDS" : "WORD"}`,
           description: `${processedInput.join(" ")}`,
@@ -64,28 +72,40 @@ function wordReducer(state: WordsState, action: Actions): WordsState {
       ];
       return {
         ...state,
-        events: appendedEvents,
-        words: newWords,
+        prevs: [...state.prevs, state.current],
+        current: {
+          ...state.current,
+          events: appendedEvents,
+          words: newWords,
+        },
       };
     }
     case "DELETEWORD": {
-      const filteredWords = state.words.filter(
+      const filteredWords = state.current.words.filter(
         (w) => w !== action.wordToDelete
       );
       const appendedEvents = [
-        ...state.events,
+        ...state.current.events,
         { name: `DELETED WORD`, description: `${action.wordToDelete}` },
       ];
-      return { ...state, words: filteredWords, events: appendedEvents };
+      return {
+        ...state,
+        prevs: [...state.prevs, state.current],
+        current: {
+          ...state.current,
+          words: filteredWords,
+          events: appendedEvents,
+        },
+      };
     }
     case "ADDGUESS": {
-      const appendedGuesses = [...state.guesses, action.guessToAdd];
+      const appendedGuesses = [...state.current.guesses, action.guessToAdd];
       // the word should now only display in the guesses column
-      const shortenedWords = state.words.filter(
+      const shortenedWords = state.current.words.filter(
         (w) => w !== action.guessToAdd.guess
       );
       const appendedEvents = [
-        ...state.events,
+        ...state.current.events,
         {
           name: `ADDED GUESS`,
           description: `${action.guessToAdd.guess}:${action.guessToAdd.numCorrect}`,
@@ -93,17 +113,21 @@ function wordReducer(state: WordsState, action: Actions): WordsState {
       ];
       return {
         ...state,
-        events: appendedEvents,
-        guesses: appendedGuesses,
-        words: shortenedWords,
+        prevs: [...state.prevs, state.current],
+        current: {
+          ...state.current,
+          events: appendedEvents,
+          guesses: appendedGuesses,
+          words: shortenedWords,
+        },
       };
     }
     case "DELETEGUESS": {
-      const filteredGuesses = state.guesses.filter(
+      const filteredGuesses = state.current.guesses.filter(
         (g) => g.guess !== action.guessWordToDelete
       );
       const appendedEvents = [
-        ...state.events,
+        ...state.current.events,
         {
           name: `DELETED GUESS`,
           description: `${action.guessWordToDelete}`,
@@ -111,17 +135,24 @@ function wordReducer(state: WordsState, action: Actions): WordsState {
       ];
       return {
         ...state,
-        guesses: filteredGuesses,
-        events: appendedEvents,
+        prevs: [...state.prevs, state.current],
+        current: {
+          ...state.current,
+          guesses: filteredGuesses,
+          events: appendedEvents,
+        },
       };
     }
     case "RESTOREGUESSTOWORD": {
-      const filteredGuesses = state.guesses.filter(
+      const filteredGuesses = state.current.guesses.filter(
         (g) => g.guess !== action.guessToRestore.guess
       );
-      const appendedWords = [...state.words, action.guessToRestore.guess];
+      const appendedWords = [
+        ...state.current.words,
+        action.guessToRestore.guess,
+      ];
       const appendedEvents = [
-        ...state.events,
+        ...state.current.events,
         {
           name: `REVERTED GUESS`,
           description: `${action.guessToRestore.guess}`,
@@ -129,31 +160,54 @@ function wordReducer(state: WordsState, action: Actions): WordsState {
       ];
       return {
         ...state,
-        words: appendedWords,
-        guesses: filteredGuesses,
-        events: appendedEvents,
+        prevs: [...state.prevs, state.current],
+        current: {
+          ...state.current,
+          words: appendedWords,
+          guesses: filteredGuesses,
+          events: appendedEvents,
+        },
       };
     }
     case "SELECTENTRY":
       return {
         ...state,
-        selectedEntry: action.entry,
+        current: {
+          ...state.current,
+          selectedEntry: action.entry,
+        },
       };
     case "DELETEALL":
       return {
         ...state,
-        words: [],
-        guesses: [],
-        events: [],
+        prevs: [],
+        current: {
+          selectedEntry: "",
+          words: [],
+          guesses: [],
+          events: [],
+        },
       };
     case "CLEARSELECTEDENTRY":
       return {
         ...state,
-        selectedEntry: "",
+        current: {
+          ...state.current,
+          selectedEntry: "",
+        },
       };
+    case "UNDO": {
+      const prev = state.prevs[state.prevs.length - 1];
+      console.log(prev);
+      return {
+        ...state,
+        prevs: state.prevs.slice(0, -1),
+        current: prev,
+      };
+    }
     default:
       return state;
   }
 }
 
-export default wordReducer;
+export default wordHistoryReducer;

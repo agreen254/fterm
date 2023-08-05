@@ -1,12 +1,12 @@
 import { useEffect, useReducer, useState } from "react";
 
 import ActionsHistory from "./components/ActionsHistory";
-import WordContext from "./components/contexts/wordContext";
+import WordHistoryContext from "./components/contexts/wordHistoryContext";
 import WordActions from "./components/WordActions";
 import WordsDisplay from "./components/WordsDisplay";
 import WordEntryForm from "./components/WordEntryForm";
 import columnBreakpoints from "./utils/columnBreakpoints";
-import wordReducer from "./components/reducers/wordReducer";
+import wordHistoryReducer from "./components/reducers/wordHistoryReducer";
 
 import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
@@ -14,11 +14,14 @@ import "./styles/scanner.css";
 import "./styles/scrollbar.css";
 
 function App() {
-  const [state, dispatch] = useReducer(wordReducer, {
-    events: [],
-    guesses: [],
-    selectedEntry: "",
-    words: [],
+  const [state, dispatch] = useReducer(wordHistoryReducer, {
+    prevs: [],
+    current: {
+      events: [],
+      guesses: [],
+      selectedEntry: "",
+      words: [],
+    },
   });
   const [numCols, setNumCols] = useState(0);
 
@@ -27,8 +30,8 @@ function App() {
     const handleResize = () => {
       const w = document.getElementById("wordDisplayContainer")?.offsetWidth;
       const bp =
-        state.words.length > 0
-          ? columnBreakpoints.get(state.words[0].length)
+        state.current.words.length > 0
+          ? columnBreakpoints.get(state.current.words[0].length)
           : 4;
       const bpAssert = bp || 100000;
       return w ? setNumCols(Math.floor(w / bpAssert)) : setNumCols(1);
@@ -66,7 +69,7 @@ function App() {
   };
 
   return (
-    <WordContext.Provider value={{ state, dispatch }}>
+    <WordHistoryContext.Provider value={{ state, dispatch }}>
       <div className="main flexrow scanner z-10 overflow-x-hidden overflow-y-hidden">
         <h1 className="my-4 text-5xl font-bold">VAULTERM</h1>
         <h2 className="absolute bottom-0 left-12 mb-8 font-bold md:text-base lg:text-xl xl:text-3xl">
@@ -85,7 +88,7 @@ function App() {
           DEMO
         </button>
       </div>
-    </WordContext.Provider>
+    </WordHistoryContext.Provider>
   );
 }
 

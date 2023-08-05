@@ -34,9 +34,9 @@ export interface WordsState {
   words: string[];
 }
 
-export interface WordsContextState {
-  prevStates: WordsState[];
-  currentState: WordsState;
+export interface WordsHistoryState {
+  prevs: WordsState[];
+  current: WordsState;
 }
 
 export interface WordValidity {

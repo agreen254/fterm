@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import WordContext from "./contexts/wordContext";
+import WordHistoryContext from "./contexts/wordHistoryContext";
 import WordHighlight from "./WordHighlight";
 import fitsAllGuesses from "../utils/validation/wordSolutionFinder/fitsAllGuesses";
 import getColsClassName from "../utils/gridColsClassName";
@@ -14,9 +14,11 @@ interface Props {
 
 const WordsDisplay = ({ numCols }: Props) => {
   const {
-    state: { words, guesses, selectedEntry },
+    state: {
+      current: { words, guesses, selectedEntry },
+    },
     dispatch,
-  } = useContext(WordContext);
+  } = useContext(WordHistoryContext);
   const [mousedOverGuess, setMousedOverGuess] = useState("");
 
   if (words.length === 0) return null;
@@ -27,6 +29,7 @@ const WordsDisplay = ({ numCols }: Props) => {
       ? [...validWords, w]
       : validWords;
   }, []);
+
   const wordClassName = (word: string) => {
     if (isMember(validWords, word)) {
       return word === selectedEntry

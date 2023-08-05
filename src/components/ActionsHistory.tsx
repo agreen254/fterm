@@ -1,10 +1,13 @@
 import { useContext } from "react";
-import WordContext from "./contexts/wordContext";
+import WordHistoryContext from "./contexts/wordHistoryContext";
 
 const ActionsHistory = () => {
-  const { state } = useContext(WordContext);
-  const events = state.events;
-  const words = state.words;
+  const {
+    state: {
+      current: { events, words },
+    },
+    dispatch,
+  } = useContext(WordHistoryContext);
 
   if (words === undefined || words.length === 0) return null;
 
@@ -30,6 +33,7 @@ const ActionsHistory = () => {
           </li>
         ))}
       </ul>
+      <button onClick={() => dispatch({ type: "UNDO" })}>UNDO</button>
     </div>
   );
 };

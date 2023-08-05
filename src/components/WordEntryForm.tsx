@@ -4,18 +4,23 @@ import { useContext, useState } from "react";
 import emptyErrors from "../utils/emptyErrors";
 import makeErrorObj from "../utils/validation/makeWordEntryErrors/makeErrorObj";
 import ErrorList from "./ErrorList";
-import WordContext from "./contexts/wordContext";
+import WordHistoryContext from "./contexts/wordHistoryContext";
 import { ValidationErrors } from "../utils/interfaces";
 
 const WordEntryForm = () => {
-  const { state, dispatch } = useContext(WordContext);
+  const {
+    state: {
+      current: { words },
+    },
+    dispatch,
+  } = useContext(WordHistoryContext);
   const [errors, setErrors] = useState<ValidationErrors>(emptyErrors);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const rawInput: string = e.currentTarget.words.value;
-    const clonedErrors = makeErrorObj(errors, rawInput, state.words);
+    const clonedErrors = makeErrorObj(errors, rawInput, words);
     const hasError = !!Object.values(clonedErrors).find(
       (errMessage) => errMessage !== ""
     );
