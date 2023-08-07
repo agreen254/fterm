@@ -3,6 +3,11 @@ export interface Guess {
   numCorrect: number;
 }
 
+export interface GuessMatch {
+  guessName: string;
+  correctIndices: number[];
+}
+
 // my original choice for this name was "Location"
 // but apparently "Location" is a keyword in MongoDB
 // and will throw an error if a custom interface
