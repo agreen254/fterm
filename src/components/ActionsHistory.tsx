@@ -23,7 +23,7 @@ const ActionsHistory = () => {
               <div>
                 <p>{`>> ` + event.name}</p>
                 <div className="grid grid-cols-[1.75rem,auto]">
-                  <p>{`>>`}</p>
+                  <p>{`>`}</p>
                   <p>{event.description}</p>
                 </div>
               </div>

@@ -66,7 +66,7 @@ function wordHistoryReducer(
       const appendedEvents = [
         ...state.current.events,
         {
-          name: `ADDED ${newWords.length > 1 ? "WORDS" : "WORD"}`,
+          name: `ADDED ${processedInput.length > 1 ? "WORDS" : "WORD"}`,
           description: `${processedInput.join(" ")}`,
         },
       ];

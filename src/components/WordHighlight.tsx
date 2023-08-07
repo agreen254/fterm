@@ -1,55 +1,40 @@
-import { WordValidity } from "../utils/interfaces";
-
-import { CharLocations } from "../utils/interfaces";
-import maxCharMatches from "../utils/maxCharMatches";
+import { GuessMatch } from "../utils/interfaces";
+import getMaxMatchIdx from "../utils/getMaxMatchIdx";
+import isValidGuess from "../utils/validation/newSolnFinder/isValidGuess";
+import isMember from "../utils/isMember";
 
 interface Props {
   mousedOver: string;
-  matchData: WordValidity;
+  matches: GuessMatch[];
   wordToRender: string;
 }
 
 //TODO: Underline characters are shown specifically to the hovered guess
 //TODO: Make hovered ones underline green, selected ones underline orange
 
-const WordHighlight = ({ mousedOver, matchData, wordToRender }: Props) => {
-  const highestMatches = () => {
-    const maxIdx = maxCharMatches(matchData.allCharLocations);
-    return matchData.allCharLocations[maxIdx];
-  };
+const WordHighlight = ({ mousedOver, matches, wordToRender }: Props) => {
+  if (matches.length === 0 || !isValidGuess(matches))
+    return <span>{wordToRender}</span>;
 
-  if (!matchData || !highestMatches()) return <span>{wordToRender}</span>;
+  const maxMatchIdx = getMaxMatchIdx(matches);
+  const highlightClass = (idx: number) => {
+    if (mousedOver === "") {
+      return isMember(matches[maxMatchIdx].correctIndices, idx)
+        ? "text-2xl underline"
+        : "";
+    }
 
-  const shouldHighlight = (
-    locations: CharLocations[],
-    char: string,
-    idx: number
-  ) => {
-    const containsLetter = locations.filter(
-      (letter) => char === letter.character
+    const matchesForGuess = matches.filter(
+      (m) => m.guessName === mousedOver
     )[0];
-    return (
-      containsLetter &&
-      containsLetter.indices.filter((index) => index === idx).length === 1
-    );
-  };
-
-  const highlightClass = (char: string, idx: number) => {
-    if (shouldHighlight(highestMatches(), char, idx)) {
-      const guessIdx = matchData.guesses.findIndex((g) => g === mousedOver);
-      if (mousedOver === "") {
-        return "text-2xl underline";
-      } else if (
-        shouldHighlight(matchData.allCharLocations[guessIdx], char, idx)
-      ) {
-        return "text-2xl underline decoration-green-600";
-      }
-    } else return "";
+    const isValidIdx = isMember(matchesForGuess.correctIndices, idx);
+    if (isValidIdx) return "text-2xl underline decoration-green-600";
+    else return "";
   };
 
   const chars = [...wordToRender];
   return chars.map((char, idx) => (
-    <span key={"highlight" + idx} className={highlightClass(char, idx)}>
+    <span key={"highlight" + idx} className={highlightClass(idx)}>
       {char}
     </span>
   ));

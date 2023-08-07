@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import WordHistoryContext from "./contexts/wordHistoryContext";
 import WordHighlight from "./WordHighlight";
 import fitsAllGuesses from "../utils/validation/wordSolutionFinder/fitsAllGuesses";
+import findMatchesAllGuesses from "../utils/validation/newSolnFinder/findMatchesAllGuesses";
 import getColsClassName from "../utils/gridColsClassName";
 import isMember from "../utils/isMember";
 
@@ -77,7 +78,7 @@ const WordsDisplay = ({ numCols }: Props) => {
           );
         })}
       </div>
-      <p className="mt-4 block">&gt;&gt; OTHER</p>
+      <p className="mt-4 block">&gt;&gt; WORDS</p>
       <div className="mt-1 h-1 w-full bg-[rgb(255,185,50)]" />
       <div className={colsClassName}>
         {words.map((word, idx) => (
@@ -88,7 +89,7 @@ const WordsDisplay = ({ numCols }: Props) => {
           >
             <WordHighlight
               mousedOver={mousedOverGuess}
-              matchData={fitsAllGuesses(guesses, word)}
+              matches={findMatchesAllGuesses(guesses, word)}
               wordToRender={word}
             />
           </button>
