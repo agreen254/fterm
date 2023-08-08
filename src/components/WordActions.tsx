@@ -34,7 +34,7 @@ const WordActions = () => {
       <div className="grid grid-cols-2 gap-4">
         <div className="flex justify-center">
           <button
-            className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-600 hover:bg-stone-700"
+            className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
             onClick={handleDelete}
           >
             DELETE WORD
@@ -42,7 +42,7 @@ const WordActions = () => {
         </div>
         <div className="flex justify-center">
           <button
-            className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-600 hover:bg-stone-700"
+            className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
             onClick={() =>
               dispatch({
                 type: "DELETEALL",

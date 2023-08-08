@@ -202,7 +202,9 @@ function wordHistoryReducer(
       return {
         ...state,
         prevs: state.prevs.slice(0, -1),
-        current: prev,
+        current: {
+          ...prev,
+        },
       };
     }
     default:

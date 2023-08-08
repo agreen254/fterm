@@ -88,8 +88,8 @@ const WordsDisplay = ({ numCols }: Props) => {
             onClick={() => handleSelection(selectedEntry, word)}
           >
             <WordHighlight
-              mousedOver={mousedOverGuess}
               matches={findMatchesAllGuesses(guesses, word)}
+              mousedOver={mousedOverGuess}
               wordToRender={word}
             />
           </button>

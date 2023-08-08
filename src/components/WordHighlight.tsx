@@ -1,35 +1,44 @@
 import { GuessMatch } from "../utils/interfaces";
+import fitsOneGuess from "../utils/validation/wordSolutionFinder/fitsOneGuess";
 import getMaxMatchIdx from "../utils/getMaxMatchIdx";
 import isValidGuess from "../utils/validation/newSolnFinder/isValidGuess";
 import isMember from "../utils/isMember";
 
 interface Props {
-  mousedOver: string;
   matches: GuessMatch[];
+  mousedOver: string;
   wordToRender: string;
 }
 
-//TODO: Underline characters are shown specifically to the hovered guess
-//TODO: Make hovered ones underline green, selected ones underline orange
-
 const WordHighlight = ({ mousedOver, matches, wordToRender }: Props) => {
-  if (matches.length === 0 || !isValidGuess(matches))
-    return <span>{wordToRender}</span>;
+  if (matches.length === 0) return <span>{wordToRender}</span>;
 
   const maxMatchIdx = getMaxMatchIdx(matches);
   const highlightClass = (idx: number) => {
-    if (mousedOver === "") {
-      return isMember(matches[maxMatchIdx].correctIndices, idx)
-        ? "text-2xl underline"
-        : "";
+    if (isValidGuess(matches)) {
+      if (
+        mousedOver === "" &&
+        isMember(matches[maxMatchIdx].correctIndices, idx)
+      ) {
+        return "underline";
+      } else {
+        const mousedOverMatches = matches.filter(
+          (m) => m.guessName === mousedOver
+        )[0]?.correctIndices;
+        return mousedOverMatches && isMember(mousedOverMatches, idx)
+          ? "underline decoration-green-600"
+          : "";
+      }
+    } else {
+      if (mousedOver !== "") {
+        const mousedOverMatches = matches.filter(
+          (m) => m.guessName === mousedOver
+        )[0]?.correctIndices;
+        return mousedOverMatches && isMember(mousedOverMatches, idx)
+          ? "underline"
+          : "";
+      }
     }
-
-    const matchesForGuess = matches.filter(
-      (m) => m.guessName === mousedOver
-    )[0];
-    const isValidIdx = isMember(matchesForGuess.correctIndices, idx);
-    if (isValidIdx) return "text-2xl underline decoration-green-600";
-    else return "";
   };
 
   const chars = [...wordToRender];
