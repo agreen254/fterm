@@ -13,13 +13,13 @@ const ActionsHistory = () => {
 
   return (
     <div
-      className="relative hidden h-[66vh] overflow-auto rounded border-2 border-black bg-stone-800 lg:block"
+      className="relative hidden h-[66vh] rounded border-2 border-black bg-stone-800 lg:block"
       hidden={words ? false : true}
     >
-      <ul className="px-4">
-        {events.map((event) => (
-          <li key={event.description}>
-            <div className="grid grid-cols-[auto,8rem] gap-4 pt-2">
+      <div className="max-h-[calc(100%-5rem)] overflow-auto">
+        <ul className="px-4">
+          {events.map((event) => (
+            <li key={event.description}>
               <div>
                 <p>{`>> ` + event.name}</p>
                 <div className="grid grid-cols-[1.75rem,auto]">
@@ -27,13 +27,31 @@ const ActionsHistory = () => {
                   <p>{event.description}</p>
                 </div>
               </div>
-              <button>RESTORE</button>
-            </div>
-            <div className="mt-1 h-1 w-full bg-[rgb(255,185,50)]" />
-          </li>
-        ))}
-      </ul>
-      <button onClick={() => dispatch({ type: "UNDO" })}>UNDO</button>
+              <div className="my-2 h-1 w-full bg-[rgb(255,185,50)]" />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="absolute bottom-0 left-0 my-4 w-full">
+        <div className="flex justify-evenly">
+          <button
+            className="w-[12rem] rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500"
+            onClick={() => dispatch({ type: "UNDO" })}
+          >
+            UNDO
+          </button>
+          <button
+            className="w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
+            onClick={() =>
+              dispatch({
+                type: "DELETEALL",
+              })
+            }
+          >
+            RESET
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

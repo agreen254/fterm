@@ -71,9 +71,9 @@ function App() {
   return (
     <WordHistoryContext.Provider value={{ state, dispatch }}>
       <div className="main flexrow scanner z-10 overflow-x-hidden overflow-y-hidden">
-        <h1 className="my-4 text-5xl font-bold">VAULTERM</h1>
+        <h1 className="my-4 text-5xl font-bold tracking-wider">VAULTERM</h1>
         <h2 className="absolute bottom-0 left-12 mb-8 font-bold md:text-base lg:text-xl xl:text-3xl">
-          Vault-Tec Terminal Solver
+          {"Vault-Tec Terminal Solver".toUpperCase()}
         </h2>
         <WordEntryForm />
         <div className="grid w-[calc(66vw+15rem)] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">

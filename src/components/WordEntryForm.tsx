@@ -36,8 +36,8 @@ const WordEntryForm = () => {
 
   return (
     <form id="wordEntryForm" onSubmit={(e) => handleSubmit(e)} className="mb-4">
-      <label htmlFor="words" className="block text-xl">
-        input terminal words, separated by spaces:
+      <label htmlFor="words" className="hidden text-xl">
+        input words here:
       </label>
       <button
         type="reset"
@@ -55,6 +55,7 @@ const WordEntryForm = () => {
         type="text"
         id="words"
         autoComplete="off"
+        placeholder="INPUT WORDS HERE"
         className="w-[66vw] appearance-none border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:outline-none"
       />
       <button
