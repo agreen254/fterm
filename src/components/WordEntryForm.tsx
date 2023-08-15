@@ -19,7 +19,16 @@ const WordEntryForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const rawInput: string = e.currentTarget.words.value;
+    const rawInput = e.currentTarget.words.value;
+
+    if (rawInput === "") {
+      setErrors({
+        ...emptyErrors,
+        wordTooShort: "YOU MUST INPUT A WORD",
+      });
+      return;
+    }
+
     const clonedErrors = makeErrorObj(errors, rawInput, words);
     const hasError = !!Object.values(clonedErrors).find(
       (errMessage) => errMessage !== ""

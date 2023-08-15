@@ -54,9 +54,9 @@ const WordsDisplay = ({ numCols }: Props) => {
       className="relative h-[66vh] overflow-auto rounded-md border-2 border-black bg-stone-800 px-5 py-5"
       id="wordDisplayContainer"
     >
+      <p className="inline">&gt;&gt; GUESSES</p>
+      <div className="my-2 h-1 w-full bg-[rgb(255,185,50)]" />
       <div className="max-h-[40%] overflow-auto">
-        <p className="inline">&gt;&gt; GUESSES</p>
-        <div className="mb-2 mt-1 h-1 w-full bg-[rgb(255,185,50)]" />
         <div className="grid grid-cols-1">
           {guesses.map(({ guess, numCorrect }, idx) => {
             return (
@@ -80,21 +80,23 @@ const WordsDisplay = ({ numCols }: Props) => {
         </div>
       </div>
       <p className="mt-4 block">&gt;&gt; WORDS</p>
-      <div className="mt-1 h-1 w-full bg-[rgb(255,185,50)]" />
-      <div className={colsClassName}>
-        {words.map((word, idx) => (
-          <button
-            key={"word" + idx}
-            className={wordClassName(word)}
-            onClick={() => handleSelection(selectedEntry, word)}
-          >
-            <WordHighlight
-              matches={findMatchesAllGuesses(guesses, word)}
-              mousedOver={mousedOverGuess}
-              wordToRender={word}
-            />
-          </button>
-        ))}
+      <div className="my-2 h-1 w-full bg-[rgb(255,185,50)]" />
+      <div className="max-h-[60%] overflow-auto">
+        <div className={colsClassName}>
+          {words.map((word, idx) => (
+            <button
+              key={"word" + idx}
+              className={wordClassName(word)}
+              onClick={() => handleSelection(selectedEntry, word)}
+            >
+              <WordHighlight
+                matches={findMatchesAllGuesses(guesses, word)}
+                mousedOver={mousedOverGuess}
+                wordToRender={word}
+              />
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
