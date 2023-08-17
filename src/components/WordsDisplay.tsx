@@ -56,7 +56,7 @@ const WordsDisplay = ({ numCols }: Props) => {
     >
       <p className="inline">&gt;&gt; GUESSES</p>
       <div className="my-2 h-1 w-full bg-[rgb(255,185,50)]" />
-      <div className="max-h-[40%] overflow-auto">
+      <div>
         <div className="grid grid-cols-1">
           {guesses.map(({ guess, numCorrect }, idx) => {
             return (
@@ -81,7 +81,7 @@ const WordsDisplay = ({ numCols }: Props) => {
       </div>
       <p className="mt-4 block">&gt;&gt; WORDS</p>
       <div className="my-2 h-1 w-full bg-[rgb(255,185,50)]" />
-      <div className="max-h-[60%] overflow-auto">
+      <div>
         <div className={colsClassName}>
           {words.map((word, idx) => (
             <button

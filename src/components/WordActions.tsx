@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import GuessEntryForm from "./GuessEntryForm";
 import WordHistoryContext from "./contexts/wordHistoryContext";
 
 const WordActions = () => {
@@ -24,13 +25,32 @@ const WordActions = () => {
     dispatch({ type: "CLEARSELECTEDENTRY" });
   };
 
+  const handleAddGuess = (numCorrect: number) => {
+    dispatch({
+      type: "ADDGUESS",
+      guessToAdd: {
+        guess: selectedEntry,
+        numCorrect: numCorrect,
+      },
+    });
+  };
+
   if (words.length === 0) return null;
+
+  if (selectedEntry === "")
+    return (
+      <div className="relative hidden h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
+        <p className="text-center text-lg">
+          {selectedEntry
+            ? "SELECTED WORD: " + selectedEntry
+            : "NO SELECTED WORD"}
+        </p>
+      </div>
+    );
 
   return (
     <div className="relative hidden h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
-      <p className="text-center text-lg">
-        {selectedEntry ? "SELECTED WORD: " + selectedEntry : "NO SELECTED WORD"}
-      </p>
+      <p className="text-center text-lg">{"SELECTED WORD: " + selectedEntry}</p>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex justify-center">
           <button
@@ -41,23 +61,12 @@ const WordActions = () => {
           </button>
         </div>
         <div className="flex justify-center">
-          <button
-            className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
-            onClick={() =>
-              dispatch({
-                type: "DELETEALL",
-              })
-            }
-          >
-            DELETE ALL
-          </button>
-        </div>
-        <div className="flex justify-center">
           <button className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500">
             GUESSED
           </button>
         </div>
       </div>
+      <GuessEntryForm />
     </div>
   );
 };

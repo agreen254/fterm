@@ -18,6 +18,8 @@ const ActionsHistory = () => {
     >
       <div className="max-h-[calc(100%-5rem)] overflow-auto">
         <ul className="px-4">
+          <li className="pt-2 text-xl">HISTORY</li>
+          <div className="my-2 h-2 w-full rounded bg-[rgb(255,185,50)]" />
           {events.map((event) => (
             <li key={event.description}>
               <div>
