@@ -12,7 +12,6 @@ function duplicateWords(
   oldWords: string[]
 ) {
   const duplicates = findDuplicates(newWords, oldWords);
-  console.log(duplicates);
   if (duplicates.length > 0) {
     errors = {
       ...errors,

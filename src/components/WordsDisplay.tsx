@@ -22,8 +22,6 @@ const WordsDisplay = ({ numCols }: Props) => {
   } = useContext(WordHistoryContext);
   const [mousedOverGuess, setMousedOverGuess] = useState("");
 
-  if (words.length === 0) return null;
-
   const validWords = words.reduce((validWords: string[], w) => {
     return fitsAllGuesses(guesses, w).areValid.filter((b) => b === false)
       .length === 0
@@ -51,11 +49,11 @@ const WordsDisplay = ({ numCols }: Props) => {
 
   return (
     <div
-      className="relative h-[66vh] overflow-auto rounded-md border-2 border-black bg-stone-800 px-5 py-5"
+      className="relative min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 pb-5 pt-2"
       id="wordDisplayContainer"
     >
-      <p className="inline">&gt;&gt; GUESSES</p>
-      <div className="my-2 h-1 w-full bg-[rgb(255,185,50)]" />
+      <p className="md:text-xl">{">> GUESSES"}</p>
+      <div className="my-2 h-2 w-full rounded bg-[rgb(255,185,50)]" />
       <div>
         <div className="grid grid-cols-1">
           {guesses.map(({ guess, numCorrect }, idx) => {
@@ -79,8 +77,8 @@ const WordsDisplay = ({ numCols }: Props) => {
           })}
         </div>
       </div>
-      <p className="mt-4 block">&gt;&gt; WORDS</p>
-      <div className="my-2 h-1 w-full bg-[rgb(255,185,50)]" />
+      <p className="mt-4 block md:text-xl">{">> WORDS"}</p>
+      <div className="my-2 h-2 w-full rounded bg-[rgb(255,185,50)]" />
       <div>
         <div className={colsClassName}>
           {words.map((word, idx) => (

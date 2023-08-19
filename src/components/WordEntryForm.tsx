@@ -44,43 +44,88 @@ const WordEntryForm = () => {
   };
 
   return (
-    <div className="w-[calc(66vw+15rem)] max-w-[90vw] overflow-hidden">
-      <form
-        id="wordEntryForm"
-        onSubmit={(e) => handleSubmit(e)}
-        className="mb-4"
-      >
-        <label htmlFor="words" className="hidden text-xl">
-          input words here:
-        </label>
-        <button
-          type="reset"
-          className={
-            "box-content w-16 rounded-bl rounded-tl border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
-          }
-          onClick={() => setErrors(emptyErrors)}
+    <>
+      {/*   tablet and above layout   */}
+      <div className="hidden w-[calc(66vw+15rem)] max-w-[90vw] overflow-hidden md:block">
+        <form
+          id="wordEntryForm"
+          onSubmit={(e) => handleSubmit(e)}
+          className="mb-4"
         >
-          CLEAR
-        </button>
-        <div className="inline border-y-2 border-y-black bg-stone-800 py-[0.85rem] pl-2">
-          &gt;&gt;
-        </div>
-        <input
-          type="text"
-          id="words"
-          autoComplete="off"
-          placeholder="INPUT WORDS HERE"
-          className="w-[calc(100%-15.25rem)] appearance-none border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:outline-none"
-        />
-        <button
-          type="submit"
-          className="box-content w-16 rounded-br rounded-tr border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
-        >
-          ADD
-        </button>
+          <label htmlFor="words" className="hidden text-xl">
+            input words here:
+          </label>
+          <button
+            type="reset"
+            className={
+              "box-content w-16 rounded-bl rounded-tl border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
+            }
+            onClick={() => setErrors(emptyErrors)}
+          >
+            CLEAR
+          </button>
+          <div className="inline border-y-2 border-y-black bg-stone-800 py-[0.85rem] pl-2">
+            &gt;&gt;
+          </div>
+          <input
+            type="text"
+            id="words"
+            autoComplete="off"
+            placeholder="INPUT WORDS HERE"
+            className="w-[calc(100%-15.25rem)] appearance-none border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:outline-none"
+          />
+          <button
+            type="submit"
+            className="box-content w-16 rounded-br rounded-tr border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
+          >
+            ADD
+          </button>
+          <ErrorList errors={errors} />
+        </form>
+      </div>
+      {/*    mobile layout    */}
+      <div className="w-[calc(66vw+15rem)] max-w-[90vw] md:hidden">
         <ErrorList errors={errors} />
-      </form>
-    </div>
+        <form
+          id="wordEntryForm"
+          onSubmit={(e) => handleSubmit(e)}
+          className="mb-4"
+        >
+          <label htmlFor="words" className="hidden text-xl">
+            input words here:
+          </label>
+          <div className="inline-block w-[2rem] rounded-tl-md border-y-2 border-l-2 border-black bg-stone-800 py-[0.75rem] pl-2">
+            &gt;&gt;
+          </div>
+          <input
+            type="text"
+            id="words"
+            autoComplete="off"
+            placeholder="INPUT WORDS HERE"
+            className="w-[calc(100%-2rem)] appearance-none rounded-tr-md border-y-2 border-r-2 border-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:outline-none"
+          />
+          <div className="grid grid-cols-2 justify-center">
+            <div className="flex justify-center">
+              <button
+                type="reset"
+                className="w-full rounded-bl-md border-b-2 border-l-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
+                onClick={() => setErrors(emptyErrors)}
+              >
+                CLEAR
+              </button>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="w-full rounded-br-md border-x-2 border-b-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
+              >
+                ADD
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

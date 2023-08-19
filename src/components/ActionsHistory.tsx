@@ -9,16 +9,14 @@ const ActionsHistory = () => {
     dispatch,
   } = useContext(WordHistoryContext);
 
-  if (words === undefined || words.length === 0) return null;
-
   return (
     <div
-      className="relative hidden h-[66vh] rounded border-2 border-black bg-stone-800 lg:block"
+      className="relative hidden min-h-[66vh] rounded border-2 border-black bg-stone-800 lg:block"
       hidden={words ? false : true}
     >
       <div className="max-h-[calc(100%-5rem)] overflow-auto">
         <ul className="px-4">
-          <li className="pt-2 text-xl">HISTORY</li>
+          <li className="pt-2 text-xl">{">> HISTORY"}</li>
           <div className="my-2 h-2 w-full rounded bg-[rgb(255,185,50)]" />
           {events.map((event) => (
             <li key={event.description}>
@@ -38,12 +36,14 @@ const ActionsHistory = () => {
         <div className="flex justify-evenly">
           <button
             className="w-[12rem] rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500"
+            disabled={events.length === 0}
             onClick={() => dispatch({ type: "UNDO" })}
           >
             UNDO
           </button>
           <button
             className="w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
+            disabled={events.length === 0}
             onClick={() =>
               dispatch({
                 type: "DELETEALL",

@@ -199,6 +199,7 @@ function wordHistoryReducer(
     case "UNDO": {
       const prev = state.prevs[state.prevs.length - 1];
       console.log(prev);
+      if (state.prevs.length === 0) return state;
       return {
         ...state,
         prevs: state.prevs.slice(0, -1),

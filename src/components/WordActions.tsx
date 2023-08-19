@@ -35,11 +35,9 @@ const WordActions = () => {
     });
   };
 
-  if (words.length === 0) return null;
-
   if (selectedEntry === "")
     return (
-      <div className="relative hidden h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
+      <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
         <p className="text-center text-lg">
           {selectedEntry
             ? "SELECTED WORD: " + selectedEntry
@@ -49,7 +47,7 @@ const WordActions = () => {
     );
 
   return (
-    <div className="relative hidden h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
+    <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
       <p className="text-center text-lg">{"SELECTED WORD: " + selectedEntry}</p>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex justify-center">

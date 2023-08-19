@@ -70,13 +70,15 @@ function App() {
 
   return (
     <WordHistoryContext.Provider value={{ state, dispatch }}>
-      <div className="main flexrow scanner z-10 overflow-x-hidden overflow-y-hidden">
-        <h1 className="my-4 text-5xl font-bold tracking-wider">VAULTERM</h1>
-        <h2 className="absolute bottom-0 left-12 mb-8 font-bold md:text-base lg:text-xl xl:text-3xl">
+      <div className="main scanner oveflow-y-auto z-10 flex flex-col items-center overflow-x-hidden font-bold">
+        <h1 className="neon my-4 text-2xl font-bold tracking-wider md:text-5xl">
+          VAULTERM
+        </h1>
+        <h2 className="fixed bottom-0 left-12 mb-8 hidden font-bold md:block md:text-base lg:text-xl xl:text-3xl">
           {"Vault-Tec Terminal Solver".toUpperCase()}
         </h2>
         <WordEntryForm />
-        <div className="grid w-[calc(66vw+15rem)] max-w-[90vw] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+        <div className="mb-[10vh] grid w-[calc(66vw+15rem)] max-w-[90vw] gap-4 md:mb-auto md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
           <ActionsHistory />
           <WordsDisplay numCols={numCols} />
           <WordActions />

@@ -13,7 +13,7 @@
   background: rgba(50, 205, 50, 1);
   box-shadow: 0 0 70px 20px rgba(50, 205, 50, 0.3);
   clip-path: inset(0);
-  animation: x 5s linear infinite, y 5s infinite;
+  animation: x 7s linear infinite, y 7s infinite;
 }
 
 @keyframes x {
@@ -39,7 +39,7 @@
     z-index: 10;
   }
   to {
-    top: 120vh;
+    top: 200vh;
     z-index: 10;
   }
 }

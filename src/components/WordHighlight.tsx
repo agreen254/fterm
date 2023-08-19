@@ -1,5 +1,4 @@
 import { GuessMatch } from "../utils/interfaces";
-import fitsOneGuess from "../utils/validation/wordSolutionFinder/fitsOneGuess";
 import getMaxMatchIdx from "../utils/getMaxMatchIdx";
 import isValidGuess from "../utils/validation/newSolnFinder/isValidGuess";
 import isMember from "../utils/isMember";
@@ -26,7 +25,7 @@ const WordHighlight = ({ mousedOver, matches, wordToRender }: Props) => {
           (m) => m.guessName === mousedOver
         )[0]?.correctIndices;
         return mousedOverMatches && isMember(mousedOverMatches, idx)
-          ? "underline decoration-green-600"
+          ? "underline decoration-green-600 md:"
           : "";
       }
     } else {
