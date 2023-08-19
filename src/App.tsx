@@ -76,7 +76,7 @@ function App() {
           {"Vault-Tec Terminal Solver".toUpperCase()}
         </h2>
         <WordEntryForm />
-        <div className="grid w-[calc(66vw+15rem)] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+        <div className="grid w-[calc(66vw+15rem)] max-w-[90vw] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
           <ActionsHistory />
           <WordsDisplay numCols={numCols} />
           <WordActions />

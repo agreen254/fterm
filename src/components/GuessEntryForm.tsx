@@ -35,7 +35,9 @@ const GuessEntryForm = () => {
       <div className="flex flex-col">
         {wordLength.map((n) => (
           <div key={selectedEntry + n}>
-            <button>{n + " correct"}</button>
+            <button className="min-w-[4rem] rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500">
+              {n}
+            </button>
           </div>
         ))}
       </div>

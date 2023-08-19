@@ -44,7 +44,7 @@ const WordEntryForm = () => {
   };
 
   return (
-    <div className="max-w-[90vw] overflow-hidden">
+    <div className="w-[calc(66vw+15rem)] max-w-[90vw] overflow-hidden">
       <form
         id="wordEntryForm"
         onSubmit={(e) => handleSubmit(e)}
@@ -70,7 +70,7 @@ const WordEntryForm = () => {
           id="words"
           autoComplete="off"
           placeholder="INPUT WORDS HERE"
-          className="w-[66vw] appearance-none border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:outline-none"
+          className="w-[calc(100%-15.25rem)] appearance-none border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:outline-none"
         />
         <button
           type="submit"
