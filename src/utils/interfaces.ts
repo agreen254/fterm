@@ -1,5 +1,5 @@
 export interface Guess {
-  guess: string;
+  guessName: string;
   numCorrect: number;
 }
 

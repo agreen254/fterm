@@ -5,7 +5,7 @@ import WordHistoryContext from "./contexts/wordHistoryContext";
 const WordActions = () => {
   const {
     state: {
-      current: { words, selectedEntry },
+      current: { guesses, words, selectedEntry },
     },
     dispatch,
   } = useContext(WordHistoryContext);
@@ -25,48 +25,56 @@ const WordActions = () => {
     dispatch({ type: "CLEARSELECTEDENTRY" });
   };
 
-  const handleAddGuess = (numCorrect: number) => {
-    dispatch({
-      type: "ADDGUESS",
-      guessToAdd: {
-        guess: selectedEntry,
-        numCorrect: numCorrect,
-      },
-    });
-  };
-
   if (selectedEntry === "")
     return (
-      <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
-        <p className="text-center text-lg md:text-2xl">
-          {selectedEntry
-            ? "SELECTED WORD: " + selectedEntry
-            : "NO SELECTED WORD"}
-        </p>
+      <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 pt-2 2xl:block">
+        <p className="sm:text-lg md:text-xl">{">> NO SELECTED WORD"}</p>
+        <div className="my-2 mb-6 h-2 w-full rounded bg-[rgb(255,185,50)]" />
       </div>
     );
 
   return (
-    <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
-      <p className="text-center text-lg md:text-xl">
-        {"SELECTED WORD: " + selectedEntry}
+    <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 pt-2 2xl:block">
+      <p className="sm:text-lg md:text-xl">
+        {">> SELECTED WORD: " + selectedEntry}
       </p>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex justify-center">
-          <button
-            className="my-4 w-full rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
-            onClick={handleDelete}
-          >
-            DELETE
-          </button>
-        </div>
-        <div className="flex justify-center">
-          <button className="my-4 w-full rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500">
-            GUESSED
-          </button>
-        </div>
-      </div>
+      <div className="my-2 mb-4 h-2 w-full rounded bg-[rgb(255,185,50)]" />
       <GuessEntryForm />
+      <div className="absolute bottom-0 left-0 my-4 w-full">
+        {guesses.find((g) => g.guessName === selectedEntry) ? (
+          <div className="grid grid-cols-2 gap-4 px-4">
+            <button
+              className="w-full rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500"
+              onClick={() =>
+                dispatch({
+                  type: "RESTOREGUESSTOWORD",
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  guessToRestore: guesses.find(
+                    (g) => g.guessName === selectedEntry
+                  )!,
+                })
+              }
+            >
+              REVERT GUESS
+            </button>
+            <button
+              className="w-full rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
+              onClick={handleDelete}
+            >
+              DELETE WORD
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-center">
+            <button
+              className="w-[calc(100%-2rem)] rounded-md border-2 border-black py-3 text-red-500 hover:bg-black"
+              onClick={handleDelete}
+            >
+              DELETE WORD
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

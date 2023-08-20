@@ -17,31 +17,40 @@ const GuessEntryForm = () => {
     [0, 1]
   );
 
-  const handleAddGuess = (numCorrect: string) => {
-    if (numCorrect === "noGuess")
-      dispatch({
-        type: "RESTOREGUESSTOWORD",
-        guessToRestore: guesses.filter((g) => g.guess === selectedEntry)[0],
-      });
+  const guessAlreadyExists = () =>
+    guesses.find((g) => g.guessName === selectedEntry);
 
-    const nc = parseInt(numCorrect);
-    if (nc >= 0)
+  const handleAddGuess = (numCorrect: number) => {
+    const existingGuess = guessAlreadyExists();
+    if (existingGuess) {
+      dispatch({
+        type: "UPDATEGUESS",
+        guessToUpdate: existingGuess,
+        newNumCorrect: numCorrect,
+      });
+    } else
       dispatch({
         type: "ADDGUESS",
-        guessToAdd: { guess: selectedEntry, numCorrect: nc },
+        guessToAdd: { guessName: selectedEntry, numCorrect },
       });
   };
 
   return (
-    <div className="wordsGrid">
-      {wordLength.map((n) => (
-        <div key={selectedEntry + n} className="mb-4 flex justify-center">
-          <button className="w-full rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500">
-            {n}
-          </button>
-        </div>
-      ))}
-    </div>
+    <>
+      <p className="mt-10 mb-2 text-lg md:text-xl">NUMBER CORRECT</p>
+      <div className="wordsGrid">
+        {wordLength.map((n) => (
+          <div key={selectedEntry + n} className="mb-4 flex justify-center">
+            <button
+              className="w-full rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500"
+              onClick={() => handleAddGuess(n)}
+            >
+              {n}
+            </button>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 

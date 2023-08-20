@@ -70,14 +70,14 @@ function App() {
     dispatch({
       type: "ADDGUESS",
       guessToAdd: {
-        guess: "BELONGING",
+        guessName: "BELONGING",
         numCorrect: 3,
       },
     });
     dispatch({
       type: "ADDGUESS",
       guessToAdd: {
-        guess: "EXPLORING",
+        guessName: "EXPLORING",
         numCorrect: 4,
       },
     });

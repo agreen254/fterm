@@ -54,7 +54,7 @@ const WordsDisplay = ({ numCols }: Props) => {
       <div className="my-2 h-2 w-full rounded bg-[rgb(255,185,50)]" />
       <div>
         <div className="grid grid-cols-1">
-          {guesses.map(({ guess, numCorrect }, idx) => {
+          {guesses.map(({ guessName: guess, numCorrect }, idx) => {
             return (
               <div key={"guess" + idx} className="flex flex-row justify-center">
                 <button

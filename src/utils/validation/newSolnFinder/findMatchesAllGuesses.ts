@@ -4,9 +4,9 @@ import findMatchesOneGuess from "./findMatchesOneGuess";
 function findMatchesAllGuesses(guesses: Guess[], wordToCheck: string) {
   return guesses.reduce((matches: GuessMatch[], guess) => {
     const newMatch = {
-      guessName: guess.guess,
+      guessName: guess.guessName,
       correctIndices: findMatchesOneGuess(
-        guess.guess,
+        guess.guessName,
         guess.numCorrect,
         wordToCheck
       ),

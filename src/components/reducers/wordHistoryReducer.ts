@@ -22,6 +22,12 @@ interface DeleteGuess {
   guessWordToDelete: string;
 }
 
+interface UpdateGuess {
+  type: "UPDATEGUESS";
+  guessToUpdate: Guess;
+  newNumCorrect: number;
+}
+
 interface RestoreGuessToWord {
   type: "RESTOREGUESSTOWORD";
   guessToRestore: Guess;
@@ -49,6 +55,7 @@ export type Actions =
   | DeleteWord
   | AddGuess
   | DeleteGuess
+  | UpdateGuess
   | RestoreGuessToWord
   | SelectEntry
   | ClearSelectedEntry
@@ -102,13 +109,13 @@ function wordHistoryReducer(
       const appendedGuesses = [...state.current.guesses, action.guessToAdd];
       // the word should now only display in the guesses column
       const shortenedWords = state.current.words.filter(
-        (w) => w !== action.guessToAdd.guess
+        (w) => w !== action.guessToAdd.guessName
       );
       const appendedEvents = [
         ...state.current.events,
         {
           name: `ADDED GUESS`,
-          description: `${action.guessToAdd.guess}:${action.guessToAdd.numCorrect}`,
+          description: `${action.guessToAdd.guessName}:${action.guessToAdd.numCorrect}`,
         },
       ];
       return {
@@ -124,7 +131,7 @@ function wordHistoryReducer(
     }
     case "DELETEGUESS": {
       const filteredGuesses = state.current.guesses.filter(
-        (g) => g.guess !== action.guessWordToDelete
+        (g) => g.guessName !== action.guessWordToDelete
       );
       const appendedEvents = [
         ...state.current.events,
@@ -143,19 +150,44 @@ function wordHistoryReducer(
         },
       };
     }
+    case "UPDATEGUESS": {
+      const appendedEvents = [
+        ...state.current.events,
+        {
+          name: `UPDATED GUESS`,
+          description: `${action.guessToUpdate.guessName} ${action.guessToUpdate.numCorrect} -> ${action.newNumCorrect}`,
+        },
+      ];
+      const updatedGuesses = [
+        ...state.current.guesses.filter((g) => g !== action.guessToUpdate),
+        {
+          guessName: action.guessToUpdate.guessName,
+          numCorrect: action.newNumCorrect,
+        },
+      ];
+      return {
+        ...state,
+        prevs: [...state.prevs, state.current],
+        current: {
+          ...state.current,
+          guesses: updatedGuesses,
+          events: appendedEvents,
+        },
+      };
+    }
     case "RESTOREGUESSTOWORD": {
       const filteredGuesses = state.current.guesses.filter(
-        (g) => g.guess !== action.guessToRestore.guess
+        (g) => g.guessName !== action.guessToRestore.guessName
       );
       const appendedWords = [
         ...state.current.words,
-        action.guessToRestore.guess,
+        action.guessToRestore.guessName,
       ];
       const appendedEvents = [
         ...state.current.events,
         {
           name: `REVERTED GUESS`,
-          description: `${action.guessToRestore.guess}`,
+          description: `${action.guessToRestore.guessName}`,
         },
       ];
       return {

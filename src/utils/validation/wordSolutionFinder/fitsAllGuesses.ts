@@ -7,7 +7,7 @@ function fitsAllGuesses(guesses: Guess[], word: string) {
       const matchedLocations = matchedCharLocations(guess, word);
       const isValid = matchedLocations.length > 0 ? true : false;
       return {
-        guesses: [...total.guesses, guess.guess],
+        guesses: [...total.guesses, guess.guessName],
         allCharLocations: [...total.allCharLocations, matchedLocations],
         areValid: [...total.areValid, isValid],
       };

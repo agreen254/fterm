@@ -1,7 +1,7 @@
 import { Guess, CharLocations } from "../../interfaces";
 import sumCharMatches from "../../sumCharMatches";
 
-function fitsOneGuess({ guess, numCorrect }: Guess, word: string) {
+function fitsOneGuess({ guessName: guess, numCorrect }: Guess, word: string) {
   const guessChars = [...guess];
 
   const matchedChars = guessChars.reduce(
