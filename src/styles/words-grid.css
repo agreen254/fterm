@@ -1,5 +1,9 @@
 .wordsGrid {
   display: grid;
   /* grid-template-columns: repeat(auto-fit, minmax(calc((66vw+15rem) / 3), 1fr)); */
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(max(6rem, calc(25% - 12px)), 1fr)
+  );
+  column-gap: 12px;
 }

@@ -5,7 +5,10 @@ import WordHistoryContext from "./components/contexts/wordHistoryContext";
 import WordActions from "./components/WordActions";
 import WordsDisplay from "./components/WordsDisplay";
 import WordEntryForm from "./components/WordEntryForm";
-import columnBreakpoints from "./utils/columnBreakpoints";
+import {
+  columnBreakpoints,
+  columnBreakpointsSm,
+} from "./utils/columnBreakpoints";
 import wordHistoryReducer from "./components/reducers/wordHistoryReducer";
 
 import "@fontsource/ibm-plex-mono";
@@ -25,16 +28,29 @@ function App() {
   });
   const [numCols, setNumCols] = useState(0);
 
-  // enable dynamic column width
+  // enable dynamic column width for word displays
   useEffect(() => {
     const handleResize = () => {
-      const w = document.getElementById("wordDisplayContainer")?.offsetWidth;
-      const bp =
-        state.current.words.length > 0
-          ? columnBreakpoints.get(state.current.words[0].length)
-          : 4;
-      const bpAssert = bp || 100000;
-      return w ? setNumCols(Math.floor(w / bpAssert)) : setNumCols(1);
+      if (state.current.words.length === 0) return;
+
+      const containerWidth = document.getElementById(
+        "wordDisplayContainer"
+      )?.offsetWidth;
+      const viewportWidth = window.innerWidth;
+
+      // no strict null checking for map.get method
+      let colLength = 10000;
+      if (viewportWidth && containerWidth && viewportWidth >= 768) {
+        colLength =
+          columnBreakpoints.get(state.current.words[0].length) || 10000;
+      } else if (viewportWidth && containerWidth && viewportWidth < 768) {
+        colLength =
+          columnBreakpointsSm.get(state.current.words[0].length) || 10000;
+      }
+
+      return containerWidth
+        ? setNumCols(Math.floor(containerWidth / colLength))
+        : setNumCols(1);
     };
 
     window.addEventListener("resize", handleResize);
@@ -70,11 +86,11 @@ function App() {
 
   return (
     <WordHistoryContext.Provider value={{ state, dispatch }}>
-      <div className="main scanner oveflow-y-auto z-10 flex flex-col items-center overflow-x-hidden font-bold">
+      <div className="main scanner z-10 flex flex-col items-center overflow-x-hidden font-bold">
         <h1 className="neon my-4 text-2xl font-bold tracking-wider md:text-5xl">
           VAULTERM
         </h1>
-        <h2 className="fixed bottom-0 left-12 mb-8 hidden font-bold md:block md:text-base lg:text-xl xl:text-3xl">
+        <h2 className="fixed bottom-0 left-12 mb-8 hidden font-bold md:block md:text-base lg:text-lg">
           {"Vault-Tec Terminal Solver".toUpperCase()}
         </h2>
         <WordEntryForm />

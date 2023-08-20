@@ -1,3 +1,7 @@
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: repeating-linear-gradient(
     #8d6e63,
@@ -9,12 +13,14 @@ body {
 
 .neon {
   color: #27272a;
-  text-shadow: 0 0 7px #fed7aa, 0 0 10px #fed7aa, 0 0 21px #fed7aa, 0 0 42px #f59e0b,
-    0 0 82px #f59e0b, 0 0 92px #f59e0b, 0 0 102px #f59e0b, 0 0 151px #f59e0b;
+  text-shadow: 0 0 7px #fed7aa, 0 0 10px #fed7aa, 0 0 21px #fed7aa,
+    0 0 42px #f59e0b, 0 0 82px #f59e0b, 0 0 92px #f59e0b, 0 0 102px #f59e0b,
+    0 0 151px #f59e0b;
 }
 
 .main {
   width: 100vw;
+  min-height: 100vh;
   font-weight: bold;
   /* color: rgb(255, 212, 160); */
   color: rgb(255, 185, 50);

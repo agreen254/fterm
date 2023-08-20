@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import WordHistoryContext from "./contexts/wordHistoryContext";
 
+import "../styles/words-grid.css";
+
 const GuessEntryForm = () => {
   const {
     state: {
@@ -31,16 +33,14 @@ const GuessEntryForm = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col">
-        {wordLength.map((n) => (
-          <div key={selectedEntry + n}>
-            <button className="min-w-[4rem] rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500">
-              {n}
-            </button>
-          </div>
-        ))}
-      </div>
+    <div className="wordsGrid">
+      {wordLength.map((n) => (
+        <div key={selectedEntry + n} className="mb-4 flex justify-center">
+          <button className="w-full rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500">
+            {n}
+          </button>
+        </div>
+      ))}
     </div>
   );
 };

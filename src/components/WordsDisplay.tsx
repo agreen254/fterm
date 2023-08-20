@@ -7,8 +7,6 @@ import findMatchesAllGuesses from "../utils/validation/newSolnFinder/findMatches
 import getColsClassName from "../utils/gridColsClassName";
 import isMember from "../utils/isMember";
 
-import "../styles/words-grid.css";
-
 interface Props {
   numCols: number;
 }
@@ -32,10 +30,10 @@ const WordsDisplay = ({ numCols }: Props) => {
   const wordClassName = (word: string) => {
     if (isMember(validWords, word)) {
       return word === selectedEntry
-        ? "m-2 py-3 text-2xl text-[rgb(255,185,50)] hover:bg-stone-600 bg-stone-600"
-        : "m-2 py-3 text-2xl hover:bg-stone-600";
+        ? "m-2 py-3 text-lg md:text-2xl text-[rgb(255,185,50)] hover:bg-stone-600 bg-stone-600"
+        : "m-2 py-3 text-lg md:text-2xl hover:bg-stone-600";
     } else {
-      return "m-2 py-3 text-2xl text-stone-600";
+      return "m-2 py-3 text-lg md:text-2xl text-stone-600";
     }
   };
 
@@ -61,7 +59,7 @@ const WordsDisplay = ({ numCols }: Props) => {
               <div key={"guess" + idx} className="flex flex-row justify-center">
                 <button
                   className={
-                    "m-2 min-w-[4rem] max-w-[15rem] px-5 py-3 text-2xl hover:bg-stone-600" +
+                    "m-2 min-w-[4rem] max-w-[15rem] px-5 py-3 text-lg hover:bg-stone-600 md:text-2xl" +
                     (selectedEntry === guess ? " bg-stone-600" : "")
                   }
                   onClick={() => handleSelection(selectedEntry, guess)}

@@ -38,7 +38,7 @@ const WordActions = () => {
   if (selectedEntry === "")
     return (
       <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
-        <p className="text-center text-lg">
+        <p className="text-center text-lg md:text-2xl">
           {selectedEntry
             ? "SELECTED WORD: " + selectedEntry
             : "NO SELECTED WORD"}
@@ -48,18 +48,20 @@ const WordActions = () => {
 
   return (
     <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 py-5 2xl:block">
-      <p className="text-center text-lg">{"SELECTED WORD: " + selectedEntry}</p>
+      <p className="text-center text-lg md:text-xl">
+        {"SELECTED WORD: " + selectedEntry}
+      </p>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex justify-center">
           <button
-            className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
+            className="my-4 w-full rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
             onClick={handleDelete}
           >
-            DELETE WORD
+            DELETE
           </button>
         </div>
         <div className="flex justify-center">
-          <button className="my-4 w-full max-w-[12rem] rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500">
+          <button className="my-4 w-full rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500">
             GUESSED
           </button>
         </div>

@@ -33,26 +33,26 @@ const ActionsHistory = () => {
         </ul>
       </div>
       <div className="absolute bottom-0 left-0 my-4 w-full">
-        <div className="flex justify-evenly">
-          <button
-            className="w-[12rem] rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500"
-            disabled={events.length === 0}
-            onClick={() => dispatch({ type: "UNDO" })}
-          >
-            UNDO
-          </button>
-          <button
-            className="w-[12rem] rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
-            disabled={events.length === 0}
-            onClick={() =>
-              dispatch({
-                type: "DELETEALL",
-              })
-            }
-          >
-            RESET
-          </button>
-        </div>
+        {events.length > 0 && (
+          <div className="grid grid-cols-2 gap-4 px-4">
+            <button
+              className="w-full rounded-md border-2 border-black px-5 py-3 hover:bg-stone-500"
+              onClick={() => dispatch({ type: "UNDO" })}
+            >
+              UNDO
+            </button>
+            <button
+              className="w-full rounded-md border-2 border-black px-5 py-3 text-red-500 hover:bg-black"
+              onClick={() =>
+                dispatch({
+                  type: "DELETEALL",
+                })
+              }
+            >
+              RESET
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
