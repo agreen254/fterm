@@ -7,6 +7,8 @@ import ErrorList from "./ErrorList";
 import WordHistoryContext from "./contexts/wordHistoryContext";
 import { ValidationErrors } from "../utils/interfaces";
 
+import "../styles/handle-ios-input.css";
+
 const WordEntryForm = () => {
   const {
     state: {
@@ -103,13 +105,13 @@ const WordEntryForm = () => {
             id="words"
             autoComplete="off"
             placeholder="> INPUT WORDS HERE"
-            className="w-[100%] appearance-none rounded-t-md border-2 border-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:border-stone-300 focus:outline-none"
+            className="no-rounded w-[100%] appearance-none rounded-t-md border-2 border-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:border-stone-300 focus:outline-none"
           />
           <div className="grid grid-cols-2 justify-center">
             <div className="flex justify-center">
               <button
                 type="reset"
-                className="w-full rounded-bl-md border-b-2 border-l-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
+                className="w-full border-b-2 border-l-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
                 onClick={() => setErrors(emptyErrors)}
               >
                 CLEAR
@@ -118,7 +120,7 @@ const WordEntryForm = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-full rounded-br-md border-x-2 border-b-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
+                className="w-full border-x-2 border-b-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
               >
                 ADD
               </button>
