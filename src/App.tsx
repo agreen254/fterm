@@ -99,7 +99,7 @@ function App() {
         <h1 className="neon my-4 text-2xl font-bold tracking-wider md:text-5xl">
           VAULTERM
         </h1>
-        <h2 className="fixed bottom-0 left-12 mb-8 hidden font-bold md:block md:text-base lg:text-lg">
+        <h2 className="fixed bottom-0 left-12 z-0 mb-8 hidden font-bold lg:block lg:text-lg">
           {"Vault-Tec Terminal Solver".toUpperCase()}
         </h2>
         <WordEntryForm />
