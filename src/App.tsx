@@ -70,28 +70,28 @@ function App() {
     };
   }, [state, selectedTab]);
 
-  const makeDemo = () => {
-    dispatch({
-      type: "ADDWORD",
-      rawInput:
-        "SELECTING REMINDING SUMMONING AMERICANS AGREEMENT RELEASING TERRIFIED ASCENSION",
-    });
-    dispatch({
-      type: "ADDGUESS",
-      guessToAdd: {
-        guessName: "BELONGING",
-        numCorrect: 3,
-      },
-    });
-    dispatch({
-      type: "ADDGUESS",
-      guessToAdd: {
-        guessName: "EXPLORING",
-        numCorrect: 4,
-      },
-    });
-    dispatch({ type: "CLEARSELECTEDENTRY" });
-  };
+  // const makeDemo = () => {
+  //   dispatch({
+  //     type: "ADDWORD",
+  //     rawInput:
+  //       "SELECTING REMINDING SUMMONING AMERICANS AGREEMENT RELEASING TERRIFIED ASCENSION",
+  //   });
+  //   dispatch({
+  //     type: "ADDGUESS",
+  //     guessToAdd: {
+  //       guessName: "BELONGING",
+  //       numCorrect: 3,
+  //     },
+  //   });
+  //   dispatch({
+  //     type: "ADDGUESS",
+  //     guessToAdd: {
+  //       guessName: "EXPLORING",
+  //       numCorrect: 4,
+  //     },
+  //   });
+  //   dispatch({ type: "CLEARSELECTEDENTRY" });
+  // };
 
   return (
     <WordHistoryContext.Provider value={{ state, dispatch }}>
@@ -124,12 +124,12 @@ function App() {
           </div>
         </div>
         <TabGroup selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-        <button
+        {/* <button
           className="my-4 w-48 rounded border px-5 py-3"
           onClick={makeDemo}
         >
           DEMO
-        </button>
+        </button> */}
       </div>
     </WordHistoryContext.Provider>
   );

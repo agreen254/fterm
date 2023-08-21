@@ -1,9 +1,21 @@
-import React from 'react'
+import WordActions from "../WordActions";
+import WordsDisplay from "../WordsDisplay";
+import WordsHistory from "../WordsHistory";
 
-const LayoutTablet = () => {
-  return (
-    <div>LayoutTablet</div>
-  )
+interface Props {
+  numCols: number;
+  selectedTab: string;
 }
 
-export default LayoutTablet
+const LayoutTablet = ({ numCols, selectedTab }: Props) => {
+  switch (selectedTab) {
+    case "ACTIONS":
+      return <WordActions />;
+    case "HISTORY":
+      return <WordsHistory />;
+    case "WORDS":
+      return <WordsDisplay numCols={numCols} />;
+  }
+};
+
+export default LayoutTablet;
