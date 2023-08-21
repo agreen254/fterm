@@ -111,7 +111,7 @@ const WordEntryForm = () => {
             <div className="flex justify-center">
               <button
                 type="reset"
-                className="w-full border-b-2 border-l-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
+                className="w-full rounded-bl-md border-b-2 border-l-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
                 onClick={() => setErrors(emptyErrors)}
               >
                 CLEAR
@@ -120,7 +120,7 @@ const WordEntryForm = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-full border-x-2 border-b-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
+                className="w-full rounded-br-md border-x-2 border-b-2 border-black bg-stone-800 px-5 py-3 hover:bg-stone-500"
               >
                 ADD
               </button>
