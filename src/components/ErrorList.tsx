@@ -15,7 +15,7 @@ const ErrorList = ({ errors }: Props) => {
             className="bg-red-600 pb-1 font-bold"
           >
             <div className="grid grid-cols-[3rem,auto]">
-              <p className="pl-1">{"ERR|"}</p>
+              <p className="pl-1">{"ERR:"}</p>
               <p>{entry[1]}</p>
             </div>
           </li>

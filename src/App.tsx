@@ -94,10 +94,15 @@ function App() {
           {"Vault-Tec Terminal Solver".toUpperCase()}
         </h2>
         <WordEntryForm />
-        <div className="mb-[10vh] grid w-[calc(66vw+15rem)] max-w-[90vw] gap-4 md:mb-auto md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+        <div className="mb-[10vh] grid w-[min(calc(66vw+15rem),90vw)] gap-4 md:mb-auto md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
           <ActionsHistory />
           <WordsDisplay numCols={numCols} />
           <WordActions />
+        </div>
+        <div className="grid w-[90vw] grid-cols-3 lg:w-[min(calc(66vw+15rem-16px)/2,calc(90vw-16px)/2)] lg:translate-x-[calc(-50%-8px)] lg:grid-cols-2 2xl:hidden">
+          <button className="rounded border px-5 py-3 lg:hidden">WORDS</button>
+          <button className="rounded border px-5 py-3">HISTORY</button>
+          <button className="rounded border px-5 py-3">ACTIONS</button>
         </div>
         <button
           className="my-4 w-48 rounded border px-5 py-3"
