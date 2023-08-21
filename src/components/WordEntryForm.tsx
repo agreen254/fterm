@@ -64,15 +64,19 @@ const WordEntryForm = () => {
           >
             CLEAR
           </button>
-          <div className="inline border-y-2 border-y-black bg-stone-800 py-[0.85rem] pl-2">
+          {/* <div
+            className={
+              "isolate border-y-2 border-y-black bg-stone-800 py-[0.85rem] pl-2"
+            }
+          >
             &gt;&gt;
-          </div>
+          </div> */}
           <input
             type="text"
             id="words"
             autoComplete="off"
             placeholder="INPUT WORDS HERE"
-            className="w-[calc(100%-15.25rem)] appearance-none border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:outline-none"
+            className="w-[calc(100%-13.5rem)] border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:border-2 focus:border-stone-300 focus:outline-none"
           />
           <button
             type="submit"

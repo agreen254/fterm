@@ -15,6 +15,7 @@ import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
 import "./styles/scanner.css";
 import "./styles/scrollbar.css";
+import TabGroup from "./components/TabGroup";
 
 function App() {
   const [state, dispatch] = useReducer(wordHistoryReducer, {
@@ -27,16 +28,23 @@ function App() {
     },
   });
   const [numCols, setNumCols] = useState(0);
+  const [tab, setTab] = useState(
+    window.innerWidth > 1024 ? "ACTIONS" : "WORDS"
+  );
 
   // enable dynamic column width for word displays
   useEffect(() => {
     const handleResize = () => {
-      if (state.current.words.length === 0) return;
-
       const containerWidth = document.getElementById(
         "wordDisplayContainer"
       )?.offsetWidth;
       const viewportWidth = window.innerWidth;
+
+      // stop the unavailable words tab from staying selected
+      // if the viewport is stretched over the breakpoint
+      if (viewportWidth > 1024 && tab === "WORDS") setTab("HISTORY");
+
+      if (state.current.words.length === 0) return;
 
       // no strict null checking for map.get method
       let colLength = 10000;
@@ -59,7 +67,7 @@ function App() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [state]);
+  }, [state, tab]);
 
   const makeDemo = () => {
     dispatch({
@@ -94,16 +102,12 @@ function App() {
           {"Vault-Tec Terminal Solver".toUpperCase()}
         </h2>
         <WordEntryForm />
-        <div className="mb-[10vh] grid w-[min(calc(66vw+15rem),90vw)] gap-4 md:mb-auto md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+        <div className="mb-4 grid w-[min(calc(66vw+15rem),90vw)] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
           <ActionsHistory />
           <WordsDisplay numCols={numCols} />
           <WordActions />
         </div>
-        <div className="grid w-[90vw] grid-cols-3 lg:w-[min(calc(66vw+15rem-16px)/2,calc(90vw-16px)/2)] lg:translate-x-[calc(-50%-8px)] lg:grid-cols-2 2xl:hidden">
-          <button className="rounded border px-5 py-3 lg:hidden">WORDS</button>
-          <button className="rounded border px-5 py-3">HISTORY</button>
-          <button className="rounded border px-5 py-3">ACTIONS</button>
-        </div>
+        <TabGroup tab={tab} />
         <button
           className="my-4 w-48 rounded border px-5 py-3"
           onClick={makeDemo}
