@@ -75,7 +75,7 @@ const WordEntryForm = () => {
             type="text"
             id="words"
             autoComplete="off"
-            placeholder="INPUT WORDS HERE"
+            placeholder="> INPUT WORDS HERE"
             className="w-[calc(100%-13.5rem)] border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:border-2 focus:border-stone-300 focus:outline-none"
           />
           <button
@@ -98,15 +98,12 @@ const WordEntryForm = () => {
           <label htmlFor="words" className="hidden text-xl">
             input words here:
           </label>
-          <div className="inline-block w-[2rem] rounded-tl-md border-y-2 border-l-2 border-black bg-stone-800 py-[0.75rem] pl-2">
-            &gt;&gt;
-          </div>
           <input
             type="text"
             id="words"
             autoComplete="off"
-            placeholder="INPUT WORDS HERE"
-            className="w-[calc(100%-2rem)] appearance-none rounded-tr-md border-y-2 border-r-2 border-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:outline-none"
+            placeholder="> INPUT WORDS HERE"
+            className="w-[100%] appearance-none rounded-t-md border-2 border-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:border-stone-300 focus:outline-none"
           />
           <div className="grid grid-cols-2 justify-center">
             <div className="flex justify-center">
