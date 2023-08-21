@@ -27,14 +27,14 @@ const WordActions = () => {
 
   if (selectedEntry === "")
     return (
-      <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 pt-2 2xl:block">
+      <div className="relative h-full min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 pt-2">
         <p className="sm:text-lg md:text-xl">{">> NO SELECTED WORD"}</p>
         <div className="my-2 mb-6 h-2 w-full rounded bg-[rgb(255,185,50)]" />
       </div>
     );
 
   return (
-    <div className="relative hidden min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-5 pt-2 2xl:block">
+    <div className="relative h-full min-h-[66vh] rounded-md border-2 border-black bg-stone-800 px-4 pt-2">
       <p className="sm:text-lg md:text-xl">
         {">> SELECTED WORD: " + selectedEntry}
       </p>

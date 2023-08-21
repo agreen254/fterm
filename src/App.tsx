@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from "react";
 
-import ActionsHistory from "./components/ActionsHistory";
+import WordsHistory from "./components/WordsHistory";
 import WordHistoryContext from "./components/contexts/wordHistoryContext";
 import WordActions from "./components/WordActions";
 import WordsDisplay from "./components/WordsDisplay";
@@ -28,7 +28,7 @@ function App() {
     },
   });
   const [numCols, setNumCols] = useState(0);
-  const [tab, setTab] = useState(
+  const [selectedTab, setSelectedTab] = useState(
     window.innerWidth > 1024 ? "ACTIONS" : "WORDS"
   );
 
@@ -42,7 +42,8 @@ function App() {
 
       // stop the unavailable words tab from staying selected
       // if the viewport is stretched over the breakpoint
-      if (viewportWidth > 1024 && tab === "WORDS") setTab("HISTORY");
+      if (viewportWidth > 1024 && selectedTab === "WORDS")
+        setSelectedTab("HISTORY");
 
       if (state.current.words.length === 0) return;
 
@@ -67,7 +68,7 @@ function App() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [state, tab]);
+  }, [state, selectedTab]);
 
   const makeDemo = () => {
     dispatch({
@@ -102,12 +103,27 @@ function App() {
           {"Vault-Tec Terminal Solver".toUpperCase()}
         </h2>
         <WordEntryForm />
-        <div className="mb-4 grid w-[min(calc(66vw+15rem),90vw)] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
-          <ActionsHistory />
-          <WordsDisplay numCols={numCols} />
-          <WordActions />
+        <div className="mb-2 grid w-[min(calc(66vw+15rem),90vw)] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+          <div className="lg:hidden">
+            {selectedTab === "WORDS" && <WordsDisplay numCols={numCols} />}
+            {selectedTab === "HISTORY" && <WordsHistory />}
+            {selectedTab === "ACTIONS" && <WordActions />}
+          </div>
+          <div className="hidden min-h-[66vh] lg:block 2xl:hidden">
+            {selectedTab === "HISTORY" && <WordsHistory />}
+            {selectedTab === "ACTIONS" && <WordActions />}
+          </div>
+          <div className="hidden 2xl:block">
+            <WordsHistory />
+          </div>
+          <div className="hidden lg:block">
+            <WordsDisplay numCols={numCols} />
+          </div>
+          <div className="hidden 2xl:block">
+            <WordActions />
+          </div>
         </div>
-        <TabGroup tab={tab} />
+        <TabGroup selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
         <button
           className="my-4 w-48 rounded border px-5 py-3"
           onClick={makeDemo}

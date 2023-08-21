@@ -1,21 +1,18 @@
 import { useContext } from "react";
 import WordHistoryContext from "./contexts/wordHistoryContext";
 
-const ActionsHistory = () => {
+const WordsHistory = () => {
   const {
     state: {
-      current: { events, words },
+      current: { events },
     },
     dispatch,
   } = useContext(WordHistoryContext);
 
   return (
-    <div
-      className="relative hidden min-h-[66vh] rounded border-2 border-black bg-stone-800 lg:block"
-      hidden={words ? false : true}
-    >
+    <div className="relative h-full min-h-[66vh] rounded-md border-2 border-black bg-stone-800">
       <div className="max-h-[calc(100%-5rem)] overflow-auto">
-        <ul className="px-4">
+        <ul className="px-5">
           <li className="pt-2 text-xl">{">> HISTORY"}</li>
           <div className="my-2 h-2 w-full rounded bg-[rgb(255,185,50)]" />
           {events.map((event) => (
@@ -58,4 +55,4 @@ const ActionsHistory = () => {
   );
 };
 
-export default ActionsHistory;
+export default WordsHistory;
