@@ -66,13 +66,6 @@ const WordEntryForm = () => {
           >
             CLEAR
           </button>
-          {/* <div
-            className={
-              "isolate border-y-2 border-y-black bg-stone-800 py-[0.85rem] pl-2"
-            }
-          >
-            &gt;&gt;
-          </div> */}
           <input
             type="text"
             id="words"
