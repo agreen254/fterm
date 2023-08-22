@@ -1,22 +1,3 @@
-html {
-  overflow-x: hidden;
-  background: repeating-linear-gradient(
-    #8d6e63,
-    #8d6e63 1px,
-    #616161 3px,
-    #616161 5px
-  );
-}
-
-body {
-  background: repeating-linear-gradient(
-    #8d6e63,
-    #8d6e63 1px,
-    #616161 3px,
-    #616161 5px
-  );
-}
-
 .neon {
   color: #27272a;
   text-shadow: 0 0 7px #fed7aa, 0 0 10px #fed7aa, 0 0 21px #fed7aa,
