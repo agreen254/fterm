@@ -1,22 +1,15 @@
-import { useEffect, useReducer, useState } from "react";
+import { useReducer, useState } from "react";
 
-import WordsHistory from "./components/WordsHistory";
+import MainBody from "./components/layout/MainBody";
 import WordHistoryContext from "./components/contexts/wordHistoryContext";
-import WordActions from "./components/WordActions";
-import WordsDisplay from "./components/WordsDisplay";
 import WordEntryForm from "./components/WordEntryForm";
-import {
-  columnBreakpoints,
-  columnBreakpointsSm,
-} from "./utils/columnBreakpoints";
+import useWordDisplayColumns from "./hooks/useWordDisplayColumns";
 import wordHistoryReducer from "./components/reducers/wordHistoryReducer";
 
 import "@fontsource/ibm-plex-mono";
 import "./styles/App.css";
 import "./styles/scanner.css";
 import "./styles/scrollbar.css";
-import TabGroup from "./components/TabGroup";
-import MainBody from "./components/layout/MainBody";
 
 function App() {
   const [state, dispatch] = useReducer(wordHistoryReducer, {
@@ -33,43 +26,12 @@ function App() {
     window.innerWidth > 1024 ? "ACTIONS" : "WORDS"
   );
 
-  // enable dynamic column width for word displays
-  useEffect(() => {
-    const handleResize = () => {
-      const containerWidth = document.getElementById(
-        "wordDisplayContainer"
-      )?.offsetWidth;
-      const viewportWidth = window.innerWidth;
-
-      // stop the unavailable words tab from staying selected
-      // if the viewport is stretched over the breakpoint
-      if (viewportWidth > 1024 && selectedTab === "WORDS")
-        setSelectedTab("HISTORY");
-
-      if (state.current.words.length === 0) return;
-
-      // no strict null checking for map.get method
-      let colLength = 10000;
-      if (viewportWidth && containerWidth && viewportWidth >= 768) {
-        colLength =
-          columnBreakpoints.get(state.current.words[0].length) || 10000;
-      } else if (viewportWidth && containerWidth && viewportWidth < 768) {
-        colLength =
-          columnBreakpointsSm.get(state.current.words[0].length) || 10000;
-      }
-
-      return containerWidth
-        ? setNumCols(Math.floor(containerWidth / colLength))
-        : setNumCols(1);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [state, selectedTab]);
+  useWordDisplayColumns({
+    state,
+    selectedTab,
+    setSelectedTab,
+    setNumCols,
+  });
 
   return (
     <WordHistoryContext.Provider value={{ state, dispatch }}>
