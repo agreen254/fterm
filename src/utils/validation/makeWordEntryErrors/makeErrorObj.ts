@@ -1,13 +1,13 @@
 import { ValidationErrors } from "../../interfaces";
 
-import processWordList from "../../processWordList";
 
+import duplicateWords from "./duplicateWord";
+import processWordList from "../../processWordList";
 import valDiffLengths from "./valDiffLengths";
 import valTooLong from "./valTooLong";
-import wordTooShort from "./wordTooShort";
-import wordTooLong from "./wordTooLong";
 import valWrongChar from "./valWrongChar";
-import duplicateWords from "./duplicateWord";
+import wordTooLong from "./wordTooLong";
+import wordTooShort from "./wordTooShort";
 
 function makeErrorObj(
   errors: ValidationErrors,

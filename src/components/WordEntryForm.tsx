@@ -82,6 +82,7 @@ const WordEntryForm = () => {
           <ErrorList errors={errors} />
         </form>
       </div>
+
       {/*    mobile layout    */}
       <div className="w-[calc(66vw+15rem)] max-w-[90vw] md:hidden">
         <ErrorList errors={errors} />

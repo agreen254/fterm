@@ -16,6 +16,7 @@ import "./styles/App.css";
 import "./styles/scanner.css";
 import "./styles/scrollbar.css";
 import TabGroup from "./components/TabGroup";
+import MainBody from "./components/layout/MainBody";
 
 function App() {
   const [state, dispatch] = useReducer(wordHistoryReducer, {
@@ -70,29 +71,6 @@ function App() {
     };
   }, [state, selectedTab]);
 
-  // const makeDemo = () => {
-  //   dispatch({
-  //     type: "ADDWORD",
-  //     rawInput:
-  //       "SELECTING REMINDING SUMMONING AMERICANS AGREEMENT RELEASING TERRIFIED ASCENSION",
-  //   });
-  //   dispatch({
-  //     type: "ADDGUESS",
-  //     guessToAdd: {
-  //       guessName: "BELONGING",
-  //       numCorrect: 3,
-  //     },
-  //   });
-  //   dispatch({
-  //     type: "ADDGUESS",
-  //     guessToAdd: {
-  //       guessName: "EXPLORING",
-  //       numCorrect: 4,
-  //     },
-  //   });
-  //   dispatch({ type: "CLEARSELECTEDENTRY" });
-  // };
-
   return (
     <WordHistoryContext.Provider value={{ state, dispatch }}>
       <div className="main scanner z-10 flex flex-col items-center overflow-x-hidden font-bold">
@@ -103,33 +81,11 @@ function App() {
           {"Vault-Tec Terminal Solver".toUpperCase()}
         </h2>
         <WordEntryForm />
-        <div className="mb-2 grid w-[min(calc(66vw+15rem),90vw)] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
-          <div className="lg:hidden">
-            {selectedTab === "WORDS" && <WordsDisplay numCols={numCols} />}
-            {selectedTab === "HISTORY" && <WordsHistory />}
-            {selectedTab === "ACTIONS" && <WordActions />}
-          </div>
-          <div className="hidden min-h-[66vh] lg:block 2xl:hidden">
-            {selectedTab === "HISTORY" && <WordsHistory />}
-            {selectedTab === "ACTIONS" && <WordActions />}
-          </div>
-          <div className="hidden 2xl:block">
-            <WordsHistory />
-          </div>
-          <div className="hidden lg:block">
-            <WordsDisplay numCols={numCols} />
-          </div>
-          <div className="hidden 2xl:block">
-            <WordActions />
-          </div>
-        </div>
-        <TabGroup selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-        {/* <button
-          className="my-4 w-48 rounded border px-5 py-3"
-          onClick={makeDemo}
-        >
-          DEMO
-        </button> */}
+        <MainBody
+          numCols={numCols}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+        />
       </div>
     </WordHistoryContext.Provider>
   );
