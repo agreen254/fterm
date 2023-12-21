@@ -12,7 +12,7 @@ interface Props {
 const MainBody = ({ numCols, selectedTab, setSelectedTab }: Props) => {
   return (
     <>
-      <div className="mb-2 grid w-[min(calc(66vw+15rem),90vw)] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+      <div className="mb-2 grid w-[min(calc(66vw+15rem),90vw)] max-w-[1920px] gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
         <div className="lg:hidden">
           {selectedTab === "WORDS" && <WordsDisplay numCols={numCols} />}
           {selectedTab === "HISTORY" && <WordsHistory />}

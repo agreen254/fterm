@@ -35,7 +35,7 @@ function App() {
 
   return (
     <WordHistoryContext.Provider value={{ state, dispatch }}>
-      <div className="main scanner z-10 flex flex-col items-center overflow-x-hidden font-bold">
+      <div className="main scanner z-10 flex max-w-[1920px] flex-col items-center overflow-x-hidden font-bold mx-auto my-0">
         <h1 className="neon my-4 text-2xl font-bold tracking-wider md:text-5xl">
           VAULTERM
         </h1>

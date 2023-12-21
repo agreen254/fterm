@@ -48,38 +48,40 @@ const WordEntryForm = () => {
   return (
     <>
       {/*   tablet and above layout   */}
-      <div className="hidden w-[calc(66vw+15rem)] max-w-[90vw] overflow-hidden md:block">
+      <div className="hidden w-[calc(66vw+15rem)] max-w-[1920px] overflow-hidden md:block">
         <form
           id="wordEntryForm"
           onSubmit={(e) => handleSubmit(e)}
           className="mb-4"
         >
-          <label htmlFor="words" className="hidden text-xl">
-            input words here:
-          </label>
-          <button
-            type="reset"
-            className={
-              "box-content w-16 rounded-bl rounded-tl border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
-            }
-            onClick={() => setErrors(emptyErrors)}
-          >
-            CLEAR
-          </button>
-          <input
-            type="text"
-            id="words"
-            autoComplete="off"
-            placeholder="> INPUT WORDS HERE"
-            className="w-[calc(100%-13.5rem)] border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:border-2 focus:border-stone-300 focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="box-content w-16 rounded-br rounded-tr border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
-          >
-            ADD
-          </button>
-          <ErrorList errors={errors} />
+          <div className="flex justify-start">
+            <label htmlFor="words" className="hidden text-xl">
+              input words here:
+            </label>
+            <button
+              type="reset"
+              className={
+                "box-content w-16 rounded-bl rounded-tl border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
+              }
+              onClick={() => setErrors(emptyErrors)}
+            >
+              CLEAR
+            </button>
+            <input
+              type="text"
+              id="words"
+              autoComplete="off"
+              placeholder="> INPUT WORDS HERE"
+              className="w-[calc(100%-13.5rem)] border-y-2 border-y-black bg-stone-800 py-3 pl-2 pr-5 shadow focus:border-2 focus:border-stone-300 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="box-content w-16 rounded-br rounded-tr border-2 border-black bg-stone-800 px-5 py-3 font-bold hover:bg-gray-500"
+            >
+              ADD
+            </button>
+            <ErrorList errors={errors} />
+          </div>
         </form>
       </div>
 
