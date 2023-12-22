@@ -48,11 +48,11 @@ const WordEntryForm = () => {
   return (
     <>
       {/*   tablet and above layout   */}
-      <div className="hidden w-[calc(66vw+15rem)] max-w-[1920px] overflow-hidden md:block">
+      <div className="my-0 hidden w-[calc(66vw+15rem)] max-w-[1920px] overflow-hidden md:block">
         <form
           id="wordEntryForm"
           onSubmit={(e) => handleSubmit(e)}
-          className="mb-4"
+          className="mb-0"
         >
           <div className="flex justify-start">
             <label htmlFor="words" className="hidden text-xl">
@@ -80,9 +80,9 @@ const WordEntryForm = () => {
             >
               ADD
             </button>
-            <ErrorList errors={errors} />
           </div>
         </form>
+        <ErrorList errors={errors} />
       </div>
 
       {/*    mobile layout    */}

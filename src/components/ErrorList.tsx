@@ -6,7 +6,7 @@ interface Props {
 
 const ErrorList = ({ errors }: Props) => {
   return (
-    <div className="flex justify-center">
+    <div className="mb-4 flex justify-center">
       <ul className="w-[calc(100%-0.5rem)] list-disc overflow-x-hidden transition-all lg:list-none">
         {Object.entries(errors).map((entry) => (
           <li
